@@ -1,0 +1,23 @@
+{
+  "name": "johnnymoses.com",
+  "private": true,
+  "description": "The website of Native American storyteller Johnny Moses",
+  "scripts": {
+    "build": "lerna run build --parallel",
+    "develop": "lerna run dev --parallel",
+    "format": "lerna run format --parallel"
+  },
+  "devDependencies": {
+    "husky": "^4.2.5",
+    "lerna": "^3.22.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cwgw/johnnymoses.com"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lerna run --concurrency 1 --stream precommit --since HEAD --exclude-dependents"
+    }
+  }
+}
