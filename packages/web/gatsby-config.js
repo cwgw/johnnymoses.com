@@ -23,7 +23,7 @@ module.exports = {
     // "gatsby-transformer-sharp",
     // "gatsby-plugin-sharp",
     // "gatsby-plugin-layout",
-    // "gatsby-plugin-preload-fonts",
+    "gatsby-plugin-preload-fonts",
     // {
     //   resolve: 'gatsby-plugin-manifest',
     //   options: {

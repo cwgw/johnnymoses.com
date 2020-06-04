@@ -44,7 +44,7 @@ const Header = () => {
     }
   `);
 
-  const navItems = data.sanityMenu.items || [];
+  const navItems = data.sanityMenu?.items || [];
   const siteTitle = data.sanitySiteGlobal.content.metaInformation.metaTitle;
 
   return (

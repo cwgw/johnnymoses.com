@@ -1,25 +1,11 @@
-import Box from "./box";
-import Button from "./button";
-import DisplayText from "./displayText";
-import Flex from "./flex";
-import FormField from "./formField";
-import Grid from "./grid";
-import Input from "./input";
-import Label from "./label";
-import Link from "./link";
-import Text from "./text";
-import Textarea from "./textarea";
-
-export {
-  Box,
-  Button,
-  DisplayText,
-  Flex,
-  FormField,
-  Grid,
-  Input,
-  Label,
-  Link,
-  Text,
-  Textarea,
-};
+export { Box } from "./box";
+export { Button } from "./button";
+export { Flex } from "./flex";
+export { FormField } from "./formField";
+export { Grid } from "./grid";
+export { Heading } from "./heading";
+export { Input } from "./input";
+export { Label } from "./label";
+export { Link } from "./link";
+export { Text } from "./text";
+export { Textarea } from "./textarea";

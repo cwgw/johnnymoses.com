@@ -6,6 +6,8 @@ import PropTypes from "prop-types";
 import Header from "../components/header";
 import Footer from "../components/footer";
 
+import "../assets/fonts";
+
 const Layout = ({ children }) => {
   return (
     <React.Fragment>

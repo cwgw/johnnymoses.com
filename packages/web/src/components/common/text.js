@@ -1,3 +1,9 @@
-import { Text } from "theme-ui";
+import React from "react";
 
-export default Text;
+import { Box } from "./box";
+
+const Text = React.forwardRef((props, ref) => (
+  <Box ref={ref} __themeKey="text" {...props} />
+));
+
+export { Text };

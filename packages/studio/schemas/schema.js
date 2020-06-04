@@ -8,23 +8,24 @@ import schemaTypes from "all:part:@sanity/base/schema-type";
 import siteGlobal from "./types/siteGlobal";
 import page from "./types/page";
 import menu from "./types/menu";
-import bookingForm from "./types/bookingForm";
+import form from "./types/form";
 
 // Page Modules
+import formModule from "./modules/formModule";
+import heroModule from "./modules/heroModule";
+import imageModule from "./modules/imageModule";
+import textModule from "./modules/textModule";
+import nestedPages from "./modules/nestedPages";
+
 import blockContent from "./modules/blockContent";
 import externalLink from "./modules/externalLink";
 import formField from "./modules/formField";
-import hero from "./modules/hero";
-import imageModule from "./modules/imageModule";
 import internalLink from "./modules/internalLink";
 import metaCard from "./modules/metaCard";
 import moduleContent from "./modules/moduleContent";
-import nestedPages from "./modules/nestedPages";
 import pageItem from "./modules/pageItem";
 import pageModule from "./modules/pageModule";
 import social from "./modules/social";
-import standardText from "./modules/standardText";
-import bookingFormModule from "./modules/bookingFormModule";
 
 // GraphQL Tab Modules
 import globalContent from "./tabs/globalContent";
@@ -40,22 +41,23 @@ export default createSchema({
     siteGlobal,
     page,
     menu,
-    bookingForm,
+    form,
+
+    formModule,
+    heroModule,
+    imageModule,
+    textModule,
+    nestedPages,
 
     blockContent,
     externalLink,
     formField,
-    hero,
-    imageModule,
     internalLink,
     metaCard,
     moduleContent,
-    nestedPages,
     pageItem,
     pageModule,
     social,
-    standardText,
-    bookingFormModule,
 
     globalContent,
     pageContent,

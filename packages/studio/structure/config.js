@@ -23,9 +23,13 @@ export const ConfigMenu = S.listItem()
               .filter("_type == $type")
               .params({ type: "menu" })
           ),
-        S.documentListItem()
-          .title("Booking Form")
-          .id("bookingForm")
-          .schemaType("bookingForm"),
+        S.listItem()
+          .title("Forms")
+          .child(
+            S.documentTypeList("form")
+              .title("Forms")
+              .filter("_type == $type")
+              .params({ type: "form" })
+          ),
       ])
   );

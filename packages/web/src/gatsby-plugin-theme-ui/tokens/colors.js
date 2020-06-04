@@ -1,4 +1,4 @@
-const colors = {
+export const colors = {
   background: "white",
   text: "#222",
   link: "sienna",
@@ -14,5 +14,3 @@ const colors = {
     "#111",
   ],
 };
-
-export default colors;

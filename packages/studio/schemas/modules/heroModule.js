@@ -1,6 +1,6 @@
 export default {
   title: "Hero",
-  name: "hero",
+  name: "heroModule",
   type: "object",
   fields: [
     {

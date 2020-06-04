@@ -8,7 +8,7 @@ const sanityConfig = {
   dataset: process.env.GATSBY_SANITY_DATASET,
 };
 
-const Image = ({ image, width, caption }) => {
+const ImageModule = ({ image, width, caption }) => {
   const imageId = image.asset?.id;
 
   const fluid = getFluidGatsbyImage(
@@ -37,4 +37,4 @@ const Image = ({ image, width, caption }) => {
   return img;
 };
 
-export default Image;
+export { ImageModule };

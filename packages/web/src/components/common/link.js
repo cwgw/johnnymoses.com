@@ -1,23 +1,32 @@
 import React from "react";
-import { Link as UILink } from "theme-ui";
 import { Link as GatsbyLink } from "gatsby";
 
-const Link = ({ to, href, ...props }) => {
+import { Box } from "./box";
+
+const Link = React.forwardRef(({ to, href, ...props }, ref) => {
   const isInternal = /^\/(?!\/)/.test(to);
 
-  if (isInternal) {
-    return <UILink as={GatsbyLink} to={to} {...props} />;
-  }
+  const internalLinkProps = {
+    as: GatsbyLink,
+    to,
+  };
+
+  const externalLinkProps = {
+    as: "a",
+    href: to || href,
+    rel: "noreferrer",
+    target: "_blank",
+  };
 
   return (
-    <UILink
-      as="a"
-      href={to || href}
-      rel="noreferrer"
-      target="_blank"
+    <Box
+      ref={ref}
+      {...(isInternal ? internalLinkProps : externalLinkProps)}
+      variant="styles.a"
+      __themeKey="links"
       {...props}
     />
   );
-};
+});
 
-export default Link;
+export { Link };

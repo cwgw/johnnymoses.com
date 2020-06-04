@@ -7,7 +7,7 @@ export default {
       type: "imageModule",
     },
     {
-      type: "standardText",
+      type: "textModule",
     },
     // {
     //   type: 'productGrid'
@@ -16,10 +16,10 @@ export default {
       type: "nestedPages",
     },
     {
-      type: "hero",
+      type: "heroModule",
     },
     {
-      type: "bookingFormModule",
+      type: "formModule",
     },
   ],
 };

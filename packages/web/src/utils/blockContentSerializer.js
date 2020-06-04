@@ -1,14 +1,13 @@
 import React from "react";
-import { Styled } from "theme-ui";
 import BlockContent from "@sanity/block-content-to-react";
 
-import { DisplayText, Link } from "../components/common";
+import { Link, Heading, Text } from "../components/common";
 
 const blocks = {
-  h1: Styled.h1,
-  h2: Styled.h2,
-  h3: Styled.h3,
-  display1: DisplayText,
+  h1: props => <Heading as="h1" {...props} />,
+  h2: props => <Heading as="h2" {...props} />,
+  h3: props => <Heading as="h3" {...props} />,
+  display1: props => <Text variant="display1" {...props} />,
 };
 
 const BlockRenderer = props => {

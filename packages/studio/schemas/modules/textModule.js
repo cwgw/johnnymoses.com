@@ -2,7 +2,7 @@ import React from "react";
 
 export default {
   title: "Standard Text",
-  name: "standardText",
+  name: "textModule",
   type: "object",
   // hidden: true,
   fields: [

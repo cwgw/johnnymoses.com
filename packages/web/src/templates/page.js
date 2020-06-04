@@ -1,6 +1,5 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import React from "react";
 
 import renderPageModules from "../utils/renderPageModules";
 
@@ -12,15 +11,16 @@ const PageTemplate = ({
     main: { modules, slug, title, pageTemplate },
   },
 }) => {
-  console.log({ pageTemplate });
   if (pageTemplate === "splitWidth") {
     return (
       <Layout>
         <Grid
           columns={2}
+          width="full"
+          mx="auto"
           sx={{
-            width: "full",
-            mx: "auto",
+            // width: "full",
+            // mx: "auto",
             alignItems: "start",
           }}
         >

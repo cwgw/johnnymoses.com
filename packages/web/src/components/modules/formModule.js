@@ -1,26 +1,10 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import { useStaticQuery, graphql } from "gatsby";
 
 import BlockContent from "./blockContent";
 import { Box, Button, FormField, Grid } from "../common";
 
-const BookingForm = ({ text }) => {
-  const data = useStaticQuery(graphql`
-    {
-      sanityBookingForm {
-        formFields {
-          _key
-          label
-          type
-        }
-        submitValue
-      }
-    }
-  `);
-
-  const { formFields, submitValue } = data.sanityBookingForm;
-
+const FormModule = ({ text, slug, form: { formFields, submitValue } }) => {
   const fieldStyles = {
     text: {},
     textarea: {
@@ -61,4 +45,4 @@ const BookingForm = ({ text }) => {
   );
 };
 
-export default BookingForm;
+export { FormModule };
