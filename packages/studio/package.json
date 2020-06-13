@@ -1,11 +1,9 @@
 {
-  "name": "johnnymosescom",
+  "name": "@johnnymoses.com/studio",
   "private": true,
+  "description": "The website of Native American storyteller Johnny Moses",
   "version": "1.0.0",
-  "description": "",
-  "main": "package.json",
   "author": "Charlie Wright <charlie@cwgw.co>",
-  "license": "UNLICENSED",
   "scripts": {
     "develop": "yarn run start",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
@@ -13,9 +11,6 @@
     "test": "sanity check",
     "precommit": "lint-staged"
   },
-  "keywords": [
-    "sanity"
-  ],
   "dependencies": {
     "@sanity/base": "^1.149.15",
     "@sanity/components": "^1.149.15",
@@ -32,6 +27,11 @@
   "devDependencies": {
     "lint-staged": "^10.2.7",
     "prettier": "^2.0.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cwgw/johnnymoses.com.git",
+    "directory": "packages/studio"
   },
   "lint-staged": {
     "*.{js,jsx,json}": [

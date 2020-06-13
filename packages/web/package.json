@@ -1,9 +1,20 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "@johnnymoses.com/web",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
+  "description": "The website of Native American storyteller Johnny Moses",
   "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "Charlie Wright <charlie@cwgw.co>",
+  "scripts": {
+    "build": "gatsby build",
+    "clean": "gatsby clean",
+    "develop": "gatsby develop",
+    "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
+    "precommit": "lint-staged",
+    "preload-fonts": "gatsby-preload-fonts",
+    "serve": "gatsby serve",
+    "start": "npm run develop",
+    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
+  },
   "dependencies": {
     "@reach/skip-nav": "^0.10.3",
     "@reach/visually-hidden": "^0.10.2",
@@ -31,27 +42,10 @@
     "lint-staged": "^10.2.7",
     "prettier": "2.0.5"
   },
-  "keywords": [
-    "gatsby"
-  ],
-  "license": "MIT",
-  "scripts": {
-    "build": "gatsby build",
-    "clean": "gatsby clean",
-    "develop": "gatsby develop",
-    "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
-    "precommit": "lint-staged",
-    "preload-fonts": "gatsby-preload-fonts",
-    "serve": "gatsby serve",
-    "start": "npm run develop",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
-  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gatsbyjs/gatsby-starter-default"
-  },
-  "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
+    "url": "https://github.com/cwgw/johnnymoses.com.git",
+    "directory": "packages/web"
   },
   "lint-staged": {
     "*.{js,jsx,json,md}": [
