@@ -1,6 +1,6 @@
 require("dotenv").config();
 const sanityClient = require("@sanity/client");
-const statusReturn = require("./requestConfig");
+// const statusReturn = require("./requestConfig");
 const crypto = require("crypto");
 
 const {
@@ -9,6 +9,20 @@ const {
   SANITY_DATASET,
   SHOPIFY_SECRET,
 } = process.env;
+
+const headers = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "Content-Type",
+  "Content-Type": "application/json",
+};
+
+const statusReturn = (code, body) => {
+  return {
+    statusCode: code,
+    headers,
+    body: JSON.stringify(body),
+  };
+};
 
 const client = sanityClient({
   projectId: SANITY_PROJECT_ID,
