@@ -156,7 +156,7 @@ const preparePayload = (query, v) => {
   };
 };
 
-export {
+module.exports = {
   headers,
   shopifyConfig,
   statusReturn,

@@ -1,7 +1,7 @@
 require("dotenv").config();
-import sanityClient from "@sanity/client";
-import { statusReturn } from "./requestConfig";
-import crypto from "crypto";
+const sanityClient = require("@sanity/client");
+const statusReturn = require("./requestConfig");
+const crypto = require("crypto");
 
 const {
   SANITY_API_TOKEN,
@@ -17,7 +17,7 @@ const client = sanityClient({
   useCdn: false,
 });
 
-export const handler = async event => {
+module.exports.handler = async event => {
   if (event.httpMethod !== "POST" || !event.body) {
     return statusReturn(400, "");
   }
