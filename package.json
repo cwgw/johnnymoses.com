@@ -7,7 +7,9 @@
     "build:studio": "(cd studio && npm run build)",
     "build:web": "lerna bootstrap && (cd packages/studio && npm run graphql-deploy) && (cd packages/web && npm run build)",
     "develop": "lerna run dev --parallel",
-    "format": "lerna run format --parallel"
+    "format": "lerna run format --parallel",
+    "graphql-deploy": "lerna run graphql-deploy",
+    "postinstall": "lerna bootstrap"
   },
   "devDependencies": {
     "husky": "^4.2.5",
