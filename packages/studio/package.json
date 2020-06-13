@@ -7,6 +7,7 @@
   "scripts": {
     "develop": "yarn run start",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
+    "graphql-deploy": "sanity graphql deploy --playground",
     "start": "sanity start",
     "test": "sanity check",
     "precommit": "lint-staged"

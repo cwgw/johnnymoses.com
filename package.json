@@ -4,6 +4,8 @@
   "description": "The website of Native American storyteller Johnny Moses",
   "scripts": {
     "build": "lerna run build --parallel",
+    "build:studio": "(cd studio && npm run build)",
+    "build:web": "lerna bootstrap && (cd studio && npm run graphql-deploy) && (cd web && npm run build)",
     "develop": "lerna run dev --parallel",
     "format": "lerna run format --parallel"
   },
