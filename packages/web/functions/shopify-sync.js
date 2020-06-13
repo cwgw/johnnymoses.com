@@ -47,7 +47,10 @@ module.exports.handler = async event => {
       .update(event.body)
       .digest("base64");
     if (generatedHash !== hmac) {
+      console.log("Invalid Webhook", "HMAC mismatch");
       return statusReturn(400, { error: "Invalid Webhook" });
+    } else {
+      console.log("Valid Webhook", "HMAC matches");
     }
   } catch (error) {
     console.error("JSON parsing error:", error);
