@@ -43,6 +43,7 @@ const Footer = () => {
       <Box
         sx={{
           width: "full",
+          maxWidth: "100%",
           mx: "auto",
           textAlign: "center",
         }}
@@ -52,13 +53,18 @@ const Footer = () => {
             as="ul"
             sx={{
               ml: 0,
-              pl: 0,
+              px: 4,
               listStyle: "none",
+              "li + li": {
+                ml: 3,
+              },
             }}
           >
             {navItems.map(({ _key, title, ...item }) => (
               <li key={_key}>
-                <Link href={getHref(item)}>{title}</Link>
+                <Link href={getHref(item)} variant="footer">
+                  {title}
+                </Link>
               </li>
             ))}
           </Flex>

@@ -9,6 +9,8 @@ import siteGlobal from "./types/siteGlobal";
 import page from "./types/page";
 import menu from "./types/menu";
 import form from "./types/form";
+import productVariant from "./types/variant";
+import product from "./types/product";
 
 // Page Modules
 import formModule from "./modules/formModule";
@@ -16,6 +18,7 @@ import heroModule from "./modules/heroModule";
 import imageModule from "./modules/imageModule";
 import textModule from "./modules/textModule";
 import nestedPages from "./modules/nestedPages";
+import productGridModule from "./modules/productGrid";
 
 import blockContent from "./modules/blockContent";
 import externalLink from "./modules/externalLink";
@@ -27,9 +30,18 @@ import pageItem from "./modules/pageItem";
 import pageModule from "./modules/pageModule";
 import social from "./modules/social";
 
+// product modules
+import productModule from "./modules/productContent";
+import shopifyProductModule from "./modules/shopifyProductModule";
+import variantModule from "./modules/variantModule";
+import shopifyVariantModule from "./modules/shopifyVariantModule";
+import defaultVariant from "./modules/defaultVariant";
+
 // GraphQL Tab Modules
 import globalContent from "./tabs/globalContent";
 import pageContent from "./tabs/pageContent";
+import productContent from "./tabs/productContent";
+import variantContent from "./tabs/variantContent";
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -42,12 +54,15 @@ export default createSchema({
     page,
     menu,
     form,
+    productVariant,
+    product,
 
     formModule,
     heroModule,
     imageModule,
     textModule,
     nestedPages,
+    productGridModule,
 
     blockContent,
     externalLink,
@@ -59,7 +74,15 @@ export default createSchema({
     pageModule,
     social,
 
+    productModule,
+    shopifyProductModule,
+    variantModule,
+    shopifyVariantModule,
+    defaultVariant,
+
     globalContent,
     pageContent,
+    productContent,
+    variantContent,
   ]),
 });

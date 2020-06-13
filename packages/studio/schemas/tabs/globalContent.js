@@ -2,6 +2,7 @@ import Tabs from "sanity-plugin-tabs";
 
 export default {
   name: "globalContent",
+  title: "Global Content",
   type: "object",
   inputComponent: Tabs,
   fieldsets: [

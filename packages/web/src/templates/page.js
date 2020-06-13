@@ -15,13 +15,15 @@ const PageTemplate = ({
     return (
       <Layout>
         <Grid
-          columns={2}
-          width="full"
-          mx="auto"
+          columns={[1, null, 2]}
           sx={{
-            // width: "full",
-            // mx: "auto",
+            mx: "auto",
+            width: "full",
             alignItems: "start",
+            maxWidth: "100%",
+            "& > *": {
+              maxWidth: "100%",
+            },
           }}
         >
           {renderPageModules(modules)}

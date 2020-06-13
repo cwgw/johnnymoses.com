@@ -24,7 +24,7 @@ const FormModule = ({ text, slug, form: { formFields, submitValue } }) => {
       <Grid
         as="form"
         gap={0}
-        columns={2}
+        columns={[1, 2]}
         sx={{
           gridColumnGap: 3,
         }}

@@ -3,7 +3,7 @@ import S from "@sanity/desk-tool/structure-builder";
 
 import {
   ConfigMenu,
-  // ProductMenuItem,
+  ProductMenuItem,
   // ProductVariantParent,
   // CollectionMenuItem,
   PageMenuItem,
@@ -18,7 +18,7 @@ export default () => {
     ConfigMenu,
     PageMenuItem,
     // CollectionMenuItem,
-    // ProductMenuItem,
+    ProductMenuItem,
     // ProductVariantParent,
   ]);
 };

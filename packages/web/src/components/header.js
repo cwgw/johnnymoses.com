@@ -57,7 +57,7 @@ const Header = () => {
           maxWidth: "full",
         }}
       >
-        <Link to="/" children={siteTitle} variant="nav" mr="auto" />
+        <Link to="/" children={siteTitle} variant="masthead" mr="auto" />
         <Flex
           as="ul"
           sx={{

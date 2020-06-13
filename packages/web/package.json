@@ -8,6 +8,8 @@
     "@reach/skip-nav": "^0.10.3",
     "@reach/visually-hidden": "^0.10.2",
     "@sanity/block-content-to-react": "^2.0.7",
+    "@sanity/client": "^1.149.16",
+    "aws-lambda": "^1.0.6",
     "date-fns": "^2.14.0",
     "gatsby": "^2.21.37",
     "gatsby-image": "^2.4.4",

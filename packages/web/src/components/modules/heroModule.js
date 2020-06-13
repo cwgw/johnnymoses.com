@@ -12,13 +12,16 @@ const HeroModule = ({ imageModule, blocks }) => {
       gap={3}
       sx={{
         alignItems: "center",
+        maxWidth: "100%",
       }}
     >
-      <ImageModule {...imageModule} />
+      <ImageModule maxHeight={[400, 500, "none"]} {...imageModule} />
       <BlockContent
         px={4}
-        width="half"
-        maxWidth={["100%", null, "50vw"]}
+        // width="half"
+        // maxWidth={["100%", null, "50vw"]}
+        width={["100%", null, "50vw"]}
+        maxWidth="half"
         blocks={blocks}
       />
     </Grid>

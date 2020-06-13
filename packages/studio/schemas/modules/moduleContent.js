@@ -9,9 +9,9 @@ export default {
     {
       type: "textModule",
     },
-    // {
-    //   type: 'productGrid'
-    // },
+    {
+      type: "productGridModule",
+    },
     {
       type: "nestedPages",
     },
