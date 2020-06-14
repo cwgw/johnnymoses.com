@@ -76,11 +76,11 @@ module.exports.handler = async event => {
           slug: {
             current: data.handle,
           },
-          productType: data.product_type,
         },
         shopify: {
           productId: data.id,
           title: data.title,
+          productType: data.product_type,
           defaultPrice: data.variants[0].price,
           defaultVariant: {
             title: data.variants[0].title,

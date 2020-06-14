@@ -28,11 +28,6 @@ export default {
       hidden: true,
     },
     {
-      name: "productType",
-      title: "type",
-      type: "string",
-    },
-    {
       name: "deleted",
       title: "Deleted",
       type: "boolean",
@@ -45,6 +40,13 @@ export default {
       description: "This comes from Shopify and cannot be changed",
       readOnly: true,
       hidden: true,
+    },
+    {
+      name: "productType",
+      title: "Type",
+      type: "string",
+      description: "This comes from Shopify and cannot be changed",
+      readOnly: true,
     },
     {
       name: "defaultPrice",

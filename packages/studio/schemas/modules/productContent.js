@@ -40,15 +40,8 @@ export default {
       validation: Rule => Rule.required(),
     },
     {
-      name: "linkedSite",
-      title: "Linked Site Url",
-      description: "This is a fake product so link to the real site!",
-      type: "url",
-    },
-    {
-      name: "linkedSiteName",
-      title: "Linked Site Name",
-      description: "Linked Site Title",
+      name: "productType",
+      title: "Type",
       type: "string",
     },
     {
