@@ -76,11 +76,11 @@ module.exports.handler = async event => {
 
       "content.shopify.productId": data.id,
       "content.shopify.title": data.title,
+      "content.shopify.productType": data.product_type,
       "content.shopify.defaultPrice": data.variants[0].price,
 
       "content.shopify.defaultVariant.title": data.variants[0].title,
       "content.shopify.defaultVariant.price": data.variants[0].price,
-      "content.shopify.defaultVariant.productType": data.product_type,
       "content.shopify.defaultVariant.sku": data.variants[0].sku,
       "content.shopify.defaultVariant.variantId": data.variants[0].id,
       "content.shopify.defaultVariant.taxable": data.variants[0].taxable,
