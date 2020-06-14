@@ -2,6 +2,7 @@ require("dotenv").config();
 const sanityClient = require("@sanity/client");
 // const statusReturn = require("./requestConfig");
 const crypto = require("crypto");
+const isEqual = require("lodash/isEqual");
 
 const {
   SANITY_API_TOKEN,
@@ -69,11 +70,40 @@ module.exports.handler = async event => {
     /    we need select the fields we want to update specifically in Shopify
     /    Syncs to prevent erasing other modular/custom data
     */
+    const newProductObject = {
+      content: {
+        main: {
+          title: data.title,
+          "slug.current": data.handle,
+          productType: data.productType,
+        },
+        shopify: {
+          productId: data.id,
+          title: data.title,
+          defaultPrice: data.variants[0].price,
+          defaultVariant: {
+            title: data.variants[0].title,
+            price: data.variants[0].price,
+            sku: data.variants[0].sku,
+            variantId: data.variants[0].id,
+            taxable: data.variants[0].taxable,
+            inventoryQuantity: data.variants[0].inventory_quantity,
+            inventoryPolicy: data.variants[0].inventory_policy,
+            barcode: data.variants[0].barcode,
+          },
+        },
+      },
+    };
+
     const productObject = {
+      "content.main.title": data.title,
+      "content.main.slug.current": data.handle,
+      "content.main.productType": data.productType,
+
       "content.shopify.productId": data.id,
       "content.shopify.title": data.title,
-      "content.shopify.productType": data.productType,
       "content.shopify.defaultPrice": data.variants[0].price,
+
       "content.shopify.defaultVariant.title": data.variants[0].title,
       "content.shopify.defaultVariant.price": data.variants[0].price,
       "content.shopify.defaultVariant.sku": data.variants[0].sku,
@@ -84,9 +114,14 @@ module.exports.handler = async event => {
       "content.shopify.defaultVariant.inventoryPolicy":
         data.variants[0].inventory_policy,
       "content.shopify.defaultVariant.barcode": data.variants[0].barcode,
-      "content.main.title": data.title,
-      "content.main.slug.current": data.handle,
     };
+
+    console.log(
+      `product data mapping is ${
+        isEqual(newProductObject, productObject) ? "GOOD" : "BAD"
+      }`
+    );
+    console.log({ data });
 
     return client
       .transaction()

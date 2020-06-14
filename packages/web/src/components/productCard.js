@@ -37,7 +37,7 @@ const Image = ({ image, width }) => {
 };
 
 const ProductCard = props => {
-  console.log(props);
+  // console.log(props);
   const {
     content: { main, shopify },
   } = props;
