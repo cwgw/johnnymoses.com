@@ -11,6 +11,7 @@ import menu from "./types/menu";
 import form from "./types/form";
 import productVariant from "./types/variant";
 import product from "./types/product";
+import collection from "./types/collection";
 
 // Page Modules
 import formModule from "./modules/formModule";
@@ -56,6 +57,7 @@ export default createSchema({
     form,
     productVariant,
     product,
+    collection,
 
     formModule,
     heroModule,

@@ -20,7 +20,7 @@ const baseStyles = {
 
 const Button = React.forwardRef(({ to, ...props }, ref) => (
   <Box
-    as={to ? Link : null}
+    as={to ? Link : "button"}
     ref={ref}
     variant="primary"
     __themeKey="buttons"

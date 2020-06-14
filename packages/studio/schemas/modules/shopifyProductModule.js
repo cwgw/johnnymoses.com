@@ -2,7 +2,7 @@ export default {
   title: "Shopify Product Content",
   name: "shopifyProductModule",
   type: "object",
-  hidden: true,
+  hidden: false,
   fieldsets: [
     {
       name: "default",
@@ -26,6 +26,11 @@ export default {
       description: "This comes from Shopify and cannot be changed",
       readOnly: true,
       hidden: true,
+    },
+    {
+      name: "productType",
+      title: "type",
+      type: "string",
     },
     {
       name: "deleted",

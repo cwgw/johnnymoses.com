@@ -1,6 +1,7 @@
 export const colors = {
   background: "white",
   text: "#222",
+  primary: "sienna",
   link: "sienna",
   grays: [
     "#f4f4f4",

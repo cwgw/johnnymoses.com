@@ -45,15 +45,20 @@ const Footer = () => {
           width: "full",
           maxWidth: "100%",
           mx: "auto",
+          px: 4,
           textAlign: "center",
         }}
       >
-        <nav>
+        <nav
+          sx={{
+            mx: -2,
+          }}
+        >
           <Flex
             as="ul"
             sx={{
               ml: 0,
-              px: 4,
+              pl: 0,
               listStyle: "none",
               "li + li": {
                 ml: 3,

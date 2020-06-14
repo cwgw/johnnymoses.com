@@ -47,10 +47,7 @@ module.exports.handler = async event => {
       .update(event.body)
       .digest("base64");
     if (generatedHash !== hmac) {
-      console.log("Invalid Webhook", "HMAC mismatch");
-      return statusReturn(400, { error: "Invalid Webhook" });
-    } else {
-      console.log("Valid Webhook", "HMAC matches");
+      return statusReturn(400, { error: "Invalid Webhook: HMAC mismatch" });
     }
   } catch (error) {
     console.error("JSON parsing error:", error);
@@ -75,6 +72,7 @@ module.exports.handler = async event => {
     const productObject = {
       "content.shopify.productId": data.id,
       "content.shopify.title": data.title,
+      "content.shopify.productType": data.productType,
       "content.shopify.defaultPrice": data.variants[0].price,
       "content.shopify.defaultVariant.title": data.variants[0].title,
       "content.shopify.defaultVariant.price": data.variants[0].price,

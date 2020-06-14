@@ -5,7 +5,7 @@ import {
   ConfigMenu,
   ProductMenuItem,
   // ProductVariantParent,
-  // CollectionMenuItem,
+  CollectionMenuItem,
   PageMenuItem,
 } from "./structure/index";
 
@@ -17,7 +17,7 @@ export default () => {
   return S.list().title("Content").items([
     ConfigMenu,
     PageMenuItem,
-    // CollectionMenuItem,
+    CollectionMenuItem,
     ProductMenuItem,
     // ProductVariantParent,
   ]);
