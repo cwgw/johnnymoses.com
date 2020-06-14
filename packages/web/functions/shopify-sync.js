@@ -2,7 +2,6 @@ require("dotenv").config();
 const sanityClient = require("@sanity/client");
 // const statusReturn = require("./requestConfig");
 const crypto = require("crypto");
-const isEqual = require("lodash/isEqual");
 
 const {
   SANITY_API_TOKEN,
@@ -70,12 +69,14 @@ module.exports.handler = async event => {
     /    we need select the fields we want to update specifically in Shopify
     /    Syncs to prevent erasing other modular/custom data
     */
-    const newProductObject = {
+    const productObject = {
       content: {
         main: {
           title: data.title,
-          "slug.current": data.handle,
-          productType: data.productType,
+          slug: {
+            current: data.handle,
+          },
+          productType: data.product_type,
         },
         shopify: {
           productId: data.id,
@@ -95,33 +96,26 @@ module.exports.handler = async event => {
       },
     };
 
-    const productObject = {
-      "content.main.title": data.title,
-      "content.main.slug.current": data.handle,
-      "content.main.productType": data.productType,
+    // const productObject = {
+    //   "content.main.title": data.title,
+    //   "content.main.slug.current": data.handle,
+    //   "content.main.productType": data.product_type,
 
-      "content.shopify.productId": data.id,
-      "content.shopify.title": data.title,
-      "content.shopify.defaultPrice": data.variants[0].price,
+    //   "content.shopify.productId": data.id,
+    //   "content.shopify.title": data.title,
+    //   "content.shopify.defaultPrice": data.variants[0].price,
 
-      "content.shopify.defaultVariant.title": data.variants[0].title,
-      "content.shopify.defaultVariant.price": data.variants[0].price,
-      "content.shopify.defaultVariant.sku": data.variants[0].sku,
-      "content.shopify.defaultVariant.variantId": data.variants[0].id,
-      "content.shopify.defaultVariant.taxable": data.variants[0].taxable,
-      "content.shopify.defaultVariant.inventoryQuantity":
-        data.variants[0].inventory_quantity,
-      "content.shopify.defaultVariant.inventoryPolicy":
-        data.variants[0].inventory_policy,
-      "content.shopify.defaultVariant.barcode": data.variants[0].barcode,
-    };
-
-    console.log(
-      `product data mapping is ${
-        isEqual(newProductObject, productObject) ? "GOOD" : "BAD"
-      }`
-    );
-    console.log({ data });
+    //   "content.shopify.defaultVariant.title": data.variants[0].title,
+    //   "content.shopify.defaultVariant.price": data.variants[0].price,
+    //   "content.shopify.defaultVariant.sku": data.variants[0].sku,
+    //   "content.shopify.defaultVariant.variantId": data.variants[0].id,
+    //   "content.shopify.defaultVariant.taxable": data.variants[0].taxable,
+    //   "content.shopify.defaultVariant.inventoryQuantity":
+    //     data.variants[0].inventory_quantity,
+    //   "content.shopify.defaultVariant.inventoryPolicy":
+    //     data.variants[0].inventory_policy,
+    //   "content.shopify.defaultVariant.barcode": data.variants[0].barcode,
+    // };
 
     return client
       .transaction()
