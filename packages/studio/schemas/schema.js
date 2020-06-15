@@ -9,22 +9,24 @@ import siteGlobal from "./types/siteGlobal";
 import page from "./types/page";
 import menu from "./types/menu";
 import form from "./types/form";
-import productVariant from "./types/variant";
+import productVariant from "./types/productVariant";
 import product from "./types/product";
 import collection from "./types/collection";
 
 // Page Modules
-import formModule from "./modules/formModule";
-import heroModule from "./modules/heroModule";
-import imageModule from "./modules/imageModule";
-import textModule from "./modules/textModule";
-import nestedPages from "./modules/nestedPages";
-import productGridModule from "./modules/productGrid";
+import formModule from "./pageModules/formModule";
+import heroModule from "./pageModules/heroModule";
+import imageModule from "./pageModules/imageModule";
+import textModule from "./pageModules/textModule";
+import productGridModule from "./pageModules/productGridModule";
 
-import blockContent from "./modules/blockContent";
-import externalLink from "./modules/externalLink";
-import formField from "./modules/formField";
-import internalLink from "./modules/internalLink";
+// misc
+import blockContent from "./fields/blockContent";
+import externalLink from "./fields/externalLink";
+import formField from "./fields/formField";
+import internalLink from "./fields/internalLink";
+
+// modules
 import metaCard from "./modules/metaCard";
 import moduleContent from "./modules/moduleContent";
 import pageItem from "./modules/pageItem";
@@ -32,7 +34,7 @@ import pageModule from "./modules/pageModule";
 import social from "./modules/social";
 
 // product modules
-import productModule from "./modules/productContent";
+import productModule from "./modules/productModule";
 import shopifyProductModule from "./modules/shopifyProductModule";
 import variantModule from "./modules/variantModule";
 import shopifyVariantModule from "./modules/shopifyVariantModule";
@@ -43,6 +45,10 @@ import globalContent from "./tabs/globalContent";
 import pageContent from "./tabs/pageContent";
 import productContent from "./tabs/productContent";
 import variantContent from "./tabs/variantContent";
+
+import productThirdParty from "./types/productThirdParty";
+import productThirdPartyContent from "./tabs/productThirdPartyContent";
+import productThirdPartyModule from "./modules/productThirdPartyModule";
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -63,7 +69,6 @@ export default createSchema({
     heroModule,
     imageModule,
     textModule,
-    nestedPages,
     productGridModule,
 
     blockContent,
@@ -86,5 +91,9 @@ export default createSchema({
     pageContent,
     productContent,
     variantContent,
+
+    productThirdParty,
+    productThirdPartyContent,
+    productThirdPartyModule,
   ]),
 });

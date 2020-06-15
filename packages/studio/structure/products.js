@@ -4,14 +4,26 @@ import S from "@sanity/desk-tool/structure-builder";
 
 // const Icon = () => <Emoji style={{ fontSize: '2rem' }} symbol='🛍️' />
 
+// export const ProductMenuItem = S.listItem()
+//   .title("Products")
+//   // .icon(Icon)
+//   .child(
+//     S.documentTypeList("product")
+//       .title("Products")
+//       .menuItems(S.documentTypeList("product").getMenuItems())
+//       // .filter('_type == $type && subscription != true')
+//       .filter("_type == $type")
+//       .params({ type: "product" })
+//   );
+
 export const ProductMenuItem = S.listItem()
   .title("Products")
   // .icon(Icon)
   .child(
-    S.documentTypeList("product")
+    S.documentList()
+      .filter('_type == "product" || _type == "productThirdParty"')
       .title("Products")
-      .menuItems(S.documentTypeList("product").getMenuItems())
-      // .filter('_type == $type && subscription != true')
-      .filter("_type == $type")
-      .params({ type: "product" })
+    // .menuItems(S.documentTypeList("product").getMenuItems())
+    // .filter('_type == $type && subscription != true')
+    // .params({ type: "product" })
   );

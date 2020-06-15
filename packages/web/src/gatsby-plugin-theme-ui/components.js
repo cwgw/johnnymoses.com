@@ -1,11 +1,14 @@
 export const buttons = {
   primary: {
-    background: "transparent",
-    borderColor: "text",
-    color: "text",
-    borderStyle: "solid",
     borderWidth: 1,
-    cursor: "pointer",
+    color: "text",
+  },
+
+  secondary: {
+    borderWidth: 1,
+    borderColor: "grays.300",
+    backgroundColor: "grays.300",
+    color: "white",
   },
 };
 
@@ -24,7 +27,6 @@ export const links = {
 
   masthead: {
     variant: "links.nav",
-    fontWeight: "bold",
   },
 
   footer: {
@@ -32,6 +34,7 @@ export const links = {
     p: 2,
     color: "link",
     fontWeight: "bold",
+    textDecoration: "none",
   },
 
   span: {
@@ -46,6 +49,13 @@ export const links = {
 };
 
 export const text = {
+  eyebrow: {
+    color: "grays.400",
+    fontWeight: "bold",
+    letterSpacing: "0.025em",
+    textTransform: "uppercase",
+  },
+
   display1: {
     fontFamily: "serif",
     fontSize: 5,

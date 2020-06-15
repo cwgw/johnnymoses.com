@@ -4,7 +4,7 @@ import format from "date-fns/format";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import VisuallyHidden from "@reach/visually-hidden";
 
-import { Link } from "../common";
+import Link from "../link";
 
 const Item = ({ date, location, title, url }) => {
   return (
@@ -14,7 +14,7 @@ const Item = ({ date, location, title, url }) => {
         px: 4,
         py: 3,
         borderWidth: 1,
-        borderColor: "grays.2",
+        borderColor: "grays.700",
         borderStyle: "solid",
         borderRadius: 2,
         "& > *": {

@@ -2,7 +2,10 @@
 import { jsx } from "theme-ui";
 
 import BlockContent from "./blockContent";
-import { Box, Button, FormField, Grid } from "../common";
+import Box from "../box";
+import Button from "../button";
+import FormField from "../formField";
+import Grid from "../grid";
 
 const FormModule = ({ text, slug, form: { formFields, submitValue } }) => {
   const fieldStyles = {

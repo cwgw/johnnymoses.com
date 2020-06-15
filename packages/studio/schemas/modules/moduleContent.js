@@ -13,9 +13,6 @@ export default {
       type: "productGridModule",
     },
     {
-      type: "nestedPages",
-    },
-    {
       type: "heroModule",
     },
     {

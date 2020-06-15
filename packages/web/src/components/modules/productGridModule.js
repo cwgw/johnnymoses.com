@@ -1,16 +1,19 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
 
-import { Box, Heading } from "../common";
+import Box from "../box";
+import Heading from "../heading";
 import ProductCard from "../productCard";
 
 const ProductGridModule = props => {
   const { title, products } = props;
+  console.log(products);
 
   return (
     <Box
       sx={{
         mx: "auto",
+        px: 4,
         width: "full",
       }}
     >

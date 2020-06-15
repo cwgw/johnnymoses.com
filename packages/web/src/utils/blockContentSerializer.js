@@ -1,7 +1,9 @@
 import React from "react";
 import BlockContent from "@sanity/block-content-to-react";
 
-import { Link, Heading, Text } from "../components/common";
+import Link from "../components/link";
+import Heading from "../components/heading";
+import Text from "../components/text";
 
 const blocks = {
   h1: props => <Heading as="h1" {...props} />,

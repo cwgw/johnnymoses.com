@@ -3,7 +3,7 @@ import { getFluidGatsbyImage } from "gatsby-source-sanity";
 import GatsbyImage from "gatsby-image";
 import { useThemeUI } from "theme-ui";
 
-import { Box } from "../common";
+import Box from "../box";
 
 const sanityConfig = {
   projectId: process.env.GATSBY_SANITY_PROJECT_ID,

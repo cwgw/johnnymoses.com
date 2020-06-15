@@ -1,7 +1,7 @@
 import React from "react";
 import SanityBlockContent from "@sanity/block-content-to-react";
 
-import { Box } from "../common";
+import Box from "../box";
 
 import serializer from "../../utils/blockContentSerializer";
 

@@ -5,7 +5,6 @@
 
 export default {
   name: "menu",
-  _id: "menu",
   title: "Menu",
   type: "document",
   description:

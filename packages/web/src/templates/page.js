@@ -4,7 +4,7 @@ import { jsx } from "theme-ui";
 import renderPageModules from "../utils/renderPageModules";
 
 import Layout from "../layouts/page";
-import { Grid } from "../components/common";
+import Grid from "../components/grid";
 
 const PageTemplate = ({
   pageContext: {

@@ -3,7 +3,7 @@ import { jsx } from "theme-ui";
 
 import BlockContent from "./blockContent";
 import { ImageModule } from "./imageModule";
-import { Grid } from "../common";
+import Grid from "../grid";
 
 const HeroModule = ({ imageModule, blocks }) => {
   return (
@@ -15,13 +15,18 @@ const HeroModule = ({ imageModule, blocks }) => {
         maxWidth: "100%",
       }}
     >
-      <ImageModule maxHeight={[400, 500, "none"]} {...imageModule} />
+      <ImageModule
+        sx={{
+          maxHeight: [400, 500, "none"],
+        }}
+        {...imageModule}
+      />
       <BlockContent
-        px={4}
-        // width="half"
-        // maxWidth={["100%", null, "50vw"]}
-        width={["100%", null, "50vw"]}
-        maxWidth="half"
+        sx={{
+          px: 4,
+          width: ["100%", null, "50vw"],
+          maxWidth: "half",
+        }}
         blocks={blocks}
       />
     </Grid>

@@ -1,46 +1,25 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import { getFluidGatsbyImage } from "gatsby-source-sanity";
-import GatsbyImage from "gatsby-image";
-import { useThemeUI } from "theme-ui";
+import React from "react";
 
-import { Box, Button, Flex, Heading } from "./common";
+import formatPrice from "../utils/formatPrice";
+
+import Box from "./box";
+import Button from "./button";
+import Flex from "./flex";
+import Heading from "./heading";
+import Image from "./image";
+
 import BlockContent from "./modules/blockContent";
 
-const sanityConfig = {
-  projectId: process.env.GATSBY_SANITY_PROJECT_ID,
-  dataset: process.env.GATSBY_SANITY_DATASET,
-};
-
-const Image = ({ image, width }) => {
-  const imageId = image.asset?.id || image.asset?._ref;
-
-  const fluid = getFluidGatsbyImage(
-    imageId,
-    { maxWidth: width || 1200 },
-    sanityConfig
-  );
-
-  const { theme } = useThemeUI();
-
-  const img = fluid ? (
-    <GatsbyImage
-      fluid={fluid}
-      backgroundColor={theme.colors.grays[1]}
-      // style={{ position: "static", height: "100%" }}
-    />
-  ) : (
-    <span>Couldn't retrieve image</span>
-  );
-
-  return img;
-};
-
 const ProductCard = props => {
-  // console.log(props);
+  console.log(props);
   const {
     content: { main, shopify },
+    _type,
   } = props;
+
+  const isThirdParty = _type === "productThirdParty";
 
   return (
     <Flex
@@ -48,7 +27,7 @@ const ProductCard = props => {
         mb: 4,
         p: 3,
         border: "1px solid",
-        borderColor: "grays.2",
+        borderColor: "grays.700",
         flexFlowflexWrap: "nowrap",
       }}
     >
@@ -58,10 +37,10 @@ const ProductCard = props => {
             width: 200,
             flex: "0 0 auto",
             border: "1px solid",
-            borderColor: "grays.1",
+            borderColor: "grays.800",
           }}
         >
-          <Image image={main.mainImage} width={400} />
+          <Image width={400} {...main.mainImage} />
         </Box>
       )}
       <Flex
@@ -71,6 +50,7 @@ const ProductCard = props => {
           pl: 3,
         }}
       >
+        <span sx={{ variant: "text.eyebrow" }}>{main.productType}</span>
         <Heading as="h4">{main.title}</Heading>
         <BlockContent blocks={main.productDescription} />
         <Flex
@@ -79,12 +59,20 @@ const ProductCard = props => {
             alignItems: "baseline",
           }}
         >
-          <p>
-            <strong>{shopify.defaultPrice}</strong>
-          </p>
-          <Button disabled={true} ml="auto">
-            Add to cart
-          </Button>
+          {isThirdParty ? (
+            <Button to={main.url} variant="secondary" ml="auto">
+              Buy from <strong>{main.vendorName}</strong>
+            </Button>
+          ) : (
+            <React.Fragment>
+              <p>
+                <strong>{formatPrice({ amount: shopify.defaultPrice })}</strong>
+              </p>
+              <Button disabled={true} ml="auto">
+                Add to cart
+              </Button>
+            </React.Fragment>
+          )}
         </Flex>
       </Flex>
     </Flex>
