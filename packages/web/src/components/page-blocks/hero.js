@@ -2,10 +2,11 @@
 import { jsx } from "theme-ui";
 
 import BlockContent from "./blockContent";
-import { ImageModule } from "./imageModule";
+import Image from "./image";
 import Grid from "../grid";
 
-const HeroModule = ({ imageModule, blocks }) => {
+const HeroModule = props => {
+  const { imageModule, blocks } = props;
   return (
     <Grid
       columns={[1, null, 2]}
@@ -15,7 +16,7 @@ const HeroModule = ({ imageModule, blocks }) => {
         maxWidth: "100%",
       }}
     >
-      <ImageModule
+      <Image
         sx={{
           maxHeight: [400, 500, "none"],
         }}
@@ -33,4 +34,4 @@ const HeroModule = ({ imageModule, blocks }) => {
   );
 };
 
-export { HeroModule };
+export default HeroModule;

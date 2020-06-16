@@ -69,7 +69,7 @@ const Footer = () => {
           >
             {navItems.map(({ _key, title, ...item }) => (
               <li key={_key}>
-                <Link href={getHref(item)} variant="footer">
+                <Link href={getHref(item)} variant="nav">
                   {title}
                 </Link>
               </li>

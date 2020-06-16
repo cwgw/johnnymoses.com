@@ -48,4 +48,4 @@ const FormModule = ({ text, slug, form: { formFields, submitValue } }) => {
   );
 };
 
-export { FormModule };
+export default FormModule;

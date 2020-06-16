@@ -25,4 +25,4 @@ const ProductGridModule = props => {
   );
 };
 
-export { ProductGridModule };
+export default ProductGridModule;

@@ -11,7 +11,7 @@ const sanityConfig = {
 const Image = React.forwardRef(({ _type, asset, width, ...props }, ref) => {
   let fluid;
 
-  if (_type === "image") {
+  if (asset) {
     const imageId = asset.id || asset._ref;
     fluid = getFluidGatsbyImage(
       imageId,

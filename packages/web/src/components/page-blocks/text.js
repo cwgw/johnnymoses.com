@@ -6,4 +6,4 @@ const TextModule = ({ text, ...props }) => (
   <BlockContent blocks={text} px={4} {...props} />
 );
 
-export { TextModule };
+export default TextModule;

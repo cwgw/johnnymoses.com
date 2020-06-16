@@ -58,7 +58,7 @@ const Header = () => {
           maxWidth: "full",
         }}
       >
-        <Link to="/" children={siteTitle} variant="masthead" mr="auto" />
+        <Link to="/" children={siteTitle} variant="banner" mr="auto" />
         <Flex
           as="ul"
           sx={{
@@ -75,7 +75,7 @@ const Header = () => {
         >
           {navItems.map(({ _key, title, ...item }) => (
             <li key={_key} sx={{ p: 0 }}>
-              <Link to={getHref(item)} variant="nav">
+              <Link to={getHref(item)} variant="banner">
                 {title}
               </Link>
             </li>

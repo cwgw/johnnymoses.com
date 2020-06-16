@@ -1374,7 +1374,7 @@
     es6-error "^4.0.2"
     type-of-is "^3.5.1"
 
-"@sanity/vision@^1.149.0":
+"@sanity/vision@^1.149.16":
   version "1.149.16"
   resolved "https://registry.npmjs.org/@sanity/vision/-/vision-1.149.16.tgz#154c1d3094c7ae77bc9e1ca48429e9a182fdc1bb"
   dependencies:
@@ -1498,8 +1498,8 @@ acorn@^6.0.1, acorn@^6.0.2:
   resolved "https://registry.npmjs.org/acorn/-/acorn-6.4.1.tgz#531e58ba3f51b9dacb9a6646ca4debf5b14ca474"
 
 agentkeepalive@^4.1.0:
-  version "4.1.2"
-  resolved "https://registry.npmjs.org/agentkeepalive/-/agentkeepalive-4.1.2.tgz#d7bc3bafd7ea88032f6be22b6f1389b3d42c9c91"
+  version "4.1.3"
+  resolved "https://registry.npmjs.org/agentkeepalive/-/agentkeepalive-4.1.3.tgz#360a09d743a1f4fde749f9ba07caa6575d08259a"
   dependencies:
     debug "^4.1.0"
     depd "^1.1.2"

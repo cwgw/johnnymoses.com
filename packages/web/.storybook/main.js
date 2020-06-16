@@ -1,10 +1,25 @@
+require("dotenv").config({
+  path: `../.env.${process.env.NODE_ENV}`,
+});
+
 /**
  * Make storybook play well with Gatsby
  * @link https://www.gatsbyjs.org/docs/visual-testing-with-storybook/
  */
 module.exports = {
-  stories: ["../stories/**/*.stories.js"],
-  addons: ["@storybook/addon-actions", "@storybook/addon-links"],
+  stories: ["../stories/**/*.stories.{js,mdx}"],
+  addons: [
+    "@storybook/addon-actions",
+    "@storybook/addon-links",
+    {
+      name: "@storybook/addon-docs",
+      options: {
+        configureJSX: true,
+        babelOptions: {},
+        sourceLoaderOptions: null,
+      },
+    },
+  ],
   webpackFinal: async config => {
     // Transpile Gatsby module because Gatsby includes un-transpiled ES6 code.
     config.module.rules[0].exclude = [/node_modules\/(?!(gatsby)\/)/];

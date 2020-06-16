@@ -10,7 +10,7 @@ import Flex from "./flex";
 import Heading from "./heading";
 import Image from "./image";
 
-import BlockContent from "./modules/blockContent";
+import BlockContent from "./page-blocks/blockContent";
 
 const ProductCard = props => {
   console.log(props);

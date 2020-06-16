@@ -13,7 +13,9 @@
     "preload-fonts": "gatsby-preload-fonts",
     "serve": "gatsby serve",
     "start": "npm run develop",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
+    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "@reach/skip-nav": "^0.10.3",
@@ -41,8 +43,17 @@
     "theme-ui": "^0.3.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.10.2",
+    "@storybook/addon-actions": "^5.3.19",
+    "@storybook/addon-docs": "^5.3.19",
+    "@storybook/addon-links": "^5.3.19",
+    "@storybook/addons": "^5.3.19",
+    "@storybook/react": "^5.3.19",
+    "@theme-ui/style-guide": "^0.3.0",
+    "babel-loader": "^8.1.0",
     "lint-staged": "^10.2.7",
-    "prettier": "2.0.5"
+    "prettier": "2.0.5",
+    "stringify-object": "^3.3.0"
   },
   "repository": {
     "type": "git",
@@ -51,7 +62,7 @@
   },
   "lint-staged": {
     "*.{js,jsx,json,md}": [
-      "yarn run format"
+      "npm run format"
     ]
   }
 }

@@ -33,7 +33,7 @@ const serializer = {
   marks: {
     link: withMarkProps(Link),
     internalLink: props => {
-      const slug = props.mark.reference.content.main.slug.current;
+      const slug = props.mark.reference?.content?.main?.slug?.current;
       return withMarkProps(Link)({ ...props, to: `/${slug}` });
     },
   },
