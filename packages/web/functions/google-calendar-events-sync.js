@@ -46,8 +46,8 @@ module.exports.handler = async event => {
 
   const eventDocumentData = {
     "content.main.title": data.summary,
-    "content.main.start": data.start.datetime,
-    "content.main.end": data.end.datetime,
+    "content.main.start": data.start.dateTime,
+    "content.main.end": data.end.dateTime,
     "content.main.location": data.location,
     "content.main.description": data.description,
   };
