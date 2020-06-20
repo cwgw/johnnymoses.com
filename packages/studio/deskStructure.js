@@ -7,6 +7,7 @@ import {
   // ProductVariantParent,
   CollectionMenuItem,
   PageMenuItem,
+  EventMenuItem,
 } from "./structure/index";
 
 //
@@ -19,6 +20,7 @@ export default () => {
     PageMenuItem,
     CollectionMenuItem,
     ProductMenuItem,
+    EventMenuItem,
     // ProductVariantParent,
   ]);
 };

@@ -12,6 +12,7 @@ import form from "./types/form";
 import productVariant from "./types/productVariant";
 import product from "./types/product";
 import collection from "./types/collection";
+import event from "./types/event";
 
 // Page Blocks
 import formModule from "./pageModules/formModule";
@@ -33,6 +34,7 @@ import moduleContent from "./modules/moduleContent";
 import pageItem from "./modules/pageItem";
 import pageModule from "./modules/pageModule";
 import social from "./modules/social";
+import eventModule from "./modules/eventModule";
 
 // product modules
 import productModule from "./modules/productModule";
@@ -46,6 +48,7 @@ import globalContent from "./tabs/globalContent";
 import pageContent from "./tabs/pageContent";
 import productContent from "./tabs/productContent";
 import variantContent from "./tabs/variantContent";
+import eventContent from "./tabs/eventContent";
 
 import productThirdParty from "./types/productThirdParty";
 import productThirdPartyContent from "./tabs/productThirdPartyContent";
@@ -93,6 +96,10 @@ export default createSchema({
     pageContent,
     productContent,
     variantContent,
+
+    event,
+    eventModule,
+    eventContent,
 
     productThirdParty,
     productThirdPartyContent,
