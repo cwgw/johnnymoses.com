@@ -30,17 +30,6 @@ export default {
       validation: Rule => Rule.required(),
     },
     {
-      name: "pageTemplate",
-      title: "Template",
-      type: "string",
-      options: {
-        list: [
-          { title: "Full", value: "fullWidth" },
-          { title: "Columns", value: "splitWidth" },
-        ],
-      },
-    },
-    {
       name: "modules",
       title: "Modules",
       type: "moduleContent",

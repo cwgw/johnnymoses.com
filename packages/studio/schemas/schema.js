@@ -13,11 +13,12 @@ import productVariant from "./types/productVariant";
 import product from "./types/product";
 import collection from "./types/collection";
 
-// Page Modules
+// Page Blocks
 import formModule from "./pageModules/formModule";
 import heroModule from "./pageModules/heroModule";
 import imageModule from "./pageModules/imageModule";
 import textModule from "./pageModules/textModule";
+import basicTextImageModule from "./pageModules/basicTextImageModule";
 import productGridModule from "./pageModules/productGridModule";
 
 // misc
@@ -70,6 +71,7 @@ export default createSchema({
     imageModule,
     textModule,
     productGridModule,
+    basicTextImageModule,
 
     blockContent,
     externalLink,

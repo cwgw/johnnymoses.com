@@ -36,6 +36,13 @@ const serializer = {
       const slug = props.mark.reference?.content?.main?.slug?.current;
       return withMarkProps(Link)({ ...props, to: `/${slug}` });
     },
+    lushootseed: props => {
+      return withMarkProps(Text)({
+        ...props,
+        as: "span",
+        sx: { fontFamily: "lushootseed" },
+      });
+    },
   },
 };
 

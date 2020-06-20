@@ -14,7 +14,7 @@ export default {
   ],
   preview: {
     select: {
-      title: "",
+      title: "title",
     },
     prepare(selection) {
       return Object.assign({}, selection, {

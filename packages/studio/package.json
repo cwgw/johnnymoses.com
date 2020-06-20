@@ -29,7 +29,7 @@
     "sanity-plugin-tabs": "^1.1.8"
   },
   "devDependencies": {
-    "lint-staged": "^10.2.7",
+    "lint-staged": "^10.2.11",
     "prettier": "^2.0.5"
   },
   "repository": {

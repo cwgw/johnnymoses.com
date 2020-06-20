@@ -15,10 +15,11 @@ export const buttons = {
 export const links = {
   banner: {
     display: "inline-block",
-    py: 2,
-    px: 4,
-    fontFamily: "serif",
-    fontSize: 4,
+    p: 2,
+    // py: 2,
+    // px: 4,
+    // fontFamily: "serif",
+    fontSize: 3,
     background: "transparent",
     color: "text",
     textDecoration: "none",

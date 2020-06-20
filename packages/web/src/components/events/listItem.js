@@ -35,7 +35,7 @@ const Item = ({ date, location, title, url }) => {
       </p>
       <h3>{title}</h3>
       <p>{location}</p>
-      <Link to={url} variant="span" target="_blank">
+      <Link to={url} variant="utils.span" target="_blank">
         <VisuallyHidden>
           View more info about this event ("{title}")
         </VisuallyHidden>

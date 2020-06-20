@@ -10,6 +10,9 @@ export default {
       type: "textModule",
     },
     {
+      type: "basicTextImageModule",
+    },
+    {
       type: "productGridModule",
     },
     {

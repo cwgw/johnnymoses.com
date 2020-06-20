@@ -7,7 +7,7 @@ import lushootseedSuladWebfontWOFF from "./lushootseed-sulad-webfont.woff";
 export default [
   {
     fontFamily: "'Lushootseed Sulad'",
-    src: `url('${lushootseedSuladWebfontWOFF2}') format('woff2')
+    src: `url('${lushootseedSuladWebfontWOFF2}') format('woff2'),
           url('${lushootseedSuladWebfontWOFF}') format('woff')`,
     fontWeight: "normal",
     fontStyle: "normal",

@@ -35,20 +35,24 @@ const queries = {
 };
 
 export const SanityData = ({ module, children }) => {
-  const [data, setState] = React.useState(null);
+  const [data, setState] = React.useState(
+    dataCache.has(module) ? dataCache.get(module) : null
+  );
 
   React.useEffect(() => {
-    if (dataCache.has(module)) {
-      // console.log('USING DATA CACHE')
-      setState(dataCache.get(module));
+    if (!module || !queries[module]) {
       return;
     }
 
-    if (module && queries[module]) {
-      // console.log('PERFORMING QUERY')
+    if (dataCache.has(module)) {
+      let cache = dataCache.get(module);
+      if (data !== cache) {
+        setState(cache);
+      }
+    } else {
       client.fetch(queries[module], { module }).then(result => {
-        setState(result);
         dataCache.set(module, result);
+        setState(result);
       });
     }
   }, [module]);

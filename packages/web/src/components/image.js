@@ -9,6 +9,8 @@ const sanityConfig = {
 };
 
 const Image = React.forwardRef(({ _type, asset, width, ...props }, ref) => {
+  // console.log({ asset, width, ...props })
+
   let fluid;
 
   if (asset) {

@@ -30,6 +30,7 @@ export default {
         decorators: [
           { value: "strong", title: "Strong" },
           { value: "italic", title: "Italic" },
+          { value: "lushootseed", title: "Lushootseed" },
           { value: "underline", title: "Underline" },
           { value: "code", title: "Code" },
           {

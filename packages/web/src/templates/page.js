@@ -3,7 +3,7 @@ import { jsx } from "theme-ui";
 
 import renderPageModules from "../utils/renderPageModules";
 
-import Layout from "../layouts/page";
+import Layout from "../layouts/index";
 
 const PageTemplate = ({
   pageContext: {

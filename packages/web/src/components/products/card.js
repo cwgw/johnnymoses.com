@@ -2,18 +2,18 @@
 import { jsx } from "theme-ui";
 import React from "react";
 
-import formatPrice from "../utils/formatPrice";
+import formatPrice from "../../utils/formatPrice";
 
-import Box from "./box";
-import Button from "./button";
-import Flex from "./flex";
-import Heading from "./heading";
-import Image from "./image";
+import Box from "../box";
+import Button from "../button";
+import Flex from "../flex";
+import Heading from "../heading";
+import Image from "../image";
 
-import BlockContent from "./page-blocks/blockContent";
+import BlockContent from "../page-blocks/blockContent";
 
 const ProductCard = props => {
-  console.log(props);
+  // console.log(props);
   const {
     content: { main, shopify },
     _type,

@@ -27,4 +27,5 @@ const serif = [
 export const fonts = {
   sans: sans.join(", "),
   serif: serif.join(", "),
+  lushootseed: ["'Lushootseed Sulad'"].concat(sans).join(", "),
 };

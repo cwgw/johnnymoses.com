@@ -3,11 +3,12 @@ import { jsx } from "theme-ui";
 
 import Box from "../box";
 import Heading from "../heading";
-import ProductCard from "../productCard";
+import ProductCard from "../products/card";
 
 const ProductGridModule = props => {
   const { title, products } = props;
-  console.log(products);
+  // console.log(props)
+  // console.log(products);
 
   return (
     <Box
@@ -16,10 +17,11 @@ const ProductGridModule = props => {
         px: 4,
         width: "full",
       }}
+      // key={}
     >
       {title && <Heading>{title}</Heading>}
       {products.map(product => (
-        <ProductCard key={product.id} {...product} />
+        <ProductCard key={product._id} {...product} />
       ))}
     </Box>
   );
