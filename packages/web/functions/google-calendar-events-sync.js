@@ -33,6 +33,7 @@ module.exports.handler = async event => {
 
   try {
     data = JSON.parse(event.body);
+    console.log(data);
     // do validation here
   } catch (error) {
     console.error("JSON parsing error:", error);
