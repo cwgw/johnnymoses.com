@@ -33,7 +33,6 @@ module.exports.handler = async event => {
 
   try {
     data = JSON.parse(event.body);
-    console.log(data);
     // do validation here
   } catch (error) {
     console.error("JSON parsing error:", error);
@@ -51,6 +50,7 @@ module.exports.handler = async event => {
     "content.main.end": data.end.dateTime,
     "content.main.location": data.location,
     "content.main.description": data.description,
+    "content.main.uid": data.iCalUID,
   };
 
   return client

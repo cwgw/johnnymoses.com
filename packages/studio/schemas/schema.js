@@ -19,8 +19,10 @@ import formModule from "./pageModules/formModule";
 import heroModule from "./pageModules/heroModule";
 import imageModule from "./pageModules/imageModule";
 import textModule from "./pageModules/textModule";
+import basicTextFormModule from "./pageModules/basicTextFormModule";
 import basicTextImageModule from "./pageModules/basicTextImageModule";
 import productGridModule from "./pageModules/productGridModule";
+import eventListModule from "./pageModules/eventListModule";
 
 // misc
 import blockContent from "./fields/blockContent";
@@ -75,6 +77,8 @@ export default createSchema({
     textModule,
     productGridModule,
     basicTextImageModule,
+    basicTextFormModule,
+    eventListModule,
 
     blockContent,
     externalLink,

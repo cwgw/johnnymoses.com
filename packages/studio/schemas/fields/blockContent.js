@@ -21,7 +21,8 @@ export default {
         { title: "H1", value: "h1" },
         { title: "H2", value: "h2" },
         { title: "H3", value: "h3" },
-        { title: "Display", value: "display1" },
+        { title: "Display1", value: "display1" },
+        { title: "Display2", value: "display2" },
         { title: "Quote", value: "blockquote" },
       ],
       // Marks let you mark up inline text in the block editor.
@@ -30,21 +31,24 @@ export default {
         decorators: [
           { value: "strong", title: "Strong" },
           { value: "italic", title: "Italic" },
-          { value: "lushootseed", title: "Lushootseed" },
           { value: "underline", title: "Underline" },
-          { value: "code", title: "Code" },
           {
-            title: "Inline Snippet",
-            value: "tick",
-            blockEditor: {
-              icon: () => "T",
-              render: props => (
-                <span style={{ backgroundColor: "#ccc", fontWeight: "300" }}>
-                  {props.children}
-                </span>
-              ),
-            },
+            value: "lushootseed",
+            title: "Lushootseed",
           },
+          // { value: "code", title: "Code" },
+          // {
+          //   title: "Inline Snippet",
+          //   value: "tick",
+          //   blockEditor: {
+          //     icon: () => "T",
+          //     render: props => (
+          //       <span style={{ backgroundColor: "#ccc", fontWeight: "300" }}>
+          //         {props.children}
+          //       </span>
+          //     ),
+          //   },
+          // },
         ],
         annotations: [
           {

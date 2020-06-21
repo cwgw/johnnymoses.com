@@ -34,5 +34,11 @@ export default {
       type: "text",
       readOnly: true,
     },
+    {
+      name: "uid",
+      title: "UId",
+      type: "string",
+      readOnly: true,
+    },
   ],
 };

@@ -13,7 +13,13 @@ export default {
       type: "basicTextImageModule",
     },
     {
+      type: "basicTextFormModule",
+    },
+    {
       type: "productGridModule",
+    },
+    {
+      type: "eventListModule",
     },
     {
       type: "heroModule",
