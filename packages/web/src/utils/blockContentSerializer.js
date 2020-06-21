@@ -10,6 +10,7 @@ const blocks = {
   h2: props => <Heading as="h2" {...props} />,
   h3: props => <Heading as="h3" {...props} />,
   display1: props => <Text variant="display1" {...props} />,
+  display2: props => <Text variant="display2" {...props} />,
 };
 
 const BlockRenderer = props => {

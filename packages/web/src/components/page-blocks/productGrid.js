@@ -6,18 +6,16 @@ import Heading from "../heading";
 import ProductCard from "../products/card";
 
 const ProductGridModule = props => {
-  const { title, products } = props;
-  // console.log(props)
-  // console.log(products);
+  const { title, products, className } = props;
 
   return (
     <Box
+      className={className}
       sx={{
         mx: "auto",
         px: 4,
-        width: "full",
+        maxWidth: "full",
       }}
-      // key={}
     >
       {title && <Heading>{title}</Heading>}
       {products.map(product => (

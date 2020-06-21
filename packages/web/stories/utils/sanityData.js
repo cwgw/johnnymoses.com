@@ -1,4 +1,6 @@
 import React from "react";
+import isEmpty from "lodash/isEmpty";
+
 const sanity = require("@sanity/client");
 
 const client = sanity({
@@ -32,6 +34,33 @@ const queries = {
       products
     }
   `,
+  eventListModule: `
+    *[content.main.modules[]._type == $module][0]{
+      'data': content.main.modules[_type match $module][0],
+      'events': content.main.modules[_type match $module][0].events[]->
+    } | {
+      ...data,
+      events
+    }
+  `,
+  basicTextImageModule: `
+    *[content.main.modules[]._type == $module][0]{
+      'data': content.main.modules[_type match $module][0],
+    } | {
+      ...data,
+    }
+  `,
+  basicTextFormModule: `
+    *[content.main.modules[]._type == $module][0]{
+      'data': content.main.modules[_type match $module][0],
+    } | {
+      ...data,
+      'form': {
+        ...data.form,
+        'form': data.form.form->
+      }
+    }
+  `,
 };
 
 export const SanityData = ({ module, children }) => {
@@ -57,9 +86,19 @@ export const SanityData = ({ module, children }) => {
     }
   }, [module]);
 
-  if (data) {
+  if (isEmpty(data)) {
+    return (
+      <div>
+        <code>{module}</code> module not currently in use
+      </div>
+    );
+  } else if (data) {
     return children(data);
   }
 
-  return <div>Fetching data for '{module}'</div>;
+  return (
+    <div>
+      Fetching data for <code>{module}</code>
+    </div>
+  );
 };

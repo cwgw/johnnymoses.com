@@ -47,6 +47,16 @@ export const text = {
     fontFamily: "serif",
     fontSize: 5,
   },
+
+  display2: {
+    fontFamily: "serif",
+    fontSize: 4,
+    fontWeight: "light",
+  },
+
+  small: {
+    fontSize: 1,
+  },
 };
 
 export const utils = {

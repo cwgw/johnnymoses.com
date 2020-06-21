@@ -6,6 +6,11 @@
 import React from "react";
 import Box from "./box";
 
+const defaultProps = {
+  gap: 3,
+  columns: 2,
+};
+
 const baseStyles = {
   display: "grid",
 };
@@ -15,7 +20,7 @@ const countToColumns = n =>
     ? n.map(countToColumns)
     : !!n && (typeof n === "number" ? `repeat(${n}, 1fr)` : n);
 
-const Grid = React.forwardRef(({ columns, gap = 3, ...props }, ref) => {
+const Grid = React.forwardRef(({ columns, gap, ...props }, ref) => {
   const gridTemplateColumns = countToColumns(columns);
 
   return (
@@ -31,5 +36,7 @@ const Grid = React.forwardRef(({ columns, gap = 3, ...props }, ref) => {
     />
   );
 });
+
+Grid.defaultProps = defaultProps;
 
 export default Grid;

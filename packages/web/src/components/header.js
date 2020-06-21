@@ -50,38 +50,46 @@ const Header = () => {
 
   return (
     <header role="banner">
-      <Flex
-        as="nav"
-        mx="auto"
+      <div
         sx={{
+          px: 4,
+          mx: "auto",
           flexWrap: "wrap",
           maxWidth: "full",
         }}
       >
-        <Link to="/" children={siteTitle} variant="banner" mr="auto" />
         <Flex
-          as="ul"
+          as="nav"
+          mx="auto"
           sx={{
-            ml: 0,
-            pl: 0,
-            maxWidth: "100%",
-            listStyle: "none",
-            overflowX: "scroll",
-            scrollbarWidth: "none",
-            "::-webkit-scrollbar": {
-              display: "none",
-            },
+            mx: -2,
           }}
         >
-          {navItems.map(({ _key, title, ...item }) => (
-            <li key={_key} sx={{ p: 0 }}>
-              <Link to={getHref(item)} variant="banner">
-                {title}
-              </Link>
-            </li>
-          ))}
+          <Link to="/" children={siteTitle} variant="banner" mr="auto" />
+          <Flex
+            as="ul"
+            sx={{
+              ml: 0,
+              pl: 0,
+              maxWidth: "100%",
+              listStyle: "none",
+              overflowX: "scroll",
+              scrollbarWidth: "none",
+              "::-webkit-scrollbar": {
+                display: "none",
+              },
+            }}
+          >
+            {navItems.map(({ _key, title, ...item }) => (
+              <li key={_key} sx={{ p: 0 }}>
+                <Link to={getHref(item)} variant="banner">
+                  {title}
+                </Link>
+              </li>
+            ))}
+          </Flex>
         </Flex>
-      </Flex>
+      </div>
     </header>
   );
 };

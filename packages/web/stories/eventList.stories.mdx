@@ -1,0 +1,18 @@
+import { Meta, Preview, Story } from '@storybook/addon-docs/blocks'
+
+import { SanityData } from './utils/sanityData'
+import EventList from '../src/components/page-blocks/eventList'
+
+<Meta title="Page Blocks | Event List" component={EventList} />
+
+# EventList
+
+<Preview>
+  <Story name="Default">
+    <SanityData module='eventListModule' >
+      {moduleData => (
+        <EventList {...moduleData} />
+      )}
+    </SanityData>
+  </Story>
+</Preview>

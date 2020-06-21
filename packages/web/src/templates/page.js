@@ -1,16 +1,15 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
+import React from "react";
 
 import renderPageModules from "../utils/renderPageModules";
 
-import Layout from "../layouts/index";
-
 const PageTemplate = ({
   pageContext: {
-    main: { modules, slug, title },
+    main: { modules },
   },
 }) => {
-  return <Layout>{renderPageModules(modules)}</Layout>;
+  return <React.Fragment>{renderPageModules(modules)}</React.Fragment>;
 };
 
 export default PageTemplate;

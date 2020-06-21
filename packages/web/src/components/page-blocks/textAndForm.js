@@ -4,10 +4,10 @@ import { jsx } from "theme-ui";
 import Grid from "../grid";
 import Heading from "../heading";
 import BlockContent from "./blockContent";
-import Image from "./image";
+import Form from "./form";
 
-const TextAndImage = props => {
-  const { text, title, image: imageModule, className } = props;
+const TextAndForm = props => {
+  const { text, title, form: formModule, className } = props;
 
   return (
     <Grid
@@ -29,18 +29,19 @@ const TextAndImage = props => {
         </Heading>
       )}
       {text && <BlockContent px={4} blocks={text} />}
-      {imageModule && (
-        <div
+      {formModule && (
+        <Form
+          {...formModule}
           sx={{
-            position: "relative",
-            px: 4,
+            position: "sticky",
+            top: 0,
+            p: 4,
+            alignSelf: "start",
           }}
-        >
-          <Image {...imageModule} />
-        </div>
+        />
       )}
     </Grid>
   );
 };
 
-export default TextAndImage;
+export default TextAndForm;

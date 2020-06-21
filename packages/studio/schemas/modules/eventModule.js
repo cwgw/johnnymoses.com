@@ -46,5 +46,17 @@ export default {
       type: "datetime",
       readOnly: true,
     },
+    {
+      name: "created",
+      title: "Creation Date",
+      type: "datetime",
+      readOnly: true,
+    },
+    {
+      name: "htmlLink",
+      title: "Calendar Link",
+      type: "url",
+      readOnly: true,
+    },
   ],
 };

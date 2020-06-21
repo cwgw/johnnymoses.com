@@ -7,7 +7,13 @@ import Button from "../button";
 import FormField from "../formField";
 import Grid from "../grid";
 
-const FormModule = ({ text, slug, form: { formFields, submitValue } }) => {
+const FormModule = props => {
+  const {
+    text,
+    className,
+    // slug,
+    form: { formFields, submitValue },
+  } = props;
   const fieldStyles = {
     text: {},
     textarea: {
@@ -16,13 +22,7 @@ const FormModule = ({ text, slug, form: { formFields, submitValue } }) => {
   };
 
   return (
-    <Box
-      p={4}
-      sx={{
-        position: "sticky",
-        top: 0,
-      }}
-    >
+    <Box className={className}>
       <BlockContent blocks={text} mb={4} />
       <Grid
         as="form"

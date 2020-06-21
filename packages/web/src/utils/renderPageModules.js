@@ -1,4 +1,5 @@
-import React from "react";
+/** @jsx jsx */
+import { jsx } from "theme-ui";
 
 import * as components from "../components/page-blocks";
 
@@ -9,7 +10,7 @@ const renderPageModules = (modules = []) => {
       return <h3 key={_key}>{_type}</h3>;
     }
 
-    return <Element key={_key} {...module} />;
+    return <Element sx={{ my: 5 }} key={_key} {...module} />;
   });
 };
 
