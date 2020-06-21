@@ -40,5 +40,11 @@ export default {
       type: "string",
       readOnly: true,
     },
+    {
+      name: "updated",
+      title: "Last Updated",
+      type: "datetime",
+      readOnly: true,
+    },
   ],
 };

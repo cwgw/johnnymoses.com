@@ -51,6 +51,7 @@ module.exports.handler = async event => {
     "content.main.location": data.location,
     "content.main.description": data.description,
     "content.main.uid": data.iCalUID,
+    "content.main.updated": data.updated,
   };
 
   return client
