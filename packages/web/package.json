@@ -12,7 +12,7 @@
     "precommit": "lint-staged",
     "preload-fonts": "gatsby-preload-fonts",
     "serve": "gatsby serve",
-    "start": "npm run develop",
+    "start": "yarn run develop",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
@@ -65,7 +65,7 @@
   },
   "lint-staged": {
     "*.{js,jsx,json,md}": [
-      "npm run format"
+      "yarn run format"
     ]
   }
 }

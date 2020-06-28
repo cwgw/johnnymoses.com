@@ -1,15 +1,3 @@
-exports.onCreateWebpackConfig = ({ actions }) => {
-  actions.setWebpackConfig({
-    resolve: {
-      alias: {
-        react: require.resolve("react"),
-        // gatsby: require.resolve("gatsby"),
-        "theme-ui": require.resolve("theme-ui"),
-      },
-    },
-  });
-};
-
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions;
 
