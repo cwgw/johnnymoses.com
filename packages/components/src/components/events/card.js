@@ -1,7 +1,5 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import styled from "@emotion/styled";
-import { css } from "@theme-ui/css";
 import format from "date-fns/format";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import differenceInMonths from "date-fns/differenceInMonths";
@@ -16,36 +14,22 @@ import Box from "../box";
 import Flex from "../flex";
 import Link from "../link";
 
-const Card = styled(Box)(
-  css({
-    display: "flex",
-    flexFlow: "column nowrap",
-    px: 4,
-    py: 3,
-    borderWidth: 1,
-    borderStyle: "solid",
-    borderColor: "grays.700",
-    borderRadius: 3,
-  })
-);
-
 const EventCard = ({
   content: {
-    main: { description, end, location, start, title, created, updated, uid },
+    main: {
+      description,
+      end,
+      location,
+      start,
+      title,
+      created,
+      updated,
+      uid,
+      htmlLink,
+    },
   },
   className,
 }) => {
-  const ics = createIcsDataUri({
-    summary: title,
-    description,
-    endDate: end,
-    location,
-    startDate: start,
-    created,
-    updated,
-    uid,
-  });
-
   const dateFromNow =
     differenceInMonths(new Date(start), new Date()) > 1
       ? `${formatDistanceToNow(new Date(start))} from now`
@@ -100,13 +84,21 @@ const EventCard = ({
             </Text>
           )}
         </Box>
+        <Link to={htmlLink} ml="auto" mr={2} children="Google Calendar" />
         <Link
-          href={ics}
+          to={createIcsDataUri({
+            summary: title,
+            description,
+            endDate: end,
+            location,
+            startDate: start,
+            created,
+            updated,
+            uid,
+          })}
           download={`${slugify(title, { lower: true })}.ics`}
-          ml="auto"
-        >
-          ics
-        </Link>
+          children=".ics"
+        />
       </Flex>
     </Flex>
   );

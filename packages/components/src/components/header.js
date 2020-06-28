@@ -1,7 +1,6 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
 import PropTypes from "prop-types";
-import { useStaticQuery, graphql } from "gatsby";
 
 import Flex from "./flex";
 import Link from "./link";
@@ -14,40 +13,7 @@ const getHref = ({ _type, link }) => {
   return link;
 };
 
-const Header = () => {
-  const data = useStaticQuery(graphql`
-    {
-      sanitySiteGlobal {
-        content {
-          metaInformation {
-            metaTitle
-          }
-        }
-      }
-      sanityMenu(slug: { current: { eq: "main" } }) {
-        items {
-          ... on SanityInternalLink {
-            _key
-            _type
-            title
-            link {
-              content {
-                main {
-                  slug {
-                    current
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  `);
-
-  const navItems = data.sanityMenu?.items || [];
-  const siteTitle = data.sanitySiteGlobal.content.metaInformation.metaTitle;
-
+const Header = ({ navItems, siteTitle }) => {
   return (
     <header role="banner">
       <div

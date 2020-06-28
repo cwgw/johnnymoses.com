@@ -6,6 +6,7 @@ import Box from "../box";
 import Button from "../button";
 import FormField from "../formField";
 import Grid from "../grid";
+import slugify from "slugify";
 
 const FormModule = props => {
   const {
@@ -31,6 +32,9 @@ const FormModule = props => {
         sx={{
           gridColumnGap: 3,
         }}
+        data-netlify={true}
+        method="POST"
+        name={slugify.current}
       >
         {formFields.map(({ _key, ...field }) => (
           <FormField key={_key} sx={fieldStyles[field.type]} {...field} />

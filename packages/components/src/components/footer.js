@@ -1,6 +1,5 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import { useStaticQuery, graphql } from "gatsby";
 
 import Box from "./box";
 import Flex from "./flex";
@@ -8,38 +7,14 @@ import Link from "./link";
 
 const getHref = ({ _type, link }) => {
   if (_type === "internalLink") {
-    return `/${link.content.main.slug.current}`;
+    const slug = link.content.main.slug.current;
+    return slug === "home" ? "/" : `/${slug}`;
   }
 
   return link;
 };
 
-const Footer = () => {
-  const data = useStaticQuery(graphql`
-    {
-      sanityMenu(slug: { current: { eq: "footer" } }) {
-        items {
-          ... on SanityInternalLink {
-            _key
-            _type
-            title
-            link {
-              content {
-                main {
-                  slug {
-                    current
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  `);
-
-  const navItems = data.sanityMenu?.items || [];
-
+const Footer = ({ navItems }) => {
   return (
     <footer>
       <Box
@@ -69,7 +44,7 @@ const Footer = () => {
           >
             {navItems.map(({ _key, title, ...item }) => (
               <li key={_key}>
-                <Link href={getHref(item)} variant="nav">
+                <Link to={getHref(item)} variant="nav">
                   {title}
                 </Link>
               </li>
