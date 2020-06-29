@@ -23,15 +23,16 @@ import EventCard from "./components/events/card";
 
 // page-blocks
 import * as PageBlocks from "./components/page-blocks";
+import renderPageModules from "./utils/renderPageModules";
+
+// local component provider
+import { useLocalComponent, ComponentProvider } from './context/components'
 
 // theme
 import theme from "./theme";
 
 // fonts
 import fonts from "./fonts";
-
-// fonts
-import renderPageModules from "./utils/renderPageModules";
 
 export {
   Box,
@@ -52,7 +53,9 @@ export {
   ProductCard,
   EventCard,
   PageBlocks,
-  fonts,
-  theme,
   renderPageModules,
+  useLocalComponent,
+  ComponentProvider,
+  theme,
+  fonts,
 };

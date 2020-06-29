@@ -9,8 +9,6 @@ const sanityConfig = {
 };
 
 const Image = React.forwardRef(({ _type, asset, width, ...props }, ref) => {
-  // console.log({ asset, width, ...props })
-
   let fluid;
 
   if (asset) {
@@ -28,7 +26,7 @@ const Image = React.forwardRef(({ _type, asset, width, ...props }, ref) => {
     <GatsbyImage
       ref={ref}
       fluid={fluid}
-      backgroundColor={theme.colors.grays[1]}
+      backgroundColor={theme.colors.grays['900']}
       {...props}
     />
   ) : (

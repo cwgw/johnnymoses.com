@@ -36,7 +36,7 @@ const FormModule = props => {
         method="POST"
         name={slugify.current}
       >
-        {formFields.map(({ _key, ...field }) => (
+        {formFields && formFields.map(({ _key, ...field }) => (
           <FormField key={_key} sx={fieldStyles[field.type]} {...field} />
         ))}
         <Button

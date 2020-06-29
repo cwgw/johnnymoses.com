@@ -9,7 +9,7 @@
     "develop": "yarn run start",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
     "graphql-deploy": "sanity graphql deploy --playground --force",
-    "start": "sanity start",
+    "start": "NODE_ENV=test sanity start",
     "test": "sanity check",
     "precommit": "lint-staged"
   },
@@ -23,6 +23,7 @@
     "@sanity/default-login": "^1.149.11",
     "@sanity/desk-tool": "^1.149.15",
     "@sanity/vision": "^1.149.16",
+    "gatsby": "^2.23.11",
     "prop-types": "^15.6",
     "react": "^16.2",
     "react-dom": "^16.2",

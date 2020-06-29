@@ -25,7 +25,6 @@ class IframePreview extends React.PureComponent {
   };
 
   render() {
-    console.log({ props: this.props });
     const { options } = this.props;
     const { displayed } = this.props.document;
     if (!displayed) {

@@ -1,6 +1,6 @@
 [build]
   base = "/"
-  command = "npm run build:studio && cp packages/studio/netlify.toml packages/studio/dist && cp packages/studio/static/*.html packages/studio/dist"
+  command = "yarn run build:studio && cp packages/studio/netlify.toml packages/studio/dist"
   publish = "/packages/studio/dist"
 
 [[redirects]]

@@ -3,11 +3,9 @@ import { jsx } from "theme-ui";
 import React from "react";
 import PropTypes from "prop-types";
 import { Global } from "@emotion/core";
-import { useStaticQuery, graphql } from "gatsby";
+import { useStaticQuery, graphql, Link as GatsbyLink } from "gatsby";
 
-import { Header, Footer, fonts } from "@johnnymoses.com/components";
-
-// import fonts from "../assets/fonts";
+import { Header, Footer, ComponentProvider, fonts } from "@johnnymoses.com/components";
 
 const Layout = ({ children }) => {
   const data = useStaticQuery(graphql`
@@ -63,16 +61,18 @@ const Layout = ({ children }) => {
   const siteTitle = data.sanitySiteGlobal.content.metaInformation.metaTitle;
 
   return (
-    <React.Fragment>
-      <Global
-        styles={{
-          ":root": fonts.map(font => ({ "@font-face": font })),
-        }}
-      />
-      <Header navItems={headerNavItems} siteTitle={siteTitle} />
-      <main>{children}</main>
-      <Footer navItems={footerNavItems} />
-    </React.Fragment>
+    <ComponentProvider value={{ link: GatsbyLink }} >
+      <React.Fragment>
+        <Global
+          styles={{
+            ":root": fonts.map(font => ({ "@font-face": font })),
+          }}
+          />
+        <Header navItems={headerNavItems} siteTitle={siteTitle} />
+        <main>{children}</main>
+        <Footer navItems={footerNavItems} />
+      </React.Fragment>
+    </ComponentProvider>
   );
 };
 

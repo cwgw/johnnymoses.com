@@ -1,9 +1,7 @@
-/** @jsx jsx */
-
-import { jsx } from "theme-ui";
+import React from 'react'
 import PropTypes from "prop-types";
-import { Link as GatsbyLink } from "gatsby";
 import Box from "./box";
+import { useLocalComponent } from '../context/components';
 
 const defaultProps = {
   variant: "styles.a",
@@ -22,9 +20,10 @@ const propTypes = {
 const Link = ({ to, href, ...props }) => {
   const url = to || href;
   const isInternal = /^\/(?!\/)/.test(url);
+  const { link } = useLocalComponent();
   const addlProps = isInternal
     ? {
-        as: GatsbyLink,
+        as: link || 'a',
         to: url,
       }
     : {
