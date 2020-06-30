@@ -15,14 +15,15 @@ import collection from "./types/collection";
 import event from "./types/event";
 
 // Page Blocks
-import formModule from "./pageModules/formModule";
-import heroModule from "./pageModules/heroModule";
-import imageModule from "./pageModules/imageModule";
-import textModule from "./pageModules/textModule";
-import basicTextFormModule from "./pageModules/basicTextFormModule";
-import basicTextImageModule from "./pageModules/basicTextImageModule";
-import productGridModule from "./pageModules/productGridModule";
-import eventListModule from "./pageModules/eventListModule";
+// import formModule from "./pageModules/formModule";
+// import heroModule from "./pageModules/heroModule";
+// import imageModule from "./pageModules/imageModule";
+// import textModule from "./pageModules/textModule";
+// import basicTextFormModule from "./pageModules/basicTextFormModule";
+// import basicTextImageModule from "./pageModules/basicTextImageModule";
+// import productGridModule from "./pageModules/productGridModule";
+// import eventListModule from "./pageModules/eventListModule";
+import * as pageBlocks from './pageModules'
 
 // misc
 import blockContent from "./fields/blockContent";
@@ -71,14 +72,15 @@ export default createSchema({
     product,
     collection,
 
-    formModule,
-    heroModule,
-    imageModule,
-    textModule,
-    productGridModule,
-    basicTextImageModule,
-    basicTextFormModule,
-    eventListModule,
+    // formModule,
+    // heroModule,
+    // imageModule,
+    // textModule,
+    // productGridModule,
+    // basicTextImageModule,
+    // basicTextFormModule,
+    // eventListModule,
+    ...Object.values(pageBlocks),
 
     blockContent,
     externalLink,

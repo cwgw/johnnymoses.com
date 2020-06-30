@@ -25,14 +25,19 @@ import EventCard from "./components/events/card";
 import * as PageBlocks from "./components/page-blocks";
 import renderPageModules from "./utils/renderPageModules";
 
-// local component provider
-import { useLocalComponent, ComponentProvider } from './context/components'
+// local component context
+import { ComponentProvider, useLocalComponent } from './context/components'
+
+// sanity client context
+import { SanityClientProvider, useSanityClient } from './context/sanityClient'
 
 // theme
 import theme from "./theme";
 
 // fonts
 import fonts from "./fonts";
+
+import globalStyles from './global'
 
 export {
   Box,
@@ -56,6 +61,9 @@ export {
   renderPageModules,
   useLocalComponent,
   ComponentProvider,
+  SanityClientProvider,
+  useSanityClient,
   theme,
   fonts,
+  globalStyles,
 };

@@ -14,12 +14,13 @@
     "@sanity/default-login",
     "@sanity/desk-tool",
     "@sanity/vision",
-    "content-model-graph",
     "tabs"
   ],
   "env": {
     "development": {
-      "plugins": ["@sanity/vision"]
+      "plugins": [
+        "@sanity/vision"
+      ]
     }
   },
   "parts": [

@@ -5,7 +5,12 @@ import PropTypes from "prop-types";
 import { Global } from "@emotion/core";
 import { useStaticQuery, graphql, Link as GatsbyLink } from "gatsby";
 
-import { Header, Footer, ComponentProvider, fonts } from "@johnnymoses.com/components";
+import { Header, Footer, ComponentProvider, SanityClientProvider, globalStyles } from "@johnnymoses.com/components";
+
+const sanityConfig = {
+  projectId: process.env.GATSBY_SANITY_PROJECT_ID,
+  dataset: process.env.GATSBY_SANITY_DATASET,
+}
 
 const Layout = ({ children }) => {
   const data = useStaticQuery(graphql`
@@ -61,18 +66,16 @@ const Layout = ({ children }) => {
   const siteTitle = data.sanitySiteGlobal.content.metaInformation.metaTitle;
 
   return (
-    <ComponentProvider value={{ link: GatsbyLink }} >
-      <React.Fragment>
-        <Global
-          styles={{
-            ":root": fonts.map(font => ({ "@font-face": font })),
-          }}
-          />
-        <Header navItems={headerNavItems} siteTitle={siteTitle} />
-        <main>{children}</main>
-        <Footer navItems={footerNavItems} />
-      </React.Fragment>
-    </ComponentProvider>
+    <SanityClientProvider {...sanityConfig} >
+      <ComponentProvider value={{ link: GatsbyLink }} >
+        <React.Fragment>
+          <Global styles={globalStyles} />
+          <Header navItems={headerNavItems} siteTitle={siteTitle} />
+          <main>{children}</main>
+          <Footer navItems={footerNavItems} />
+        </React.Fragment>
+      </ComponentProvider>
+    </SanityClientProvider>
   );
 };
 
