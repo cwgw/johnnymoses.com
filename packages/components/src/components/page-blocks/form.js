@@ -12,8 +12,7 @@ const FormModule = props => {
   const {
     text,
     className,
-    // slug,
-    form: { formFields, submitValue },
+    form: { formFields, slug, submitValue },
   } = props;
   const fieldStyles = {
     text: {},
@@ -34,7 +33,7 @@ const FormModule = props => {
         }}
         data-netlify={true}
         method="POST"
-        name={slugify.current}
+        name={slugify(slug.current)}
       >
         {formFields && formFields.map(({ _key, ...field }) => (
           <FormField key={_key} sx={fieldStyles[field.type]} {...field} />

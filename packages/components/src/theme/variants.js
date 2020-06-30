@@ -16,9 +16,6 @@ export const links = {
   banner: {
     display: "inline-block",
     p: 2,
-    // py: 2,
-    // px: 4,
-    // fontFamily: "serif",
     fontSize: 3,
     background: "transparent",
     color: "text",
@@ -58,6 +55,13 @@ export const text = {
     fontSize: 1,
   },
 };
+
+export const formFields = {
+  default: {
+    fontSize: 2,
+    lineHeight: 'body',
+  }
+}
 
 export const utils = {
   span: {

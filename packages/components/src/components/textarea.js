@@ -10,13 +10,14 @@ const baseStyles = {
   display: "block",
   width: "100%",
   p: 2,
-  appearance: "none",
-  fontSize: "inherit",
-  lineHeight: "inherit",
   border: "1px solid",
   borderRadius: 4,
+  fontSize: "inherit",
+  fontFamily: "inherit",
+  lineHeight: 'inherit',
+  appearance: "none",
+  backgroundColor: "transparent",
   color: "inherit",
-  bg: "transparent",
 };
 
 const Textarea = React.forwardRef((props, ref) => (

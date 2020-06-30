@@ -18,7 +18,8 @@ const FormField = React.forwardRef(
         ref={ref}
         className={className}
         __css={baseStyles}
-        __themeKey="forms.fields"
+        __themeKey="formFields"
+        variant="default"
       >
         <Label htmlFor={id.current}>{label}</Label>
         {type === "textarea" ? (
