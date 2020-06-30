@@ -18,18 +18,17 @@ export const PageMenuItem = S.listItem()
       .child((...args) => {
         const documentId = args[0];
         return S.document()
-        .documentId(documentId)
-        .schemaType("page")
-        .views([
-          S.view.form(),
-          // S.view
-          // .component(IframePreview)
-          //   .options({
-          //     previewURL: "https://johnnymoses-com-1628856122.gtsb.io",
-          //   })
-          //   .title("Web Preview"),
-          S.view.component(Page)
-            .title("Web Preview"),
-          ])
+          .documentId(documentId)
+          .schemaType("page")
+          .views([
+            S.view.form(),
+            // S.view
+            // .component(IframePreview)
+            //   .options({
+            //     previewURL: "https://johnnymoses-com-1628856122.gtsb.io",
+            //   })
+            //   .title("Web Preview"),
+            S.view.component(Page).title("Web Preview"),
+          ]);
       })
   );

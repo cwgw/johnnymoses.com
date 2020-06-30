@@ -23,7 +23,7 @@ import event from "./types/event";
 // import basicTextImageModule from "./pageModules/basicTextImageModule";
 // import productGridModule from "./pageModules/productGridModule";
 // import eventListModule from "./pageModules/eventListModule";
-import * as pageBlocks from './pageModules'
+import * as pageBlocks from "./pageModules";
 
 // misc
 import blockContent from "./fields/blockContent";

@@ -59,9 +59,9 @@ export const text = {
 export const formFields = {
   default: {
     fontSize: 2,
-    lineHeight: 'body',
-  }
-}
+    lineHeight: "body",
+  },
+};
 
 export const utils = {
   span: {

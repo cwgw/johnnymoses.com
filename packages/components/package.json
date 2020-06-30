@@ -1,7 +1,8 @@
 {
   "name": "@johnnymoses.com/components",
-  "version": "1.0.0",
+  "private": true,
   "description": "",
+  "version": "1.0.0",
   "main": "src/index.js",
   "author": "",
   "scripts": {
@@ -13,32 +14,41 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "@emotion/core": "^10.0.28",
     "@reach/visually-hidden": "^0.10.4",
     "@sanity/block-content-to-react": "^2.0.7",
     "@sanity/client": "^1.149.16",
     "date-fns": "^2.14.0",
     "ical.js": "^1.4.0",
+    "lodash": "^4.17.15",
+    "prop-types": "^15.7.2",
     "slugify": "^1.4.4",
     "theme-ui": "^0.3.1"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^5.3.19",
-    "@storybook/addon-docs": "^5.3.19",
-    "@storybook/addon-links": "^5.3.19",
-    "@storybook/addons": "^5.3.19",
-    "@storybook/react": "^5.3.19",
+    "@babel/core": "^7.10.3",
+    "@storybook/addon-actions": "next",
+    "@storybook/addon-docs": "next",
+    "@storybook/addon-links": "next",
+    "@storybook/react": "next",
     "@theme-ui/style-guide": "^0.3.0",
-    "babel-loader": "^8.1.0",
+    "dotenv": "^8.2.0",
+    "gatsby": "^2.23.12",
     "gatsby-image": "^2.4.9",
     "gatsby-source-sanity": "^6.0.1",
     "lint-staged": "^10.2.11",
     "prettier": "^2.0.5",
-    "rollup": "^2.18.1"
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-is": "^16.13.1",
+    "stringify-object": "^3.3.0"
   },
   "peerDependencies": {
+    "gatsby": "*",
     "gatsby-image": "^2.4.9",
     "gatsby-source-sanity": "^6.0.1",
-    "react": "^16.13.1"
+    "react": "^16.13.1",
+    "react-dom": "*"
   },
   "repository": {
     "type": "git",

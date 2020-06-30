@@ -4,4 +4,4 @@ export { fonts } from "./fonts";
 export { fontWeights } from "./fontWeights";
 export { sizes } from "./sizes";
 export { space } from "./space";
-export { lineHeights } from './lineHeights';
+export { lineHeights } from "./lineHeights";
