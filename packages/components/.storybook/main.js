@@ -16,9 +16,4 @@ module.exports = {
       },
     },
   ],
-  webpackFinal: async config => {
-    // Add gatsby alias to fix linked local packages problem
-    config.resolve.alias.gatsby = require.resolve('gatsby');
-    return config;
-  },
 };

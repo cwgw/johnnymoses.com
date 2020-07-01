@@ -7,6 +7,7 @@ exports.createPages = async ({ graphql, actions }) => {
       allSanityPage {
         edges {
           node {
+            id
             _rawContent(resolveReferences: { maxDepth: 9 })
           }
         }
@@ -25,7 +26,10 @@ exports.createPages = async ({ graphql, actions }) => {
     createPage({
       path,
       component: pageTemplate,
-      context: node._rawContent,
+      context: {
+        id: node.id,
+        ...node._rawContent
+      },
     });
   });
 };

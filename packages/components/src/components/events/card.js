@@ -30,10 +30,17 @@ const EventCard = ({
   },
   className,
 }) => {
-  const dateFromNow =
-    differenceInMonths(new Date(start), new Date()) > 1
-      ? `${formatDistanceToNow(new Date(start))} from now`
-      : `In ${formatDistanceToNow(new Date(start))}`;
+  const today = new Date();
+  const startDate = new Date(start);
+  const endDate = new Date(end);
+  let dateFromNow =
+    differenceInMonths(startDate, today) > 1
+      ? `${formatDistanceToNow(startDate)} from now`
+      : `In ${formatDistanceToNow(startDate)}`;
+  
+  if (startDate < today) {
+    dateFromNow = `${formatDistanceToNow(startDate)} ago`
+  }
 
   return (
     <Flex
@@ -73,10 +80,10 @@ const EventCard = ({
       >
         <Box>
           <Text as="p" variant="small" itemProp="startDate" content={start}>
-            {format(new Date(start), "MMMM do, yyyy")}
+            {format(startDate, "MMMM do, yyyy")}
           </Text>
           <VisuallyHidden itemProp="endDate" content={end}>
-            {format(new Date(end), "MMMM do, yyyy")}
+            {format(endDate, "MMMM do, yyyy")}
           </VisuallyHidden>
           {location && (
             <Text as="p" variant="small" itemProp="location">

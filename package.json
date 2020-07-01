@@ -9,10 +9,9 @@
     "build": "lerna run build --parallel",
     "build:studio": "lerna bootstrap && (cd packages/studio && yarn run build)",
     "build:web": "lerna bootstrap && (cd packages/studio && SANITY_AUTH_TOKEN=$SANITY_DEPLOY_STUDIO_TOKEN yarn run graphql-deploy) && (cd packages/web && yarn run build)",
-    "develop": "lerna run develop --parallel",
+    "start": "lerna run start --parallel",
     "format": "lerna run format --parallel",
-    "graphql-deploy": "lerna run graphql-deploy",
-    "postinstall": "lerna bootstrap"
+    "graphql-deploy": "lerna run graphql-deploy"
   },
   "devDependencies": {
     "husky": "^4.2.5"

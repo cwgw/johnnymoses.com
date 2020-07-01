@@ -23,7 +23,8 @@ import event from "./types/event";
 // import basicTextImageModule from "./pageModules/basicTextImageModule";
 // import productGridModule from "./pageModules/productGridModule";
 // import eventListModule from "./pageModules/eventListModule";
-import * as pageBlocks from './pageModules'
+// import * as pageBlocks from './pageModules'
+import { PageBlockSchemas } from '@johnnymoses.com/components'
 
 // misc
 import blockContent from "./fields/blockContent";
@@ -72,15 +73,7 @@ export default createSchema({
     product,
     collection,
 
-    // formModule,
-    // heroModule,
-    // imageModule,
-    // textModule,
-    // productGridModule,
-    // basicTextImageModule,
-    // basicTextFormModule,
-    // eventListModule,
-    ...Object.values(pageBlocks),
+    ...Object.values(PageBlockSchemas),
 
     blockContent,
     externalLink,

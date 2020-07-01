@@ -24,6 +24,7 @@ import EventCard from "./components/events/card";
 // page-blocks
 import * as PageBlocks from "./components/page-blocks";
 import renderPageModules from "./utils/renderPageModules";
+import * as PageBlockSchemas from './schema/page-blocks';
 
 // local component context
 import { ComponentProvider, useLocalComponent } from './context/components'
@@ -37,7 +38,8 @@ import theme from "./theme";
 // fonts
 import fonts from "./fonts";
 
-import globalStyles from './global'
+// global
+import globalStyles from './globalStyles'
 
 export {
   Box,
@@ -58,6 +60,7 @@ export {
   ProductCard,
   EventCard,
   PageBlocks,
+  PageBlockSchemas,
   renderPageModules,
   useLocalComponent,
   ComponentProvider,

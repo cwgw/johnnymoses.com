@@ -7,12 +7,11 @@
   "scripts": {
     "build": "gatsby build",
     "clean": "gatsby clean",
-    "develop": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
     "precommit": "lint-staged",
     "preload-fonts": "gatsby-preload-fonts",
     "serve": "gatsby serve",
-    "start": "yarn run develop",
+    "start": "yarn gatsby develop",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
   },
   "dependencies": {
@@ -25,7 +24,7 @@
     "gatsby-plugin-preload-fonts": "^1.2.13",
     "gatsby-plugin-react-helmet": "^3.3.6",
     "gatsby-plugin-theme-ui": "^0.3.0",
-    "gatsby-source-sanity": "^5.0.6",
+    "gatsby-source-sanity": "^6.0.0",
     "lodash": "^4.17.15",
     "netlify-lambda": "^1.6.3",
     "prop-types": "^15.7.2",
