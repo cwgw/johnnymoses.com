@@ -1,0 +1,30 @@
+import { Meta, Preview, Story } from '@storybook/addon-docs/blocks'
+
+import { SanityData } from './utils/sanityData'
+
+import TextAndImage from '../src/components/page-blocks/textAndImage'
+import TextAndForm from '../src/components/page-blocks/textAndForm'
+
+<Meta title="Page Blocks | Two Column Modules" />
+
+# Basic two column modules
+
+## Text and Image
+
+<Preview>
+  <Story name="TextAndImage">
+    <SanityData module="basicTextImageModule">
+      {moduleData => <TextAndImage {...moduleData} />}
+    </SanityData>
+  </Story>
+</Preview>
+
+## Text and Form
+
+<Preview>
+  <Story name="TextAndForm">
+    <SanityData module="basicTextFormModule">
+      {moduleData => <TextAndForm {...moduleData} />}
+    </SanityData>
+  </Story>
+</Preview>

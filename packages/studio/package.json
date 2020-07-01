@@ -1,0 +1,47 @@
+{
+  "name": "@johnnymoses.com/studio",
+  "private": true,
+  "description": "The website of Native American storyteller Johnny Moses",
+  "version": "1.0.0",
+  "author": "Charlie Wright <charlie@cwgw.co>",
+  "scripts": {
+    "build": "sanity build",
+    "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
+    "graphql-deploy": "sanity graphql deploy --playground --force",
+    "start": "sanity start",
+    "test": "sanity check",
+    "precommit": "lint-staged"
+  },
+  "dependencies": {
+    "@johnnymoses.com/components": "^1.0.0",
+    "@sanity/base": "^1.149.15",
+    "@sanity/cli": "^1.149.16",
+    "@sanity/components": "^1.149.15",
+    "@sanity/core": "^1.149.13",
+    "@sanity/default-layout": "^1.149.15",
+    "@sanity/default-login": "^1.149.11",
+    "@sanity/desk-tool": "^1.149.15",
+    "@sanity/vision": "^1.149.16",
+    "gatsby": "^2.23.11",
+    "lodash": "^4.17.15",
+    "prop-types": "^15.6",
+    "react": "^16.2",
+    "react-dom": "^16.2",
+    "sanity-plugin-tabs": "^1.1.8",
+    "theme-ui": "^0.3.1"
+  },
+  "devDependencies": {
+    "lint-staged": "^10.2.11",
+    "prettier": "^2.0.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cwgw/johnnymoses.com.git",
+    "directory": "packages/studio"
+  },
+  "lint-staged": {
+    "*.{js,jsx,json}": [
+      "yarn run format"
+    ]
+  }
+}

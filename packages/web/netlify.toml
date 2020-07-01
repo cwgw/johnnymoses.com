@@ -1,0 +1,6 @@
+[build]
+  base = "/"
+  command = "yarn run build:web"
+  publish = "/packages/web/public"
+  function = "./functions"
+  

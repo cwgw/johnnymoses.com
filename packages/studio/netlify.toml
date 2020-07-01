@@ -1,0 +1,9 @@
+[build]
+  base = "/"
+  command = "yarn run build:studio && cp packages/studio/netlify.toml packages/studio/dist"
+  publish = "/packages/studio/dist"
+
+[[redirects]]
+  from = "/*"
+  to = "/"
+  status = 200
