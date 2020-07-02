@@ -3,12 +3,11 @@ import { jsx } from "theme-ui";
 import React from "react";
 import PropTypes from "prop-types";
 import { Global } from "@emotion/core";
-import { useStaticQuery, graphql, Link as GatsbyLink } from "gatsby";
+import { graphql, useStaticQuery } from "gatsby";
 
 import Header from "../components/header";
 import Footer from "../components/footer";
-import { ComponentProvider } from "../context/components";
-import { SanityClientProvider } from "../context/sanityClient";
+import { SanityClientProvider } from "../context/sanityConfig";
 import { globalStyles } from "@johnnymoses.com/components";
 
 const sanityConfig = {
@@ -71,14 +70,12 @@ const Layout = ({ children }) => {
 
   return (
     <SanityClientProvider {...sanityConfig} >
-      <ComponentProvider value={{ link: GatsbyLink }} >
-        <React.Fragment>
-          <Global styles={globalStyles} />
-          <Header navItems={headerNavItems} siteTitle={siteTitle} />
-          <main>{children}</main>
-          <Footer navItems={footerNavItems} />
-        </React.Fragment>
-      </ComponentProvider>
+      <React.Fragment>
+        <Global styles={globalStyles} />
+        <Header navItems={headerNavItems} siteTitle={siteTitle} />
+        <main>{children}</main>
+        <Footer navItems={footerNavItems} />
+      </React.Fragment>
     </SanityClientProvider>
   );
 };

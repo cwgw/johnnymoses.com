@@ -1,45 +1,60 @@
-import React from 'react'
-import PropTypes from "prop-types";
-import Box from "./box";
-import { useLocalComponent } from '../context/components';
+import React from "react";
+import styled from "@emotion/styled";
+import space from "@styled-system/space";
+import color from "@styled-system/color";
+import { css, get } from "@theme-ui/css";
+import { Link as GatsbyLink } from "gatsby";
+import isAbsoluteUrl from "is-absolute-url";
 
-const defaultProps = {
-  variant: "styles.a",
-  className: null,
-  to: null,
-  href: null,
-};
+import createShouldForwardProp from "../utils/shouldForwardProp";
 
-const propTypes = {
-  variant: PropTypes.string,
-  className: PropTypes.string,
-  to: PropTypes.string,
-  href: PropTypes.string,
-};
+const shouldForwardProp = createShouldForwardProp({
+  nope: [...space.propNames, ...color.propNames],
+  yep: ["to", "state"],
+});
 
-const Link = ({ to, href, ...props }) => {
-  const url = to || href;
-  const isInternal = /^\/(?!\/)/.test(url);
-  const { link } = useLocalComponent();
-  const addlProps = isInternal
-    ? {
-        as: link || 'a',
+const sx = props => css(props.sx)(props.theme);
+const base = props => css(props.__css)(props.theme);
+const variant = ({ theme, variant, __themeKey = "variants" }) =>
+  css(get(theme, __themeKey + "." + variant, get(theme, variant)));
+
+export const StyledLink = styled("a", {
+  shouldForwardProp,
+})(base, variant, space, color, sx, props => props.css);
+
+const Link = React.forwardRef((
+  {
+    href,
+    to,
+    ...props
+  },
+  ref
+) => {
+    const url = to || href;
+
+    let _props = {
+      href: url,
+      rel: "noreferrer",
+      target: "_blank",
+    };
+
+    if (!isAbsoluteUrl(url)) {
+      _props = {
+        as: GatsbyLink,
         to: url,
-      }
-    : {
-        as: "a",
-        href: url,
-        rel: "noreferrer",
-        target: "_blank",
       };
+    }
 
-  return (
-    <Box variant="styles.a" __themeKey="links" {...addlProps} {...props} />
-  );
-};
-
-Link.propTypes = propTypes;
-
-Link.defaultProps = defaultProps;
+    return (
+      <StyledLink
+        ref={ref}
+        variant="styles.a"
+        {..._props}
+        {...props}
+        __themeKey="links"
+      />
+    );
+  }
+);
 
 export default Link;
