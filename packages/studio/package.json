@@ -13,7 +13,7 @@
     "precommit": "lint-staged"
   },
   "dependencies": {
-    "@johnnymoses.com/components": "^1.0.0",
+    "@johnnymoses.com/theme": "^1.0.0",
     "@sanity/base": "^1.149.15",
     "@sanity/cli": "^1.149.16",
     "@sanity/components": "^1.149.15",

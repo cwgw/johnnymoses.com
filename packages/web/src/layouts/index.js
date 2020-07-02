@@ -8,7 +8,7 @@ import { graphql, useStaticQuery } from "gatsby";
 import Header from "../components/header";
 import Footer from "../components/footer";
 import { SanityClientProvider } from "../context/sanityConfig";
-import { globalStyles } from "@johnnymoses.com/components";
+import { globalStyles } from "@johnnymoses.com/theme";
 
 const sanityConfig = {
   projectId: process.env.GATSBY_SANITY_PROJECT_ID,

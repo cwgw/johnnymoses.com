@@ -15,7 +15,7 @@
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
   },
   "dependencies": {
-    "@johnnymoses.com/components": "^1.0.0",
+    "@johnnymoses.com/theme": "^1.0.0",
     "@reach/visually-hidden": "^0.10.4",
     "@sanity/block-content-to-react": "^2.0.7",
     "@sanity/client": "^1.149.16",
