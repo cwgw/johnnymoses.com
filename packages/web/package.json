@@ -30,6 +30,7 @@
     "gatsby-plugin-theme-ui": "^0.3.0",
     "gatsby-source-sanity": "^6.0.0",
     "ical.js": "^1.4.0",
+    "is-absolute-url": "^3.0.3",
     "lodash": "^4.17.15",
     "netlify-lambda": "^1.6.3",
     "prop-types": "^15.7.2",
