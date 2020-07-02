@@ -28,6 +28,11 @@ export default {
       type: "string",
       validation: Rule => Rule.required().error("A name is required."),
     },
+    {
+      title: "Required",
+      name: "required",
+      type: "boolean",
+    },
   ],
   preview: {
     select: {
