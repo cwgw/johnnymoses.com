@@ -18,6 +18,8 @@
     "@sanity/client": "^1.149.16",
     "date-fns": "^2.14.0",
     "ical.js": "^1.4.0",
+    "query-string": "^6.13.1",
+    "react-hook-form": "^6.0.0",
     "slugify": "^1.4.4",
     "theme-ui": "^0.3.1"
   },
