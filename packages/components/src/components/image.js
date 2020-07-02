@@ -3,7 +3,7 @@ import { getFluidGatsbyImage } from "gatsby-source-sanity";
 import { useThemeUI } from "theme-ui";
 import GatsbyImage from "gatsby-image";
 
-import { useSanityClient } from '../context/sanityClient'
+import { useSanityClient } from "../context/sanityClient";
 
 const Image = React.forwardRef(({ _type, asset, width, ...props }, ref) => {
   let fluid;
@@ -12,11 +12,7 @@ const Image = React.forwardRef(({ _type, asset, width, ...props }, ref) => {
 
   if (asset) {
     const imageId = asset.id || asset._ref;
-    fluid = getFluidGatsbyImage(
-      imageId,
-      { maxWidth: width || 1200 },
-      config
-    );
+    fluid = getFluidGatsbyImage(imageId, { maxWidth: width || 1200 }, config);
   }
 
   const { theme } = useThemeUI();
@@ -25,7 +21,7 @@ const Image = React.forwardRef(({ _type, asset, width, ...props }, ref) => {
     <GatsbyImage
       ref={ref}
       fluid={fluid}
-      backgroundColor={theme.colors.grays['900']}
+      backgroundColor={theme.colors.grays["900"]}
       {...props}
     />
   ) : (

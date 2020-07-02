@@ -15,7 +15,7 @@ module.exports = {
       options: {
         projectId: process.env.GATSBY_SANITY_PROJECT_ID,
         dataset: process.env.GATSBY_SANITY_DATASET,
-        watchMode: process.env.NODE_ENV === 'development',
+        watchMode: process.env.NODE_ENV === "development",
       },
     },
     "gatsby-plugin-react-helmet",

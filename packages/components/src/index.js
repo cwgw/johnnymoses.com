@@ -24,13 +24,13 @@ import EventCard from "./components/events/card";
 // page-blocks
 import * as PageBlocks from "./components/page-blocks";
 import renderPageModules from "./utils/renderPageModules";
-import * as PageBlockSchemas from './schema/page-blocks';
+import * as PageBlockSchemas from "./schema/page-blocks";
 
 // local component context
-import { ComponentProvider, useLocalComponent } from './context/components'
+import { ComponentProvider, useLocalComponent } from "./context/components";
 
 // sanity client context
-import { SanityClientProvider, useSanityClient } from './context/sanityClient'
+import { SanityClientProvider, useSanityClient } from "./context/sanityClient";
 
 // theme
 import theme from "./theme";
@@ -39,7 +39,7 @@ import theme from "./theme";
 import fonts from "./fonts";
 
 // global
-import globalStyles from './globalStyles'
+import globalStyles from "./globalStyles";
 
 export {
   Box,
