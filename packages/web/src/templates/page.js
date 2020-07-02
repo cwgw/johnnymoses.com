@@ -3,8 +3,7 @@ import { jsx } from "theme-ui";
 import React from "react";
 import { graphql } from 'gatsby'
 
-// import renderPageModules from "../utils/renderPageModules";
-import { renderPageModules } from "@johnnymoses.com/components";
+import renderPageModules from "../utils/renderPageModules";
 
 const PageTemplate = ({
   // pageContext: {

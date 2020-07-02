@@ -24,7 +24,7 @@ import event from "./types/event";
 // import productGridModule from "./pageModules/productGridModule";
 // import eventListModule from "./pageModules/eventListModule";
 // import * as pageBlocks from './pageModules'
-import { PageBlockSchemas } from '@johnnymoses.com/components'
+import * as PageBlockSchemas from './page-blocks'
 
 // misc
 import blockContent from "./fields/blockContent";

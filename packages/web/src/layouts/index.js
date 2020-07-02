@@ -5,7 +5,11 @@ import PropTypes from "prop-types";
 import { Global } from "@emotion/core";
 import { useStaticQuery, graphql, Link as GatsbyLink } from "gatsby";
 
-import { Header, Footer, ComponentProvider, SanityClientProvider, globalStyles } from "@johnnymoses.com/components";
+import Header from "../components/header";
+import Footer from "../components/footer";
+import { ComponentProvider } from "../context/components";
+import { SanityClientProvider } from "../context/sanityClient";
+import { globalStyles } from "@johnnymoses.com/components";
 
 const sanityConfig = {
   projectId: process.env.GATSBY_SANITY_PROJECT_ID,

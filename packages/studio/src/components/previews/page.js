@@ -7,7 +7,7 @@ import merge from 'lodash/merge'
 
 import { globalStyles, renderPageModules, SanityClientProvider, theme } from '@johnnymoses.com/components'
 
-import * as pageBlocks from '../../../schemas/pageModules'
+import * as pageBlocks from '../../../schemas/page-blocks'
 
 export default (props) => {
   const _modules = props.document.displayed?.content?.main?.modules;
