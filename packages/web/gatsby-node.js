@@ -28,7 +28,7 @@ exports.createPages = async ({ graphql, actions }) => {
       component: pageTemplate,
       context: {
         id: node.id,
-        ...node._rawContent
+        ...node._rawContent,
       },
     });
   });

@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
 import React from "react";
-import { graphql } from 'gatsby'
+import { graphql } from "gatsby";
 
 // import renderPageModules from "../utils/renderPageModules";
 import { renderPageModules } from "@johnnymoses.com/components";
@@ -10,23 +10,25 @@ const PageTemplate = ({
   // pageContext: {
   //   main: { modules },
   // },
-  data
+  data,
 }) => {
-  const { sanityPage: { _rawContent: { main } } } = data;
+  const {
+    sanityPage: {
+      _rawContent: { main },
+    },
+  } = data;
 
   // console.log({data})
-  
-  return (
-    <React.Fragment>{renderPageModules(main.modules)}</React.Fragment>
-  );
+
+  return <React.Fragment>{renderPageModules(main.modules)}</React.Fragment>;
 };
 
 export default PageTemplate;
 
 export const query = graphql`
   query SanityPage($id: String!) {
-    sanityPage(id: {eq: $id}) {
+    sanityPage(id: { eq: $id }) {
       _rawContent(resolveReferences: { maxDepth: 9 })
     }
   }
-`
+`;

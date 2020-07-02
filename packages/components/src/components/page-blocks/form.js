@@ -43,7 +43,6 @@ const FormModule = ({
       } else {
         setStatus("failure");
       }
-
     } catch (error) {
       setStatus("failure");
     }
@@ -83,7 +82,7 @@ const FormModule = ({
   }
 
   if (status === "success") {
-    content = <Text>Thank you for your submission.</Text>
+    content = <Text>Thank you for your submission.</Text>;
   }
 
   if (status === "failure") {
@@ -92,7 +91,10 @@ const FormModule = ({
         <p>
           <strong>Something went wrong.</strong>
         </p>
-        <p>Sorry, your form couldn't be submitted due to a server problem. Please try again later.</p>
+        <p>
+          Sorry, your form couldn't be submitted due to a server problem. Please
+          try again later.
+        </p>
       </React.Fragment>
     );
   }

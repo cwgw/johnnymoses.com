@@ -37,9 +37,9 @@ const EventCard = ({
     differenceInMonths(startDate, today) > 1
       ? `${formatDistanceToNow(startDate)} from now`
       : `In ${formatDistanceToNow(startDate)}`;
-  
+
   if (startDate < today) {
-    dateFromNow = `${formatDistanceToNow(startDate)} ago`
+    dateFromNow = `${formatDistanceToNow(startDate)} ago`;
   }
 
   return (

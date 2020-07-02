@@ -14,7 +14,7 @@ const baseStyles = {
   borderRadius: 4,
   fontSize: "inherit",
   fontFamily: "inherit",
-  lineHeight: 'inherit',
+  lineHeight: "inherit",
   appearance: "none",
   backgroundColor: "transparent",
   color: "inherit",

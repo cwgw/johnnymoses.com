@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 export const SanityClientContext = React.createContext({});
 
@@ -8,15 +8,15 @@ export const SanityClientProvider = ({ projectId, dataset, children }) => {
       value={{
         config: {
           projectId,
-          dataset
-        }
+          dataset,
+        },
       }}
     >
       {children}
     </SanityClientContext.Provider>
-  )
-}
+  );
+};
 
 export const useSanityClient = () => {
   return React.useContext(SanityClientContext);
-}
+};

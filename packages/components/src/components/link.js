@@ -1,7 +1,7 @@
-import React from 'react'
+import React from "react";
 import PropTypes from "prop-types";
 import Box from "./box";
-import { useLocalComponent } from '../context/components';
+import { useLocalComponent } from "../context/components";
 
 const defaultProps = {
   variant: "styles.a",
@@ -23,7 +23,7 @@ const Link = ({ to, href, ...props }) => {
   const { link } = useLocalComponent();
   const addlProps = isInternal
     ? {
-        as: link || 'a',
+        as: link || "a",
         to: url,
       }
     : {
