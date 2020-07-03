@@ -3,15 +3,12 @@ import { jsx } from "theme-ui";
 import React from "react";
 import PropTypes from "prop-types";
 import { Global } from "@emotion/core";
-import { useStaticQuery, graphql, Link as GatsbyLink } from "gatsby";
+import { graphql, useStaticQuery } from "gatsby";
 
-import {
-  Header,
-  Footer,
-  ComponentProvider,
-  SanityClientProvider,
-  globalStyles,
-} from "@johnnymoses.com/components";
+import Header from "../components/header";
+import Footer from "../components/footer";
+import { SanityConfigProvider } from "../context/sanityConfig";
+import { globalStyles } from "@johnnymoses.com/theme";
 
 const sanityConfig = {
   projectId: process.env.GATSBY_SANITY_PROJECT_ID,
@@ -72,16 +69,14 @@ const Layout = ({ children }) => {
   const siteTitle = data.sanitySiteGlobal.content.metaInformation.metaTitle;
 
   return (
-    <SanityClientProvider {...sanityConfig}>
-      <ComponentProvider value={{ link: GatsbyLink }}>
-        <React.Fragment>
-          <Global styles={globalStyles} />
-          <Header navItems={headerNavItems} siteTitle={siteTitle} />
-          <main>{children}</main>
-          <Footer navItems={footerNavItems} />
-        </React.Fragment>
-      </ComponentProvider>
-    </SanityClientProvider>
+    <SanityConfigProvider {...sanityConfig} >
+      <React.Fragment>
+        <Global styles={globalStyles} />
+        <Header navItems={headerNavItems} siteTitle={siteTitle} />
+        <main>{children}</main>
+        <Footer navItems={footerNavItems} />
+      </React.Fragment>
+    </SanityConfigProvider>
   );
 };
 

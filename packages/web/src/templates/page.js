@@ -3,24 +3,22 @@ import { jsx } from "theme-ui";
 import React from "react";
 import { graphql } from "gatsby";
 
-// import renderPageModules from "../utils/renderPageModules";
-import { renderPageModules } from "@johnnymoses.com/components";
+import renderPageModules from "../utils/renderPageModules";
 
 const PageTemplate = ({
-  // pageContext: {
-  //   main: { modules },
-  // },
   data,
+  previewData,
 }) => {
-  const {
-    sanityPage: {
-      _rawContent: { main },
-    },
-  } = data;
-
-  // console.log({data})
-
-  return <React.Fragment>{renderPageModules(main.modules)}</React.Fragment>;
+  let modules = [];
+  if (previewData) {
+    modules = previewData.content.main.modules;
+  } else {
+    modules = data.sanityPage._rawContent.main.modules;
+  }
+  
+  return (
+    <React.Fragment>{renderPageModules(modules)}</React.Fragment>
+  );
 };
 
 export default PageTemplate;
