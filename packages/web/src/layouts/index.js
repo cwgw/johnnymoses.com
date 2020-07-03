@@ -7,7 +7,7 @@ import { graphql, useStaticQuery } from "gatsby";
 
 import Header from "../components/header";
 import Footer from "../components/footer";
-import { SanityConfigProvider } from "../context/sanityConfig";
+import { SanityClientProvider } from "../context/sanityClient";
 import { globalStyles } from "@johnnymoses.com/theme";
 
 const sanityConfig = {
@@ -69,14 +69,14 @@ const Layout = ({ children }) => {
   const siteTitle = data.sanitySiteGlobal.content.metaInformation.metaTitle;
 
   return (
-    <SanityConfigProvider {...sanityConfig}>
+    <SanityClientProvider {...sanityConfig}>
       <React.Fragment>
         <Global styles={globalStyles} />
         <Header navItems={headerNavItems} siteTitle={siteTitle} />
         <main>{children}</main>
         <Footer navItems={footerNavItems} />
       </React.Fragment>
-    </SanityConfigProvider>
+    </SanityClientProvider>
   );
 };
 
