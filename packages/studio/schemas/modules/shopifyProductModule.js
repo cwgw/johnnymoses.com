@@ -18,6 +18,13 @@ export default {
       name: "title",
       title: "Title",
       type: "string",
+      readOnly: true,
+    },
+    {
+      name: "handle",
+      title: "Handle",
+      type: "string",
+      readOnly: true,
     },
     {
       name: "id",
@@ -32,6 +39,7 @@ export default {
       title: "Deleted",
       type: "boolean",
       description: "This can be a flag set if the item is deleted from Shopify",
+      readOnly: true,
     },
     {
       name: "productId",

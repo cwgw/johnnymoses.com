@@ -54,13 +54,6 @@ module.exports.handler = async event => {
     return statusReturn(400, { error: "Bad request body" });
   }
 
-  let stringifiedProductData = "";
-  try {
-    stringifiedProductData = JSON.stringify(data)
-  } catch (error) {
-    console.warn("JSON.stringify failed");
-  }
-
   // Shopify sends both Product Updates/Creations AND deletions as POST requests
   // Product Updates & Creations contain the entire product body, including titles, tags, images, handle, etc.
   // Product Deletions only contain a singular 'id'
@@ -71,6 +64,13 @@ module.exports.handler = async event => {
       _id: data.id.toString(),
     };
 
+    let stringifiedProductData = "";
+    try {
+      stringifiedProductData = JSON.stringify(data)
+    } catch (error) {
+      console.warn("JSON.stringify failed");
+    }
+  
     /*
     /    Because of the nested structure of the products (with tabs)
     /    we need select the fields we want to update specifically in Shopify
@@ -86,7 +86,7 @@ module.exports.handler = async event => {
       "content.shopify.handle": data.handle,
       "content.shopify.productType": data.product_type,
       "content.shopify.defaultPrice": data.variants[0].price,
-
+      
       "content.shopify.stringifiedProductData": stringifiedProductData,
 
       "content.shopify.defaultVariant.title": data.variants[0].title,
