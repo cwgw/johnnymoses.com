@@ -1,22 +1,22 @@
 import React from 'react'
 
-export const SanityClientContext = React.createContext({});
+export const SanityConfigContext = React.createContext({});
 
-export const SanityClientProvider = ({ projectId, dataset, children }) => {
+export const SanityConfigProvider = ({ projectId, dataset, children }) => {
   return (
-    <SanityClientContext.Provider
+    <SanityConfigContext.Provider
       value={{
         config: {
           projectId,
-          dataset
+          dataset,
         }
       }}
     >
       {children}
-    </SanityClientContext.Provider>
+    </SanityConfigContext.Provider>
   )
 }
 
-export const useSanityClient = () => {
-  return React.useContext(SanityClientContext);
+export const useSanityConfig = () => {
+  return React.useContext(SanityConfigContext);
 }

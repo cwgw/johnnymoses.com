@@ -3,15 +3,15 @@ import { getFluidGatsbyImage } from "gatsby-source-sanity";
 import { useThemeUI } from "theme-ui";
 import GatsbyImage from "gatsby-image";
 
-import { useSanityClient } from '../context/sanityConfig'
+import { useSanityConfig } from '../context/sanityConfig'
 
 const Image = React.forwardRef(({ _type, asset, width, ...props }, ref) => {
   let fluid;
 
-  const { config } = useSanityClient();
+  const { config } = useSanityConfig();
 
   if (asset) {
-    const imageId = asset.id || asset._ref;
+    const imageId = asset._id || asset._ref;
     fluid = getFluidGatsbyImage(
       imageId,
       { maxWidth: width || 1200 },
