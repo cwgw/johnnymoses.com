@@ -54,7 +54,12 @@ module.exports.handler = async event => {
     return statusReturn(400, { error: "Bad request body" });
   }
 
-  console.log({ data });
+  let stringifiedProductData = "";
+  try {
+    stringifiedProductData = JSON.stringify(data)
+  } catch (error) {
+    console.warn("JSON.stringify failed");
+  }
 
   // Shopify sends both Product Updates/Creations AND deletions as POST requests
   // Product Updates & Creations contain the entire product body, including titles, tags, images, handle, etc.
@@ -80,6 +85,8 @@ module.exports.handler = async event => {
       "content.shopify.title": data.title,
       "content.shopify.productType": data.product_type,
       "content.shopify.defaultPrice": data.variants[0].price,
+
+      "content.shopify.stringifiedProductData": stringifiedProductData,
 
       "content.shopify.defaultVariant.title": data.variants[0].title,
       "content.shopify.defaultVariant.price": data.variants[0].price,

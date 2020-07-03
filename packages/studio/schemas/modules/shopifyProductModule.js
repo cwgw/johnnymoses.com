@@ -62,6 +62,12 @@ export default {
       of: [{ type: "reference", to: { type: "productVariant" } }],
     },
     {
+      name: "stringifiedProductData",
+      title: "Data",
+      type: "text",
+      readOnly: true,
+    },
+    {
       name: "defaultVariant",
       type: "defaultVariant",
     },
