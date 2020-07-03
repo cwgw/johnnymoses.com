@@ -8,6 +8,7 @@ import { graphql, useStaticQuery } from "gatsby";
 import Header from "../components/header";
 import Footer from "../components/footer";
 import { SanityClientProvider } from "../context/sanityClient";
+import { StoreContextProvider } from "../context/shopifyClient";
 import { globalStyles } from "@johnnymoses.com/theme";
 
 const sanityConfig = {
@@ -69,14 +70,16 @@ const Layout = ({ children }) => {
   const siteTitle = data.sanitySiteGlobal.content.metaInformation.metaTitle;
 
   return (
-    <SanityClientProvider {...sanityConfig}>
-      <React.Fragment>
-        <Global styles={globalStyles} />
-        <Header navItems={headerNavItems} siteTitle={siteTitle} />
-        <main>{children}</main>
-        <Footer navItems={footerNavItems} />
-      </React.Fragment>
-    </SanityClientProvider>
+    <StoreContextProvider>
+      <SanityClientProvider {...sanityConfig}>
+        <React.Fragment>
+          <Global styles={globalStyles} />
+          <Header navItems={headerNavItems} siteTitle={siteTitle} />
+          <main>{children}</main>
+          <Footer navItems={footerNavItems} />
+        </React.Fragment>
+      </SanityClientProvider>
+    </StoreContextProvider>
   );
 };
 
