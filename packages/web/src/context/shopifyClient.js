@@ -186,7 +186,7 @@ function useAddItemToCart() {
 
   async function addItemToCart(variantId, quantity, attributes) {
     if (variantId === "" || !quantity) {
-      console.error("Both a size and quantity are required.");
+      console.error("Both an id and quantity are required.");
       return;
     }
 

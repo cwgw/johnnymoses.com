@@ -31,7 +31,7 @@ const Link = React.forwardRef(({ href, to, ...props }, ref) => {
     target: "_blank",
   };
 
-  if (!isAbsoluteUrl(url)) {
+  if (url && !isAbsoluteUrl(url)) {
     _props = {
       as: GatsbyLink,
       to: url,
@@ -42,9 +42,9 @@ const Link = React.forwardRef(({ href, to, ...props }, ref) => {
     <StyledLink
       ref={ref}
       variant="styles.a"
+      __themeKey="links"
       {..._props}
       {...props}
-      __themeKey="links"
     />
   );
 });

@@ -3,11 +3,9 @@ import { jsx } from "theme-ui";
 
 import Box from "../box";
 import Heading from "../heading";
-import ProductCard from "../products/card";
+import ProductCard from "../product/card";
 
-const ProductGridModule = props => {
-  const { title, products, className } = props;
-
+const ProductGridModule = ({ title, products, className }) => {
   return (
     <Box
       className={className}

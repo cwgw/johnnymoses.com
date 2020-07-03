@@ -12,6 +12,8 @@ import Image from "../image";
 
 import BlockContent from "../page-blocks/blockContent";
 
+import Form from './form';
+
 const ProductCard = props => {
   // console.log(props);
   const {
@@ -68,9 +70,7 @@ const ProductCard = props => {
               <p>
                 <strong>{formatPrice({ amount: shopify.defaultPrice })}</strong>
               </p>
-              <Button disabled={true} ml="auto">
-                Add to cart
-              </Button>
+              <Form {...shopify} />
             </React.Fragment>
           )}
         </Flex>
