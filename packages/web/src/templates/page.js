@@ -6,17 +6,18 @@ import { graphql } from 'gatsby'
 import renderPageModules from "../utils/renderPageModules";
 
 const PageTemplate = ({
-  // pageContext: {
-  //   main: { modules },
-  // },
-  data
+  data,
+  previewData,
 }) => {
-  const { sanityPage: { _rawContent: { main } } } = data;
-
-  // console.log({data})
+  let modules = [];
+  if (previewData) {
+    modules = previewData.content.main.modules;
+  } else {
+    modules = data.sanityPage._rawContent.main.modules;
+  }
   
   return (
-    <React.Fragment>{renderPageModules(main.modules)}</React.Fragment>
+    <React.Fragment>{renderPageModules(modules)}</React.Fragment>
   );
 };
 

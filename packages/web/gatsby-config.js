@@ -21,6 +21,14 @@ module.exports = {
     "gatsby-plugin-react-helmet",
     "gatsby-plugin-theme-ui",
     "gatsby-plugin-preload-fonts",
+    {
+      resolve: "gatsby-plugin-create-client-paths",
+      options: {
+        prefixes: [
+          "/preview/*"
+        ]
+      },
+    },
     // {
     //   resolve: 'gatsby-plugin-manifest',
     //   options: {

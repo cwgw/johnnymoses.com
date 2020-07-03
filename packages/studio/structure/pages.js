@@ -1,10 +1,14 @@
 // import React from 'react';
 import S from "@sanity/desk-tool/structure-builder";
-// import IframePreview from "../src/components/previews/iframe";
-import Page from "../src/components/previews/page";
+import IframePreview from "../src/components/previews/iframePreview";
+// import Page from "../src/components/previews/page";
 // import Emoji from 'a11y-react-emoji'
 
 // const Icon = () => <Emoji style={{ fontSize: '2rem' }} symbol='📄' />
+
+const remoteURL = 'https://johnnymoses.netlify.app/preview'
+const localURL = 'http://localhost:8000/preview'
+const previewURL = window.location.hostname === 'localhost' ? localURL : remoteURL
 
 export const PageMenuItem = S.listItem()
   .title("Pages")
@@ -22,14 +26,9 @@ export const PageMenuItem = S.listItem()
         .schemaType("page")
         .views([
           S.view.form(),
-          // S.view
-          // .component(IframePreview)
-          //   .options({
-          //     previewURL: "https://johnnymoses-com-1628856122.gtsb.io",
-          //   })
-          //   .title("Web Preview"),
-          S.view.component(Page)
+          S.view.component(IframePreview)
+            .options({ previewURL })
             .title("Web Preview"),
-          ])
+        ])
       })
   );

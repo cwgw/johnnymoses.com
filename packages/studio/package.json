@@ -4,6 +4,7 @@
   "description": "The website of Native American storyteller Johnny Moses",
   "version": "1.0.0",
   "author": "Charlie Wright <charlie@cwgw.co>",
+  "main": "./index.js",
   "scripts": {
     "build": "sanity build",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
