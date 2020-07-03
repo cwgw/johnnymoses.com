@@ -1,17 +1,16 @@
 import React from "react";
 import { Router } from "@reach/router";
 import useSWR from "swr";
-import sanityClient from "@sanity/client";
 import isEmpty from "lodash/isEmpty";
 
-import { useSanityConfig } from "../context/sanityConfig";
+import { useSanityClient } from "../context/sanityClient";
 import { pageQuery } from "../utils/sanityQueries";
 
 import Page from "../templates/page";
 
 const PreviewPage = ({ documentId, revision }) => {
+  // disable links in page previews
   React.useEffect(() => {
-    // disable links in page previews
     window.___navigate = () => {
       alert(
         "This is a draft preview. Navigation to other pages from this page is disabled."
@@ -20,27 +19,12 @@ const PreviewPage = ({ documentId, revision }) => {
     };
   }, []);
 
-  const { config } = useSanityConfig();
-
-  const client = React.useMemo(
-    () =>
-      sanityClient({
-        ...config,
-        useCdn: false,
-        withCredentials: true,
-      }),
-    [config]
-  );
+  const { client } = useSanityClient();
 
   const fetcher = React.useCallback(
     async (documentId, revision) => {
       const query = `*[_id == $documentId && _rev == $revision][0] { ..., _type == "page" => ${pageQuery} }`;
-      try {
-        const response = await client.fetch(query, { documentId, revision });
-        return response;
-      } catch (error) {
-        throw error;
-      }
+      return client.fetch(query, { documentId, revision });
     },
     [client]
   );
