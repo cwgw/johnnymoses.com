@@ -7,7 +7,7 @@ const {
   SANITY_API_TOKEN,
   SANITY_PROJECT_ID,
   SANITY_DATASET,
-  SHOPIFY_SECRET,
+  SHOPIFY_SHARED_SECRET,
 } = process.env;
 
 const headers = {
@@ -43,7 +43,7 @@ module.exports.handler = async event => {
   try {
     data = JSON.parse(event.body);
     const generatedHash = crypto
-      .createHmac("sha256", SHOPIFY_SECRET)
+      .createHmac("sha256", SHOPIFY_SHARED_SECRET)
       .update(event.body)
       .digest("base64");
     if (generatedHash !== hmac) {
