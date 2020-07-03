@@ -15,7 +15,6 @@ const FormField = React.forwardRef(
   ({ label, name, required, type, className, ...props }, ref) => {
     const id = React.useRef(uniqueId("input"));
     const InputElement = type === "textarea" ? Textarea : Input;
-    console.log(getAutocomplete(name));
     return (
       <Box
         className={className}
