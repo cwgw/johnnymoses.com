@@ -1,5 +1,3 @@
-import * as pageBlockSchemas from './schemas/page-blocks';
+import * as pageBlockSchemas from "./schemas/page-blocks";
 
-export {
-  pageBlockSchemas
-}
+export { pageBlockSchemas };

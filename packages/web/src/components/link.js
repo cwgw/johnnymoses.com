@@ -22,39 +22,31 @@ export const StyledLink = styled("a", {
   shouldForwardProp,
 })(base, variant, space, color, sx, props => props.css);
 
-const Link = React.forwardRef((
-  {
-    href,
-    to,
-    ...props
-  },
-  ref
-) => {
-    const url = to || href;
+const Link = React.forwardRef(({ href, to, ...props }, ref) => {
+  const url = to || href;
 
-    let _props = {
-      href: url,
-      rel: "noreferrer",
-      target: "_blank",
+  let _props = {
+    href: url,
+    rel: "noreferrer",
+    target: "_blank",
+  };
+
+  if (!isAbsoluteUrl(url)) {
+    _props = {
+      as: GatsbyLink,
+      to: url,
     };
-
-    if (!isAbsoluteUrl(url)) {
-      _props = {
-        as: GatsbyLink,
-        to: url,
-      };
-    }
-
-    return (
-      <StyledLink
-        ref={ref}
-        variant="styles.a"
-        {..._props}
-        {...props}
-        __themeKey="links"
-      />
-    );
   }
-);
+
+  return (
+    <StyledLink
+      ref={ref}
+      variant="styles.a"
+      {..._props}
+      {...props}
+      __themeKey="links"
+    />
+  );
+});
 
 export default Link;

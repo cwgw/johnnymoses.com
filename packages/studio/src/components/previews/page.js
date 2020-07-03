@@ -5,9 +5,9 @@ import { ThemeProvider, jsx } from "theme-ui";
 import { Global } from "@emotion/core";
 import merge from "lodash/merge";
 
-import { globalStyles, theme } from '@johnnymoses.com/theme'
+import { globalStyles, theme } from "@johnnymoses.com/theme";
 
-import * as pageBlocks from '../../../schemas/page-blocks'
+import * as pageBlocks from "../../../schemas/page-blocks";
 
 export default props => {
   const _modules = props.document.displayed?.content?.main?.modules;

@@ -24,9 +24,7 @@ module.exports = {
     {
       resolve: "gatsby-plugin-create-client-paths",
       options: {
-        prefixes: [
-          "/preview/*"
-        ]
+        prefixes: ["/preview/*"],
       },
     },
     // {

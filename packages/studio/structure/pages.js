@@ -6,9 +6,10 @@ import IframePreview from "../src/components/previews/iframePreview";
 
 // const Icon = () => <Emoji style={{ fontSize: '2rem' }} symbol='📄' />
 
-const remoteURL = 'https://johnnymoses.netlify.app/preview'
-const localURL = 'http://localhost:8000/preview'
-const previewURL = window.location.hostname === 'localhost' ? localURL : remoteURL
+const remoteURL = "https://johnnymoses.netlify.app/preview";
+const localURL = "http://localhost:8000/preview";
+const previewURL =
+  window.location.hostname === "localhost" ? localURL : remoteURL;
 
 export const PageMenuItem = S.listItem()
   .title("Pages")
@@ -22,13 +23,14 @@ export const PageMenuItem = S.listItem()
       .child((...args) => {
         const documentId = args[0];
         return S.document()
-        .documentId(documentId)
-        .schemaType("page")
-        .views([
-          S.view.form(),
-          S.view.component(IframePreview)
-            .options({ previewURL })
-            .title("Web Preview"),
-        ])
+          .documentId(documentId)
+          .schemaType("page")
+          .views([
+            S.view.form(),
+            S.view
+              .component(IframePreview)
+              .options({ previewURL })
+              .title("Web Preview"),
+          ]);
       })
   );

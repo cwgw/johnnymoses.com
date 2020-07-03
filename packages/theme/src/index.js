@@ -5,10 +5,6 @@ import theme from "./theme";
 import fonts from "./fonts";
 
 // global styles
-import globalStyles from './globalStyles'
+import globalStyles from "./globalStyles";
 
-export {
-  fonts,
-  globalStyles,
-  theme,
-}
+export { fonts, globalStyles, theme };

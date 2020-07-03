@@ -69,7 +69,7 @@ const Layout = ({ children }) => {
   const siteTitle = data.sanitySiteGlobal.content.metaInformation.metaTitle;
 
   return (
-    <SanityConfigProvider {...sanityConfig} >
+    <SanityConfigProvider {...sanityConfig}>
       <React.Fragment>
         <Global styles={globalStyles} />
         <Header navItems={headerNavItems} siteTitle={siteTitle} />
