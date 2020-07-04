@@ -1,6 +1,6 @@
 export const root = {
   margin: 0,
-  fontFamily: "sans",
+  fontFamily: "body",
   fontWeight: "normal",
   fontSize: 2,
   "*": {
