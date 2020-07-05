@@ -1,14 +1,16 @@
 import React from "react";
 import { graphql } from "gatsby";
 
-import Product from '../components/product/product'
-import Box from '../components/box'
+import Product from "../components/product/product";
+import Box from "../components/box";
 
 const PageTemplate = ({ data, previewData }) => {
-  const content = previewData ? previewData.content : data.sanityProduct._rawContent;
+  const content = previewData
+    ? previewData.content
+    : data.sanityProduct._rawContent;
 
   return (
-    <Box variant="container" >
+    <Box variant="container">
       <Product content={content} />
     </Box>
   );

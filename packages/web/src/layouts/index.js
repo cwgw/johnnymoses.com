@@ -74,7 +74,7 @@ const Layout = ({ children }) => {
     <StoreContextProvider>
       <SanityClientProvider {...sanityConfig}>
         <React.Fragment>
-          <SkipNavLink sx={{ variant: 'skipNav' }} />
+          <SkipNavLink sx={{ variant: "skipNav" }} />
           <Global styles={globalStyles} />
           <Header navItems={headerNavItems} siteTitle={siteTitle} />
           <SkipNavContent />

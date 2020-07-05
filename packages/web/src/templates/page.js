@@ -6,7 +6,9 @@ import { graphql } from "gatsby";
 import renderPageModules from "../utils/renderPageModules";
 
 const PageTemplate = ({ data, previewData }) => {
-  const { main } = previewData ? previewData.content : data.sanityPage._rawContent;
+  const { main } = previewData
+    ? previewData.content
+    : data.sanityPage._rawContent;
 
   return <React.Fragment>{renderPageModules(main.modules)}</React.Fragment>;
 };

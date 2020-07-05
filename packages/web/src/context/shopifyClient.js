@@ -2,7 +2,7 @@ import React from "react";
 import ShopifyClient from "shopify-buy";
 import cookie from "js-cookie";
 
-import formatPrice from '../utils/formatPrice'
+import formatPrice from "../utils/formatPrice";
 
 const SHOPIFY_CHECKOUT_STORAGE_KEY = "shopify_checkout_id";
 
@@ -150,13 +150,13 @@ function useCartTotals() {
     store: { checkout },
   } = React.useContext(StoreContext);
 
-  const { subtotalPriceV2, totalTaxV2, totalPriceV2 } = checkout
+  const { subtotalPriceV2, totalTaxV2, totalPriceV2 } = checkout;
 
   const totals = {
-    subtotal: subtotalPriceV2 ? formatPrice(subtotalPriceV2) : '-',
-    tax: totalTaxV2 ? formatPrice(totalTaxV2) : '-',
-    total: totalPriceV2 ? formatPrice(totalPriceV2) : '-',
-  }
+    subtotal: subtotalPriceV2 ? formatPrice(subtotalPriceV2) : "-",
+    tax: totalTaxV2 ? formatPrice(totalTaxV2) : "-",
+    total: totalPriceV2 ? formatPrice(totalPriceV2) : "-",
+  };
 
   return totals;
 }
@@ -295,7 +295,7 @@ function useCheckoutStatus() {
   const { isInitialized } = React.useContext(StoreContext);
 
   return {
-    isInitialized
+    isInitialized,
   };
 }
 

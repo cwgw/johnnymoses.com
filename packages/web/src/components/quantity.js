@@ -1,6 +1,6 @@
 /** @jsx jsx */
-import { jsx } from '@theme-ui/core';
-import PropTypes from 'prop-types';
+import { jsx } from "@theme-ui/core";
+import PropTypes from "prop-types";
 
 const propTypes = {
   max: PropTypes.number,
@@ -19,25 +19,25 @@ const defaultProps = {
 const Button = ({ children, ...props }) => (
   <button
     sx={{
-      display: 'inline-block',
-      width: '1.5em',
-      height: '1.5em',
-      fontSize: 'inherit',
-      textAlign: 'center',
+      display: "inline-block",
+      width: "1.5em",
+      height: "1.5em",
+      fontSize: "inherit",
+      textAlign: "center",
       p: 0,
       m: 0,
       borderWidth: 1,
-      borderStyle: 'solid',
-      borderColor: 'lightGray',
-      borderRadius: '100%',
-      backgroundColor: 'white',
-      cursor: 'pointer',
+      borderStyle: "solid",
+      borderColor: "lightGray",
+      borderRadius: "100%",
+      backgroundColor: "white",
+      cursor: "pointer",
     }}
     {...props}
   >
     <span
       sx={{
-        verticalAlign: '0.05em',
+        verticalAlign: "0.05em",
         lineHeight: 1,
       }}
     >
@@ -68,10 +68,10 @@ const Quantity = ({
   return (
     <div
       sx={{
-        display: 'inline-flex',
-        flexFlow: 'row nowrap',
-        alignItems: 'baseline',
-        textAlign: 'center',
+        display: "inline-flex",
+        flexFlow: "row nowrap",
+        alignItems: "baseline",
+        textAlign: "center",
       }}
       {...props}
     >
@@ -83,7 +83,7 @@ const Quantity = ({
       />
       <span
         sx={{
-          minWidth: '2em',
+          minWidth: "2em",
           py: 0,
           px: 2,
         }}

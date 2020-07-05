@@ -66,11 +66,11 @@ module.exports.handler = async event => {
 
     let stringifiedProductData = "";
     try {
-      stringifiedProductData = JSON.stringify(data)
+      stringifiedProductData = JSON.stringify(data);
     } catch (error) {
       console.warn("JSON.stringify failed");
     }
-  
+
     /*
     /    Because of the nested structure of the products (with tabs)
     /    we need select the fields we want to update specifically in Shopify
@@ -86,7 +86,7 @@ module.exports.handler = async event => {
       "content.shopify.handle": data.handle,
       "content.shopify.productType": data.product_type,
       "content.shopify.defaultPrice": data.variants[0].price,
-      
+
       "content.shopify.stringifiedProductData": stringifiedProductData,
 
       "content.shopify.defaultVariant.title": data.variants[0].title,

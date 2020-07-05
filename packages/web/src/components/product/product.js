@@ -1,32 +1,25 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
 
-import useVariant from '../../hooks/useVariant'
+import useVariant from "../../hooks/useVariant";
 import BlockContent from "../page-blocks/blockContent";
 import Box from "../box";
 import Flex from "../flex";
-import Form from './form';
+import Form from "./form";
 import Heading from "../heading";
 import Image from "../image";
-import Options from './options'
-import Price from './price'
+import Options from "./options";
+import Price from "./price";
 
-const ProductCard = ({
-  content: {
-    main,
-    shopify
-  },
-}) => {
-  const {
-    variant,
-    product,
-    handleOptionChange,
-  } = useVariant({ handle: shopify.handle });
+const ProductCard = ({ content: { main, shopify } }) => {
+  const { variant, product, handleOptionChange } = useVariant({
+    handle: shopify.handle,
+  });
 
   return (
     <Flex>
       {main.mainImage && (
-        <Box sx={{ flex: `0 0 400px` }} >
+        <Box sx={{ flex: `0 0 400px` }}>
           <Image width={400} {...main.mainImage} />
         </Box>
       )}
@@ -46,7 +39,10 @@ const ProductCard = ({
             onChange={handleOptionChange}
           />
         )}
-        <Price price={variant.priceV2} compareAtPrice={variant.compareAtPriceV2} />
+        <Price
+          price={variant.priceV2}
+          compareAtPrice={variant.compareAtPriceV2}
+        />
         <Form {...shopify} />
         <BlockContent blocks={main.productDescription} />
       </Flex>

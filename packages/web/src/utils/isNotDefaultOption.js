@@ -3,21 +3,21 @@
  * it will have a default option of the following shape:
  * { name: "Title", values: [ "Default Title" ] }
  */
-const isNotDefaultOption = (o) => {
-  if (typeof o === 'string') {
-    return o !== 'Default Title';
+const isNotDefaultOption = o => {
+  if (typeof o === "string") {
+    return o !== "Default Title";
   }
 
   const { name, value, values } = o;
 
   if (value) {
-    return !(name === 'Title' && value === 'Default Title');
+    return !(name === "Title" && value === "Default Title");
   }
 
   return !(
-    name === 'Title' &&
+    name === "Title" &&
     values.length === 1 &&
-    values[0] === 'Default Title'
+    values[0] === "Default Title"
   );
 };
 

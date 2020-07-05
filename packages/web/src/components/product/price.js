@@ -1,9 +1,9 @@
 /** @jsx jsx */
-import { jsx } from '@theme-ui/core';
-import VisuallyHidden from '@reach/visually-hidden';
+import { jsx } from "@theme-ui/core";
+import VisuallyHidden from "@reach/visually-hidden";
 
-import formatPrice from '../../utils/formatPrice';
-import Box from '../box';
+import formatPrice from "../../utils/formatPrice";
+import Box from "../box";
 
 const Price = ({ compareAtPrice, price, ...props }) => {
   const isOnSale = !!compareAtPrice;
@@ -13,12 +13,12 @@ const Price = ({ compareAtPrice, price, ...props }) => {
     <Box
       as="dl"
       sx={{
-        display: 'inline-flex',
-        flexFlow: 'row wrap',
-        '& > div': {
-          display: 'inline-block',
+        display: "inline-flex",
+        flexFlow: "row wrap",
+        "& > div": {
+          display: "inline-block",
         },
-        'dt, dd': {
+        "dt, dd": {
           m: 0,
           p: 0,
         },
@@ -36,8 +36,8 @@ const Price = ({ compareAtPrice, price, ...props }) => {
           <dd>
             <span
               sx={{
-                fontWeight: 'bold',
-                color: 'primary',
+                fontWeight: "bold",
+                color: "primary",
               }}
             >
               {formatPrice(salePrice)}
@@ -53,8 +53,8 @@ const Price = ({ compareAtPrice, price, ...props }) => {
           <span
             sx={{
               color: "grays.400",
-              fontWeight: isOnSale ? 'regular' : 'bold',
-              textDecoration: isOnSale ? 'line-through' : null,
+              fontWeight: isOnSale ? "regular" : "bold",
+              textDecoration: isOnSale ? "line-through" : null,
             }}
           >
             {formatPrice(regularPrice)}

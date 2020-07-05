@@ -10,10 +10,10 @@ export const root = {
 
 export const a = {
   color: "link",
-  textDecoration: 'none',
-  '&:hover, &:focus, &:active': {
-    textDecoration: 'underline'
-  }
+  textDecoration: "none",
+  "&:hover, &:focus, &:active": {
+    textDecoration: "underline",
+  },
 };
 
 export const h1 = {

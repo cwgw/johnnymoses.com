@@ -4,7 +4,7 @@ import useSWR from "swr";
 
 import { useSanityClient } from "../context/sanityClient";
 import { pageQuery, productQuery } from "../utils/sanityQueries";
-import Box from '../components/box';
+import Box from "../components/box";
 
 import Page from "../templates/page";
 import Product from "../templates/product";
@@ -36,14 +36,14 @@ const PreviewPage = ({ documentId, revision }) => {
 
   const { data, error } = useSWR([documentId, revision], fetcher);
 
-  if (typeof data === 'undefined' && !error) {
+  if (typeof data === "undefined" && !error) {
     return (
       <Box
         variant="container"
         sx={{
-          textAlign: 'center',
+          textAlign: "center",
           p: 4,
-          backgroundColor: 'grays.800',
+          backgroundColor: "grays.800",
         }}
       >
         Loading…
@@ -54,18 +54,18 @@ const PreviewPage = ({ documentId, revision }) => {
   if (error) {
     console.error(error);
     return (
-      <Box variant="container" p={3} sx={{ textAlign: 'center' }}>
+      <Box variant="container" p={3} sx={{ textAlign: "center" }}>
         Couldn't load preview data.
       </Box>
     );
   }
-  
+
   switch (data._type) {
-    case 'page': {
-      return <Page previewData={data} />
+    case "page": {
+      return <Page previewData={data} />;
     }
-    case 'product': {
-      return <Product previewData={data} />
+    case "product": {
+      return <Product previewData={data} />;
     }
     default: {
       return null;

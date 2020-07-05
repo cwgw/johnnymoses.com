@@ -8,11 +8,9 @@ import ProductCard from "../product/card";
 
 const ProductGridModule = ({ title, products }) => {
   return (
-    <Box variant="container" >
-      {title && (
-        <Heading px={4}>{title}</Heading>
-      )}
-      <Grid px={4} columns={[ 1, 2, 3 ]} >
+    <Box variant="container">
+      {title && <Heading px={4}>{title}</Heading>}
+      <Grid px={4} columns={[1, 2, 3]}>
         {products.map(product => (
           <ProductCard key={product._id} {...product} />
         ))}

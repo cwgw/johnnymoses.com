@@ -1,10 +1,14 @@
 /** @jsx jsx */
-import { jsx } from '@theme-ui/core';
+import { jsx } from "@theme-ui/core";
 
-import { useCheckout, useCartTotals, useCartCount } from '../../context/shopifyClient'
-import Button from '../button';
-import Heading from '../heading';
-import Box from '../box'
+import {
+  useCheckout,
+  useCartTotals,
+  useCartCount,
+} from "../../context/shopifyClient";
+import Button from "../button";
+import Heading from "../heading";
+import Box from "../box";
 
 const OrderSummary = props => {
   const checkout = useCheckout();
@@ -12,20 +16,20 @@ const OrderSummary = props => {
   const isEmpty = cartCount < 1;
   const { subtotal, total, tax } = useCartTotals();
   const rows = [
-    ['Subtotal', subtotal],
-    ['Taxes', tax],
-    ['Estimated total', total],
+    ["Subtotal", subtotal],
+    ["Taxes", tax],
+    ["Estimated total", total],
   ];
 
   return (
     <Box
       sx={{
-        backgroundColor: 'grays.900',
+        backgroundColor: "grays.900",
         borderRadius: 3,
-        display: 'flex',
-        flexFlow: 'column nowrap',
-        alignItems: 'stretch',
-        textAlign: 'center',
+        display: "flex",
+        flexFlow: "column nowrap",
+        alignItems: "stretch",
+        textAlign: "center",
         py: 3,
         px: 4,
       }}
@@ -44,18 +48,18 @@ const OrderSummary = props => {
         <div
           key={name + value}
           sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
+            display: "flex",
+            justifyContent: "space-between",
             py: 3,
             border: 0,
-            '&:nth-last-of-type(n + 2)': {
+            "&:nth-last-of-type(n + 2)": {
               borderBottom: 1,
-              borderStyle: 'solid',
-              borderColor: 'lightGray',
+              borderStyle: "solid",
+              borderColor: "lightGray",
             },
-            '&:last-of-type': {
+            "&:last-of-type": {
               fontSize: 3,
-              fontWeight: 'bold',
+              fontWeight: "bold",
             },
           }}
         >

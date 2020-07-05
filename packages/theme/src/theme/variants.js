@@ -1,15 +1,15 @@
 export const buttons = {
   disabled: {
     opacity: 0.5,
-    cursor: 'not-allowed',
+    cursor: "not-allowed",
   },
-  
+
   primary: {
     borderWidth: 1,
     color: "text",
-    ':disabled': {
-      variant: 'buttons.disabled'
-    }
+    ":disabled": {
+      variant: "buttons.disabled",
+    },
   },
 
   secondary: {
@@ -17,14 +17,14 @@ export const buttons = {
     borderColor: "grays.300",
     backgroundColor: "grays.300",
     color: "white",
-    ':disabled': {
-      variant: 'buttons.disabled'
-    }
+    ":disabled": {
+      variant: "buttons.disabled",
+    },
   },
 
   link: {
     padding: 0,
-    variant: 'styles.a',
+    variant: "styles.a",
   },
 };
 
@@ -48,15 +48,15 @@ export const links = {
   },
 
   fill: {
-    '::after': {
-      position: 'absolute',
+    "::after": {
+      position: "absolute",
       top: 0,
       right: 0,
       bottom: 0,
       left: 0,
       content: "''",
-    }
-  }  
+    },
+  },
 };
 
 export const text = {
@@ -83,11 +83,11 @@ export const text = {
   },
 
   body: {
-    fontWeight: 'normal',
+    fontWeight: "normal",
     fontSize: 2,
-    fontFamily: 'body',
-    color: 'text',
-  }
+    fontFamily: "body",
+    color: "text",
+  },
 };
 
 export const formFields = {
@@ -98,9 +98,9 @@ export const formFields = {
 };
 
 export const container = {
-  maxWidth: 'full',
-  mx: 'auto',
-}
+  maxWidth: "full",
+  mx: "auto",
+};
 
 export const utils = {
   span: {
@@ -113,27 +113,27 @@ export const utils = {
   },
 
   visuallyHidden: {
-    position: 'absolute',
-    width: '1px',
-    height: '1px',
-    padding: '0',
-    margin: '-1px',
-    border: '0',
-    clip: 'rect(0 0 0 0)',
-    overflow: 'hidden',
+    position: "absolute",
+    width: "1px",
+    height: "1px",
+    padding: "0",
+    margin: "-1px",
+    border: "0",
+    clip: "rect(0 0 0 0)",
+    overflow: "hidden",
   },
 };
 
 export const skipNav = {
-  variant: 'utils.visuallyHidden',
-  '&:focus': {
-    width: 'auto',
-    height: 'auto',
+  variant: "utils.visuallyHidden",
+  "&:focus": {
+    width: "auto",
+    height: "auto",
     px: 3,
     py: 2,
     m: 0,
-    backgroundColor: 'background',
-    clip: 'initial',
-    overflow: 'visible',
-  }
-}
+    backgroundColor: "background",
+    clip: "initial",
+    overflow: "visible",
+  },
+};

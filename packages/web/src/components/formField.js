@@ -6,7 +6,7 @@ import Box from "./box";
 import Label from "./label";
 import Input from "./input";
 import Textarea from "./textarea";
-import Quantity from './quantity'
+import Quantity from "./quantity";
 
 const baseStyles = {
   mb: 3,
@@ -18,7 +18,7 @@ const FormField = React.forwardRef(
     const components = {
       textarea: Textarea,
       quantity: Quantity,
-    }
+    };
     const InputElement = components[type] || Input;
     return (
       <Box

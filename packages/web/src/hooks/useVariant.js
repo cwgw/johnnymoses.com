@@ -1,8 +1,8 @@
-import React from 'react';
-import isEqualWith from 'lodash/isEqualWith';
-import get from 'lodash/get';
+import React from "react";
+import isEqualWith from "lodash/isEqualWith";
+import get from "lodash/get";
 
-import { client, useAddItemToCart } from '../context/shopifyClient'
+import { client, useAddItemToCart } from "../context/shopifyClient";
 
 const useVariant = ({ handle }) => {
   const addItemToCart = useAddItemToCart();
@@ -13,20 +13,17 @@ const useVariant = ({ handle }) => {
 
   const { id: variantId, available: isAvailable } = variant;
 
-  React.useEffect(
-    () => {
-      fetchProduct(handle);
-      async function fetchProduct(handle) {
-        try {
-          product.current = await client.product.fetchByHandle(handle)
-          setVariant(product.current.variants[0]);
-        } catch (error) {
-          console.error(error);
-        }  
+  React.useEffect(() => {
+    fetchProduct(handle);
+    async function fetchProduct(handle) {
+      try {
+        product.current = await client.product.fetchByHandle(handle);
+        setVariant(product.current.variants[0]);
+      } catch (error) {
+        console.error(error);
       }
-    },
-    [handle]
-  );
+    }
+  }, [handle]);
 
   const handleOptionChange = React.useCallback(
     (name, value) => {
@@ -38,14 +35,15 @@ const useVariant = ({ handle }) => {
       });
 
       const selectedVariant = product.current.variants.find(
-        ({ selectedOptions }) => isEqualWith(newOptions, selectedOptions, (a, b) => {
-          for (let i = 0; i < a.length; i++) {
-            if (a[i].name !== b[i].name || a[i].value !== b[i].value) {
-              return false;
+        ({ selectedOptions }) =>
+          isEqualWith(newOptions, selectedOptions, (a, b) => {
+            for (let i = 0; i < a.length; i++) {
+              if (a[i].name !== b[i].name || a[i].value !== b[i].value) {
+                return false;
+              }
             }
-          }
-          return true;
-        })
+            return true;
+          })
       );
 
       if (selectedVariant) {
@@ -57,12 +55,12 @@ const useVariant = ({ handle }) => {
       }
     },
     [variant]
-  )
+  );
 
   const handleQuantityChange = React.useCallback(
-    (input) => {
-      let value = get(input, 'target.value', input);
-      if (typeof value === 'string') {
+    input => {
+      let value = get(input, "target.value", input);
+      if (typeof value === "string") {
         value = parseInt(value, 10);
       }
       setQuantity(value);
@@ -70,21 +68,18 @@ const useVariant = ({ handle }) => {
     [setQuantity]
   );
 
-  const handleAddItemToCart = React.useCallback(
-    () => {
-      if (isAvailable) {
-        addItem();
-      }
+  const handleAddItemToCart = React.useCallback(() => {
+    if (isAvailable) {
+      addItem();
+    }
 
-      async function addItem() {
-        setStatus(true);
-        console.log({variantId, quantity })
-        await addItemToCart(variantId, quantity);
-        setStatus(false);
-      }
-    },
-    [addItemToCart, setStatus, isAvailable, variantId, quantity]
-  );
+    async function addItem() {
+      setStatus(true);
+      console.log({ variantId, quantity });
+      await addItemToCart(variantId, quantity);
+      setStatus(false);
+    }
+  }, [addItemToCart, setStatus, isAvailable, variantId, quantity]);
 
   return {
     isAdding,
@@ -94,7 +89,7 @@ const useVariant = ({ handle }) => {
     handleOptionChange,
     handleQuantityChange,
     handleAddItemToCart,
-  }
+  };
 };
 
 export default useVariant;

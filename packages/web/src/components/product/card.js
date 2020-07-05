@@ -8,10 +8,10 @@ import Heading from "../heading";
 import Image from "../image";
 import Link from "../link";
 
-import Form from './form';
+import Form from "./form";
 
 const ProductCard = props => {
-  console.log({ props })
+  console.log({ props });
   const {
     content: { main, shopify },
     _type,
@@ -27,7 +27,7 @@ const ProductCard = props => {
         border: "1px solid",
         borderColor: "grays.700",
         flexFlow: "column nowrap",
-        textAlign: 'center',
+        textAlign: "center",
       }}
     >
       {main.mainImage && (
@@ -37,18 +37,18 @@ const ProductCard = props => {
       )}
       <Flex
         sx={{
-          flexFlow: 'column nowrap',
-          flexBasis: '100%',
+          flexFlow: "column nowrap",
+          flexBasis: "100%",
           p: 3,
         }}
       >
-        <Heading as="h4" variant="body" mb={3} >
+        <Heading as="h4" variant="body" mb={3}>
           <Link
             to={isThirdParty ? main.url : `/store/${main.slug.current}`}
             variant="fill"
             sx={{
-              color: 'inherit',
-              textDecoration: 'inherit',
+              color: "inherit",
+              textDecoration: "inherit",
             }}
           >
             {main.title}
@@ -63,18 +63,18 @@ const ProductCard = props => {
             {...shopify}
             withPrice
             sx={{
-              display: 'flex',
-              flexFlow: 'column nowrap',
-              alignItems: 'stretch',
-              mt: 'auto',
+              display: "flex",
+              flexFlow: "column nowrap",
+              alignItems: "stretch",
+              mt: "auto",
               dl: {
-                alignSelf: 'center',
+                alignSelf: "center",
                 mb: 3,
               },
               button: {
-                position: 'relative',
+                position: "relative",
                 zIndex: 1,
-              }
+              },
             }}
           />
         )}

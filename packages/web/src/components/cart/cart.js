@@ -1,22 +1,22 @@
 /** @jsx jsx */
-import { jsx } from 'theme-ui'
+import { jsx } from "theme-ui";
 
-import Heading from '../heading';
-import Flex from '../flex';
-import LineItemList from './lineItems'
-import Summary from './summary';
+import Heading from "../heading";
+import Flex from "../flex";
+import LineItemList from "./lineItems";
+import Summary from "./summary";
 
-const Cart = () => {  
+const Cart = () => {
   return (
     <Flex
       sx={{
         variant: "container",
-        flexWrap: 'wrap',
+        flexWrap: "wrap",
       }}
     >
       <Heading
         sx={{
-          width: '100%',
+          width: "100%",
           px: 4,
         }}
       >
@@ -31,15 +31,15 @@ const Cart = () => {
       />
       <Summary
         sx={{
-          ml: 'auto',
+          ml: "auto",
           mb: 4,
-          alignSelf: 'start',
+          alignSelf: "start",
           flexBasis: 380,
           flexGrow: 1,
         }}
       />
     </Flex>
-  )
-}
+  );
+};
 
 export default Cart;
