@@ -1,29 +1,26 @@
-// import React from 'react';
 import S from "@sanity/desk-tool/structure-builder";
-// import Emoji from 'a11y-react-emoji'
+import IframePreview from "../src/components/previews/iframePreview";
 
-// const Icon = () => <Emoji style={{ fontSize: '2rem' }} symbol='🛍️' />
-
-// export const ProductMenuItem = S.listItem()
-//   .title("Products")
-//   // .icon(Icon)
-//   .child(
-//     S.documentTypeList("product")
-//       .title("Products")
-//       .menuItems(S.documentTypeList("product").getMenuItems())
-//       // .filter('_type == $type && subscription != true')
-//       .filter("_type == $type")
-//       .params({ type: "product" })
-//   );
+const remoteURL = "https://johnnymoses.netlify.app/preview";
+const localURL = "http://localhost:8000/preview";
+const previewURL =
+  window.location.hostname === "localhost" ? localURL : remoteURL;
 
 export const ProductMenuItem = S.listItem()
   .title("Products")
-  // .icon(Icon)
   .child(
     S.documentList()
       .filter('_type == "product" || _type == "productThirdParty"')
       .title("Products")
-    // .menuItems(S.documentTypeList("product").getMenuItems())
-    // .filter('_type == $type && subscription != true')
-    // .params({ type: "product" })
+      .child((documentId) => {
+        return S.document()
+          .documentId(documentId)
+          .views([
+            S.view.form(),
+            S.view
+              .component(IframePreview)
+              .options({ previewURL })
+              .title("Web Preview"),
+          ]);
+      })
   );

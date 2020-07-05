@@ -24,6 +24,8 @@ export const pageQuery = `{
   }
 }`;
 
+export const productQuery = `{ ... }`;
+
 function createQueryFragment(field) {
   if (Array.isArray(field)) {
     let fields = field.map(createQueryFragment).filter(Boolean);

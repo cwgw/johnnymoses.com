@@ -16,6 +16,8 @@
   },
   "dependencies": {
     "@johnnymoses.com/theme": "^1.0.0",
+    "@reach/listbox": "^0.10.5",
+    "@reach/skip-nav": "^0.10.5",
     "@reach/visually-hidden": "^0.10.4",
     "@sanity/block-content-to-react": "^2.0.7",
     "@sanity/client": "^1.149.16",
@@ -32,6 +34,7 @@
     "gatsby-source-sanity": "^6.0.0",
     "ical.js": "^1.4.0",
     "is-absolute-url": "^3.0.3",
+    "js-cookie": "^2.2.1",
     "lodash": "^4.17.15",
     "netlify-lambda": "^1.6.3",
     "prop-types": "^15.7.2",

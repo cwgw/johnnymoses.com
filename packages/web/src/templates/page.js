@@ -6,20 +6,17 @@ import { graphql } from "gatsby";
 import renderPageModules from "../utils/renderPageModules";
 
 const PageTemplate = ({ data, previewData }) => {
-  let modules = [];
-  if (previewData) {
-    modules = previewData.content.main.modules;
-  } else {
-    modules = data.sanityPage._rawContent.main.modules;
-  }
+  const { main } = previewData
+    ? previewData.content
+    : data.sanityPage._rawContent;
 
-  return <React.Fragment>{renderPageModules(modules)}</React.Fragment>;
+  return <React.Fragment>{renderPageModules(main.modules)}</React.Fragment>;
 };
 
 export default PageTemplate;
 
 export const query = graphql`
-  query SanityPage($id: String!) {
+  query sanityPage($id: String!) {
     sanityPage(id: { eq: $id }) {
       _rawContent(resolveReferences: { maxDepth: 9 })
     }

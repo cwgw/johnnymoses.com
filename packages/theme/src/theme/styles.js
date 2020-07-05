@@ -1,6 +1,6 @@
 export const root = {
   margin: 0,
-  fontFamily: "sans",
+  fontFamily: "body",
   fontWeight: "normal",
   fontSize: 2,
   "*": {
@@ -10,9 +10,10 @@ export const root = {
 
 export const a = {
   color: "link",
-  // "&, &:link, &:visited": {
-  //   color: "link",
-  // },
+  textDecoration: "none",
+  "&:hover, &:focus, &:active": {
+    textDecoration: "underline",
+  },
 };
 
 export const h1 = {

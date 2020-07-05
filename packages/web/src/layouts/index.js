@@ -4,10 +4,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Global } from "@emotion/core";
 import { graphql, useStaticQuery } from "gatsby";
+import { SkipNavLink, SkipNavContent } from "@reach/skip-nav";
 
 import Header from "../components/header";
 import Footer from "../components/footer";
-import { SanityConfigProvider } from "../context/sanityConfig";
+import { SanityClientProvider } from "../context/sanityClient";
+import { StoreContextProvider } from "../context/shopifyClient";
 import { globalStyles } from "@johnnymoses.com/theme";
 
 const sanityConfig = {
@@ -69,14 +71,18 @@ const Layout = ({ children }) => {
   const siteTitle = data.sanitySiteGlobal.content.metaInformation.metaTitle;
 
   return (
-    <SanityConfigProvider {...sanityConfig}>
-      <React.Fragment>
-        <Global styles={globalStyles} />
-        <Header navItems={headerNavItems} siteTitle={siteTitle} />
-        <main>{children}</main>
-        <Footer navItems={footerNavItems} />
-      </React.Fragment>
-    </SanityConfigProvider>
+    <StoreContextProvider>
+      <SanityClientProvider {...sanityConfig}>
+        <React.Fragment>
+          <SkipNavLink sx={{ variant: "skipNav" }} />
+          <Global styles={globalStyles} />
+          <Header navItems={headerNavItems} siteTitle={siteTitle} />
+          <SkipNavContent />
+          <main>{children}</main>
+          <Footer navItems={footerNavItems} />
+        </React.Fragment>
+      </SanityClientProvider>
+    </StoreContextProvider>
   );
 };
 

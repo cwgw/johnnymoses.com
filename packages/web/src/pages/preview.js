@@ -1,17 +1,17 @@
 import React from "react";
 import { Router } from "@reach/router";
 import useSWR from "swr";
-import sanityClient from "@sanity/client";
-import isEmpty from "lodash/isEmpty";
 
-import { useSanityConfig } from "../context/sanityConfig";
-import { pageQuery } from "../utils/sanityQueries";
+import { useSanityClient } from "../context/sanityClient";
+import { pageQuery, productQuery } from "../utils/sanityQueries";
+import Box from "../components/box";
 
 import Page from "../templates/page";
+import Product from "../templates/product";
 
 const PreviewPage = ({ documentId, revision }) => {
+  // disable links in page previews
   React.useEffect(() => {
-    // disable links in page previews
     window.___navigate = () => {
       alert(
         "This is a draft preview. Navigation to other pages from this page is disabled."
@@ -20,42 +20,57 @@ const PreviewPage = ({ documentId, revision }) => {
     };
   }, []);
 
-  const { config } = useSanityConfig();
-
-  const client = React.useMemo(
-    () =>
-      sanityClient({
-        ...config,
-        useCdn: false,
-        withCredentials: true,
-      }),
-    [config]
-  );
+  const { client } = useSanityClient();
 
   const fetcher = React.useCallback(
     async (documentId, revision) => {
-      const query = `*[_id == $documentId && _rev == $revision][0] { ..., _type == "page" => ${pageQuery} }`;
-      try {
-        const response = await client.fetch(query, { documentId, revision });
-        return response;
-      } catch (error) {
-        throw error;
-      }
+      const query = `*[_id == $documentId && _rev == $revision][0] {
+        ...,
+        _type == "page" => ${pageQuery},
+        _type == "product" => ${productQuery}
+      }`;
+      return client.fetch(query, { documentId, revision });
     },
     [client]
   );
 
   const { data, error } = useSWR([documentId, revision], fetcher);
 
-  if (isEmpty(data) || error) {
-    return <div>Couldn't load preview data.</div>;
+  if (typeof data === "undefined" && !error) {
+    return (
+      <Box
+        variant="container"
+        sx={{
+          textAlign: "center",
+          p: 4,
+          backgroundColor: "grays.800",
+        }}
+      >
+        Loading…
+      </Box>
+    );
   }
 
-  if (data) {
-    return <Page previewData={data} />;
+  if (error) {
+    console.error(error);
+    return (
+      <Box variant="container" p={3} sx={{ textAlign: "center" }}>
+        Couldn't load preview data.
+      </Box>
+    );
   }
 
-  return <div>Loading…</div>;
+  switch (data._type) {
+    case "page": {
+      return <Page previewData={data} />;
+    }
+    case "product": {
+      return <Product previewData={data} />;
+    }
+    default: {
+      return null;
+    }
+  }
 };
 
 const Previews = () => {

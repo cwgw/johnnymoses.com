@@ -2,6 +2,8 @@
 import { jsx } from "theme-ui";
 import PropTypes from "prop-types";
 
+import { useCartCount } from "../context/shopifyClient";
+
 import Flex from "./flex";
 import Link from "./link";
 
@@ -14,6 +16,8 @@ const getHref = ({ _type, link }) => {
 };
 
 const Header = ({ navItems, siteTitle }) => {
+  const cartCount = useCartCount();
+
   return (
     <header role="banner">
       <div
@@ -54,6 +58,9 @@ const Header = ({ navItems, siteTitle }) => {
               </li>
             ))}
           </Flex>
+          <Link to="/cart" variant="banner">
+            Cart ({cartCount})
+          </Link>
         </Flex>
       </div>
     </header>
