@@ -4,6 +4,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Global } from "@emotion/core";
 import { graphql, useStaticQuery } from "gatsby";
+import { SkipNavLink, SkipNavContent } from "@reach/skip-nav";
 
 import Header from "../components/header";
 import Footer from "../components/footer";
@@ -73,8 +74,10 @@ const Layout = ({ children }) => {
     <StoreContextProvider>
       <SanityClientProvider {...sanityConfig}>
         <React.Fragment>
+          <SkipNavLink sx={{ variant: 'skipNav' }} />
           <Global styles={globalStyles} />
           <Header navItems={headerNavItems} siteTitle={siteTitle} />
+          <SkipNavContent />
           <main>{children}</main>
           <Footer navItems={footerNavItems} />
         </React.Fragment>

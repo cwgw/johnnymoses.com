@@ -1,58 +1,32 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import React from "react";
-
-import formatPrice from "../../utils/formatPrice";
-
-import Box from "../box";
-import Button from "../button";
-import Flex from "../flex";
-import Heading from "../heading";
-import Image from "../image";
-import Listbox from '../listbox';
 
 import useVariant from '../../hooks/useVariant'
-import isNotDefaultOption from '../../utils/isNotDefaultOption'
-
 import BlockContent from "../page-blocks/blockContent";
-
+import Box from "../box";
+import Flex from "../flex";
 import Form from './form';
+import Heading from "../heading";
+import Image from "../image";
+import Options from './options'
 import Price from './price'
 
-const ProductCard = props => {
-  // console.log(props);
-  const {
-    content: { main, shopify },
-    _type,
-  } = props;
-
+const ProductCard = ({
+  content: {
+    main,
+    shopify
+  },
+}) => {
   const {
     variant,
     product,
     handleOptionChange,
   } = useVariant({ handle: shopify.handle });
 
-  // console.log({ product, variant })
-
-  // if (product.options) {
-  //   product.options.forEach(option => {
-  //     console.log(option);
-  //   })
-  // }
-
-  const isThirdParty = _type === "productThirdParty";
-
   return (
     <Flex>
       {main.mainImage && (
-        <Box
-          sx={{
-            width: 400,
-            flex: "0 0 auto",
-            border: "1px solid",
-            borderColor: "grays.800",
-          }}
-        >
+        <Box sx={{ flex: `0 0 400px` }} >
           <Image width={400} {...main.mainImage} />
         </Box>
       )}
@@ -65,37 +39,16 @@ const ProductCard = props => {
       >
         <span sx={{ variant: "text.eyebrow" }}>{main.productType}</span>
         <Heading as="h4">{main.title}</Heading>
+        {product.options && (
+          <Options
+            options={product.options}
+            selectedOptions={variant.selectedOptions}
+            onChange={handleOptionChange}
+          />
+        )}
+        <Price price={variant.priceV2} compareAtPrice={variant.compareAtPriceV2} />
+        <Form {...shopify} />
         <BlockContent blocks={main.productDescription} />
-        {product.options && product.options.map((option, i) => {
-          return (
-            <Listbox
-              key={option.id}
-              label={option.name}
-              options={option.values.map(({value}) => value)}
-              // onChange={e => handleOptionChange(option.name, variant.selectedOptions[i].value)}
-              onChange={value => handleOptionChange(option.name, value) }
-              // disabled={isOptionDisabled(option)}
-              value={variant.selectedOptions[i].value}
-            />
-          )
-        })}
-        <Flex
-          sx={{
-            mt: "auto",
-            alignItems: "baseline",
-          }}
-        >
-          {isThirdParty ? (
-            <Button to={main.url} variant="secondary" ml="auto">
-              Buy from <strong>{main.vendorName}</strong>
-            </Button>
-          ) : (
-            <React.Fragment>
-              <Price price={variant.priceV2} compareAtPrice={variant.compareAtPriceV2} />
-              <Form sx={{ ml: "auto" }} {...shopify} />
-            </React.Fragment>
-          )}
-        </Flex>
       </Flex>
     </Flex>
   );

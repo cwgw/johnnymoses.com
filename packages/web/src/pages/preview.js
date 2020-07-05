@@ -1,7 +1,6 @@
 import React from "react";
 import { Router } from "@reach/router";
 import useSWR from "swr";
-import isEmpty from "lodash/isEmpty";
 
 import { useSanityClient } from "../context/sanityClient";
 import { pageQuery, productQuery } from "../utils/sanityQueries";

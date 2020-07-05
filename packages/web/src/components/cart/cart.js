@@ -1,25 +1,44 @@
-import React from 'react'
+/** @jsx jsx */
+import { jsx } from 'theme-ui'
 
-import { useCartTotals, useCartItems, useCheckout } from '../../context/shopifyClient'
-import LineItem from './lineItem';
+import Heading from '../heading';
+import Flex from '../flex';
+import LineItemList from './lineItems'
+import Summary from './summary';
 
-const Cart = () => {
-  const { total } = useCartTotals()
-  const lineItems = useCartItems()
-  const openCheckout = useCheckout();
-  
+const Cart = () => {  
   return (
-    <div>
-      {lineItems.length > 0 ? (
-        <div>
-          {lineItems.map(item => (
-            <LineItem {...item} />
-          ))}
-        </div>
-      ) : (
-        <div>Cart is empty</div>
-      )}
-    </div>
+    <Flex
+      sx={{
+        variant: "container",
+        flexWrap: 'wrap',
+      }}
+    >
+      <Heading
+        sx={{
+          width: '100%',
+          px: 4,
+        }}
+      >
+        Your Cart
+      </Heading>
+      <LineItemList
+        sx={{
+          mb: 4,
+          flexBasis: 640,
+          flexGrow: 1,
+        }}
+      />
+      <Summary
+        sx={{
+          ml: 'auto',
+          mb: 4,
+          alignSelf: 'start',
+          flexBasis: 380,
+          flexGrow: 1,
+        }}
+      />
+    </Flex>
   )
 }
 

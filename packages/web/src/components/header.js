@@ -59,7 +59,7 @@ const Header = ({ navItems, siteTitle }) => {
             ))}
           </Flex>
           <Link to="/cart" variant="banner" >
-            Cart {cartCount}
+            Cart ({cartCount})
           </Link>
         </Flex>
       </div>

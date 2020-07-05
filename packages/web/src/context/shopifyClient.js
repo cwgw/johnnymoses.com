@@ -2,6 +2,8 @@ import React from "react";
 import ShopifyClient from "shopify-buy";
 import cookie from "js-cookie";
 
+import formatPrice from '../utils/formatPrice'
+
 const SHOPIFY_CHECKOUT_STORAGE_KEY = "shopify_checkout_id";
 
 const client = ShopifyClient.buildClient({
@@ -62,10 +64,10 @@ const initCustomer = setStore => {
 
 const StoreContextProvider = ({ children }) => {
   const [store, setStore] = React.useState(initialStoreState);
-  const [initStore, setInitStore] = React.useState(false);
+  const [isInitialized, setInitialized] = React.useState(false);
 
   React.useEffect(() => {
-    if (initStore === false) {
+    if (isInitialized === false) {
       const initializeCheckout = async () => {
         // Check for an existing cart.
         const isBrowser = typeof window !== "undefined";
@@ -77,8 +79,7 @@ const StoreContextProvider = ({ children }) => {
           try {
             const checkout = await fetchCheckout(store, existingCheckoutId);
             if (!checkout.completedAt) {
-              setCheckoutInState(checkout, setStore);
-              return;
+              return setCheckoutInState(checkout, setStore);
             }
           } catch (e) {
             localStorage.setItem(SHOPIFY_CHECKOUT_STORAGE_KEY, null);
@@ -86,13 +87,12 @@ const StoreContextProvider = ({ children }) => {
         }
 
         const newCheckout = await createNewCheckout(store);
-        setCheckoutInState(newCheckout, setStore);
+        return setCheckoutInState(newCheckout, setStore);
       };
       initCustomer(setStore);
-      initializeCheckout();
-      setInitStore(true);
+      initializeCheckout().then(setInitialized(true));
     }
-  }, [store, setStore, store.client.checkout, initStore]);
+  }, [store, setStore, store.client.checkout, isInitialized]);
 
   console.log("StoreContextProvider render");
 
@@ -101,6 +101,7 @@ const StoreContextProvider = ({ children }) => {
       value={{
         store,
         setStore,
+        isInitialized,
       }}
     >
       {children}
@@ -149,17 +150,15 @@ function useCartTotals() {
     store: { checkout },
   } = React.useContext(StoreContext);
 
-  const tax = checkout.totalTaxV2
-    ? `$${Number(checkout.totalTaxV2.amount).toFixed(2)}`
-    : "-";
-  const total = checkout.totalPriceV2
-    ? `$${Number(checkout.totalPriceV2.amount).toFixed(2)}`
-    : "-";
+  const { subtotalPriceV2, totalTaxV2, totalPriceV2 } = checkout
 
-  return {
-    tax,
-    total,
-  };
+  const totals = {
+    subtotal: subtotalPriceV2 ? formatPrice(subtotalPriceV2) : '-',
+    tax: totalTaxV2 ? formatPrice(totalTaxV2) : '-',
+    total: totalPriceV2 ? formatPrice(totalPriceV2) : '-',
+  }
+
+  return totals;
 }
 
 function useCartItems() {
@@ -292,6 +291,14 @@ function useToggleCart() {
   return toggleCart;
 }
 
+function useCheckoutStatus() {
+  const { isInitialized } = React.useContext(StoreContext);
+
+  return {
+    isInitialized
+  };
+}
+
 export {
   client,
   StoreContextProvider,
@@ -306,5 +313,6 @@ export {
   useRemoveItemFromCart,
   useUpdateItemsFromCart,
   useCheckout,
+  useCheckoutStatus,
   useToggleCart,
 };

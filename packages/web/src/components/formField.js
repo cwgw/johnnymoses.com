@@ -6,6 +6,7 @@ import Box from "./box";
 import Label from "./label";
 import Input from "./input";
 import Textarea from "./textarea";
+import Quantity from './quantity'
 
 const baseStyles = {
   mb: 3,
@@ -14,7 +15,11 @@ const baseStyles = {
 const FormField = React.forwardRef(
   ({ label, name, required, type, className, ...props }, ref) => {
     const id = React.useRef(uniqueId("input"));
-    const InputElement = type === "textarea" ? Textarea : Input;
+    const components = {
+      textarea: Textarea,
+      quantity: Quantity,
+    }
+    const InputElement = components[type] || Input;
     return (
       <Box
         className={className}
@@ -29,7 +34,7 @@ const FormField = React.forwardRef(
           required={required}
           ref={ref}
           id={id.current}
-          type={type === "textarea" ? null : type}
+          type={components[type] ? null : type}
           name={name}
           autoComplete={getAutocomplete(name)}
           {...props}

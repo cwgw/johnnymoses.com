@@ -21,6 +21,11 @@ export const buttons = {
       variant: 'buttons.disabled'
     }
   },
+
+  link: {
+    padding: 0,
+    variant: 'styles.a',
+  },
 };
 
 export const links = {
@@ -106,4 +111,29 @@ export const utils = {
     left: 0,
     display: "block",
   },
+
+  visuallyHidden: {
+    position: 'absolute',
+    width: '1px',
+    height: '1px',
+    padding: '0',
+    margin: '-1px',
+    border: '0',
+    clip: 'rect(0 0 0 0)',
+    overflow: 'hidden',
+  },
 };
+
+export const skipNav = {
+  variant: 'utils.visuallyHidden',
+  '&:focus': {
+    width: 'auto',
+    height: 'auto',
+    px: 3,
+    py: 2,
+    m: 0,
+    backgroundColor: 'background',
+    clip: 'initial',
+    overflow: 'visible',
+  }
+}

@@ -7,7 +7,7 @@ const defaultProps = {
 };
 
 const Heading = React.forwardRef(({ as, ...props }, ref) => (
-  <Box ref={ref} as={as} variant={`styles.${as}`} _themeKey="text" {...props} />
+  <Box ref={ref} as={as} variant={`styles.${as}`} {...props} __themeKey="text" />
 ));
 
 Heading.defaultProps = defaultProps;
