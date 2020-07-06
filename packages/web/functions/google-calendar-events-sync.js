@@ -49,7 +49,7 @@ module.exports.handler = async event => {
 
   const eventDocument = {
     _type: "event",
-    _id: data.id.toString(data.htmlLink),
+    _id: id,
   };
 
   const eventDocumentData = {
