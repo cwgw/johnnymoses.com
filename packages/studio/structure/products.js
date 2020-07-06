@@ -12,7 +12,7 @@ export const ProductMenuItem = S.listItem()
     S.documentList()
       .filter('_type == "product" || _type == "productThirdParty"')
       .title("Products")
-      .child((documentId) => {
+      .child(documentId => {
         return S.document()
           .documentId(documentId)
           .views([
