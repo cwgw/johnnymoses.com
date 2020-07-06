@@ -67,10 +67,10 @@ module.exports.handler = async event => {
   return client
     .transaction()
     .createIfNotExists(eventDocument)
-    .patch(data.id.toString(), patch => patch.set(eventDocumentData))
+    .patch(id, patch => patch.set(eventDocumentData))
     .commit()
     .then(() => {
-      console.log(`Successfully updated/patched Product ${data.id} in Sanity`);
+      console.log(`Successfully updated/patched Product ${id} in Sanity`);
     })
     .catch(error => {
       console.error("Sanity error:", error);
