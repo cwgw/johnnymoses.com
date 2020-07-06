@@ -31,6 +31,9 @@ module.exports.handler = async event => {
 
   let data;
 
+  console.log(event);
+  console.log(JSON.stringify(event));
+
   try {
     data = JSON.parse(event.body);
     // do validation here
