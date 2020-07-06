@@ -9,9 +9,9 @@
     "build": "sanity build",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
     "graphql-deploy": "sanity graphql deploy --playground --force",
+    "precommit": "lint-staged",
     "start": "sanity start",
-    "test": "sanity check",
-    "precommit": "lint-staged"
+    "test": "sanity check"
   },
   "dependencies": {
     "@johnnymoses.com/theme": "^1.0.0",
