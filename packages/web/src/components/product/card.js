@@ -11,7 +11,7 @@ import Link from "../link";
 import Form from "./form";
 
 const ProductCard = props => {
-  console.log({ props });
+  // console.log({ props });
   const {
     content: { main, shopify },
     _type,

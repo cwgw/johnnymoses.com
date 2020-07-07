@@ -94,7 +94,7 @@ const StoreContextProvider = ({ children }) => {
     }
   }, [store, setStore, store.client.checkout, isInitialized]);
 
-  console.log("StoreContextProvider render");
+  // console.log("StoreContextProvider render");
 
   return (
     <StoreContext.Provider

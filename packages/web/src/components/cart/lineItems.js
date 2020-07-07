@@ -172,9 +172,9 @@ const LineItemList = props => {
   const items = useCartItems();
   const { isInitialized } = useCheckoutStatus();
 
-  if (isInitialized && items.length < 1) {
-    console.log(`isInitialized && items.length < 1`);
-  }
+  // if (isInitialized && items.length < 1) {
+  //   console.log(`isInitialized && items.length < 1`);
+  // }
 
   if (items.length < 1) {
     return (
