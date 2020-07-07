@@ -26,15 +26,15 @@ const client = sanityClient({
 });
 
 module.exports.handler = async event => {
+  console.log(event);
+  console.log(JSON.stringify(event));
+
   if (event.httpMethod !== "POST" || !event.body) {
     return statusReturn(400, "");
   }
 
   let data;
   let id;
-
-  console.log(event);
-  console.log(JSON.stringify(event));
 
   try {
     data = JSON.parse(event.body);
