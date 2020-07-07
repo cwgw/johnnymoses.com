@@ -75,7 +75,7 @@ const useVariant = ({ handle }) => {
 
     async function addItem() {
       setStatus(true);
-      console.log({ variantId, quantity });
+      // console.log({ variantId, quantity });
       await addItemToCart(variantId, quantity);
       setStatus(false);
     }
