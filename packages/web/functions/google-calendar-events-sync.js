@@ -70,7 +70,7 @@ module.exports.handler = async event => {
     .patch(id, patch => patch.set(eventDocumentData))
     .commit()
     .then(() => {
-      console.log(`Successfully updated/patched Product ${id} in Sanity`);
+      console.log(`Successfully updated/patched Event '${id}' in Sanity`);
     })
     .catch(error => {
       console.error("Sanity error:", error);
