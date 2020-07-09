@@ -28,7 +28,7 @@ export default {
       name: "channelExpiration",
       type: "datetime",
       readOnly: true,
-    }
+    },
   ],
   preview: {
     select: {
