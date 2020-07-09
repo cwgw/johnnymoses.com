@@ -1,6 +1,6 @@
 [build]
-  base = "/"
+  base = "./"
   command = "yarn run build:web"
-  publish = "/packages/web/public"
-  function = "./functions"
+  publish = "./public"
+  functions = "./functions"
   

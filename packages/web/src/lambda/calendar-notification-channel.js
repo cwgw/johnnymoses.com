@@ -1,6 +1,8 @@
 const { google } = require("googleapis");
 const { v5: uuidV5 } = require("uuid");
 
+const { returnResponse } = require("./utils/request-config");
+
 const {
   GOOGLE_SERVICE_ACCT_KEY,
   SANITY_API_TOKEN,
@@ -8,23 +10,9 @@ const {
   SANITY_DATASET,
 } = process.env;
 
-const headers = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "Content-Type",
-  "Content-Type": "application/json",
-};
-
-const statusReturn = (code, body) => {
-  return {
-    statusCode: code,
-    headers,
-    body: JSON.stringify(body),
-  };
-};
-
 module.exports.handler = event => {
   if (event.httpMethod !== "POST" || !event.body) {
-    return statusReturn(400, "");
+    return returnResponse(400, "");
   }
 
   let data;
@@ -35,7 +23,7 @@ module.exports.handler = event => {
     credentials = JSON.parse(GOOGLE_SERVICE_ACCT_KEY);
   } catch (error) {
     console.error(error);
-    return statusReturn(400, { error: "Couldn't parse request body" });
+    return returnResponse(400, { error: "Couldn't parse request body" });
   }
 
   console.log(data);

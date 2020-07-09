@@ -4,7 +4,7 @@ const headers = {
   "Content-Type": "application/json",
 };
 
-const statusReturn = (code, body) => {
+const returnResponse = (code, body) => {
   return {
     statusCode: code,
     headers,
@@ -12,7 +12,4 @@ const statusReturn = (code, body) => {
   };
 };
 
-module.exports.handler = event => {
-  console.log(JSON.stringify(event));
-  return statusReturn(200, "");
-};
+export { returnResponse };
