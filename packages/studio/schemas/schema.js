@@ -13,6 +13,7 @@ import productVariant from "./types/productVariant";
 import product from "./types/product";
 import collection from "./types/collection";
 import event from "./types/event";
+import calendar from "./types/calendar";
 
 // Page Blocks
 // import formModule from "./pageModules/formModule";
@@ -72,6 +73,7 @@ export default createSchema({
     productVariant,
     product,
     collection,
+    calendar,
 
     ...Object.values(PageBlockSchemas),
 

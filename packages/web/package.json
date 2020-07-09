@@ -5,13 +5,14 @@
   "version": "0.1.0",
   "author": "Charlie Wright <charlie@cwgw.co>",
   "scripts": {
-    "build": "gatsby build",
+    "build": "gatsby build && yarn run build:lambda",
+    "build:lambda": "netlify-lambda build src/lambda",
     "clean": "gatsby clean",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
     "precommit": "lint-staged",
     "preload-fonts": "gatsby-preload-fonts",
     "serve": "gatsby serve",
-    "start": "yarn gatsby develop",
+    "start": "gatsby develop",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
   },
   "dependencies": {
@@ -32,6 +33,7 @@
     "gatsby-plugin-react-helmet": "^3.3.6",
     "gatsby-plugin-theme-ui": "^0.3.0",
     "gatsby-source-sanity": "^6.0.0",
+    "googleapis": "^52.1.0",
     "ical.js": "^1.4.0",
     "is-absolute-url": "^3.0.3",
     "js-cookie": "^2.2.1",

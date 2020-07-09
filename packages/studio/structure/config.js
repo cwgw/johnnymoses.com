@@ -31,5 +31,13 @@ export const ConfigMenu = S.listItem()
               .filter("_type == $type")
               .params({ type: "form" })
           ),
+        S.listItem()
+          .title("Calendars")
+          .child(
+            S.documentTypeList("calendar")
+              .title("Calendars")
+              .filter("_type == $type")
+              .params({ type: "calendar" })
+          ),
       ])
   );
