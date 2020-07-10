@@ -7,8 +7,6 @@ import styles from "./styles.css";
 
 const appToken = process.env.SANITY_STUDIO_APP_TOKEN;
 
-console.log({ client });
-
 const Widget = ({ displayProperties }) => {
   const [calendars, setCalendars] = React.useState([]);
 
@@ -29,13 +27,14 @@ const Widget = ({ displayProperties }) => {
 
   const registerNotificationChannel = obj => {
     fetch(
+      // "http://localhost:8888/.netlify/functions/calendar-notification-channel",
       "https://johnnymoses.netlify.app/.netlify/functions/calendar-notification-channel",
       {
         method: "POST",
         headers: {
-          "X-Johnnymoses-App-Token": appToken,
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Headers": "Content-Type",
+          "X-App-Token": appToken,
+          // "Access-Control-Allow-Origin": "*",
+          // "Access-Control-Allow-Headers": "Content-Type",
           "Content-Type": "application/json",
         },
         body: JSON.stringify(obj),

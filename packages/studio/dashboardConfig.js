@@ -17,7 +17,12 @@ export default {
     {
       name: "google-calendar-list",
       options: {
-        displayProperties: ["nextSyncToken", "channelId", "channelExpiration"],
+        displayProperties: [
+          "resourceId",
+          "channelId",
+          "channelExpiration",
+          "nextSyncToken",
+        ],
       },
       layout: {
         width: "medium",

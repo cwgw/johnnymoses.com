@@ -18,6 +18,12 @@ export default {
       readOnly: true,
     },
     {
+      title: "Notification Resource ID",
+      name: "resourceId",
+      type: "datetime",
+      readOnly: true,
+    },
+    {
       title: "Notification Channel ID",
       name: "channelId",
       type: "string",
@@ -27,6 +33,12 @@ export default {
       title: "Notification Channel Expiration",
       name: "channelExpiration",
       type: "datetime",
+      readOnly: true,
+    },
+    {
+      title: "Notification Channel Token",
+      name: "channelToken",
+      type: "string",
       readOnly: true,
     },
   ],
