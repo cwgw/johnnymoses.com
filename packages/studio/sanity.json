@@ -15,8 +15,7 @@
     "@sanity/default-login",
     "@sanity/desk-tool",
     "@sanity/vision",
-    "google-calendar-list",
-    "tabs"
+    "google-calendar-list"
   ],
   "env": {
     "development": {
