@@ -4,12 +4,18 @@ const headers = {
   "Content-Type": "application/json",
 };
 
-const returnResponse = (code, body) => {
+const returnResponse = (code, body, _headers) => {
   return {
     statusCode: code,
-    headers,
+    headers: _headers || headers,
     body: JSON.stringify(body),
   };
 };
 
-export { returnResponse };
+const base64Encode = str => Buffer.from(str, "utf-8").toString("base64");
+const base64Decode = str => Buffer.from(str, "base64").toString("utf-8");
+
+const encode = (...args) => base64Encode(args.join(" "));
+const decode = str => base64Decode(str).split(" ");
+
+export { returnResponse, encode, decode };
