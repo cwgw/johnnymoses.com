@@ -2,6 +2,7 @@ const { google } = require("googleapis");
 const sanityClient = require("@sanity/client");
 const crypto = require("crypto");
 
+const { htmlToBlocks } = require('./utils/html-to-blocks')
 const { decode, returnResponse, returnError } = require("./utils/request-config");
 
 const {
@@ -128,6 +129,15 @@ module.exports.handler = async event => {
         _type: "event",
         _id: item.id,
       };
+
+      let description;
+      if (item.description) {
+        const [error, blocks] = htmlToBlocks(item.description);
+        if (error) {
+          console.error(error);
+        }
+        description = blocks;
+      }
       
       const eventDocumentData = item.status === 'cancelled'
         ? {
@@ -139,6 +149,7 @@ module.exports.handler = async event => {
           "content.main.end": item.end.dateTime,
           "content.main.location": item.location,
           "content.main.description": item.description,
+          "content.main.descriptionBlocks": description,
           "content.main.uid": item.iCalUID,
           "content.main.created": item.created,
           "content.main.updated": item.updated,
