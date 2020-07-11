@@ -42,13 +42,6 @@ export default {
     {
       name: "description",
       title: "Description",
-      type: "text",
-      description: 'Set through your calendar',
-      readOnly: true,
-    },
-    {
-      name: "descriptionBlocks",
-      title: "Description",
       type: "blockContent",
       description: 'Set through your calendar',
       readOnly: true,
