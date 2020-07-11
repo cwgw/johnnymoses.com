@@ -67,14 +67,14 @@ const EventCard = ({
           {title}
         </Heading>
       </header>
-      <BlockContent
+      {/* <BlockContent
         blocks={description}
         itemProp="description"
         sx={{
           mb: 4,
           color: "grays.400"
         }}
-      />
+      /> */}
       <Flex
         sx={{
           mt: "auto",
