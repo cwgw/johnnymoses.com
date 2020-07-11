@@ -107,8 +107,8 @@ module.exports.handler = async event => {
         returnError(`Could not fetch events from Google Calendar ${calendarId}`)
       );
 
-    if (response.status !== 200 || response.data) {
-      console.log("Unexpected response. Expected status 204\n", JSON.stringify(response));
+    if (response.status !== 200 || !response.data) {
+      console.log("Unexpected response. Expected status 200\n", JSON.stringify(response));
     } else {
       console.log("Successfully retrieved modified events");
     }
@@ -124,16 +124,21 @@ module.exports.handler = async event => {
       );
 
     const patchEvents = items.map(item => {
-      if (!item.start.dateTime) {
-        // item is probably deleted
-        console.log("\n", { event }, "\n",);
-        return Promise.resolve()
-      }
-      
       const eventDocument = {
         _type: "event",
         _id: item.id,
       };
+
+      if (item.status === 'cancelled') {
+        return client
+          .createIfNotExists(eventDocument)
+          .patch({ cancelled: true })
+          .commit()
+          .catch(
+            returnError("Sanity error")
+          );
+      }
+      
       const eventDocumentData = {
         "content.main.title": item.summary,
         "content.main.start": item.start.dateTime,

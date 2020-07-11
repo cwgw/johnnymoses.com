@@ -11,6 +11,12 @@ export default {
       readOnly: true,
     },
     {
+      name: "cancelled",
+      title: "Cancelled",
+      description: 'This event has been cancelled or deleted in your calendar',
+      readOnly: true,
+    },
+    {
       name: "start",
       title: "Start Date & Time",
       type: "datetime",
