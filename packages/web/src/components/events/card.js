@@ -8,6 +8,7 @@ import VisuallyHidden from "@reach/visually-hidden";
 
 import { createIcsDataUri } from "../../utils/iCalendar";
 
+import BlockContent from "../page-blocks/blockContent";
 import Heading from "../heading";
 import Text from "../text";
 import Box from "../box";
@@ -66,11 +67,13 @@ const EventCard = ({
           {title}
         </Heading>
       </header>
-      <Text
-        dangerouslySetInnerHTML={{ __html: description }}
-        mb={4}
-        color="grays.400"
+      <BlockContent
+        blocks={description}
         itemProp="description"
+        sx={{
+          mb: 4,
+          color: "grays.400"
+        }}
       />
       <Flex
         sx={{
