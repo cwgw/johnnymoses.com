@@ -32,7 +32,7 @@ module.exports.handler = async event => {
       .update(event.body)
       .digest("base64");
 
-      if (generatedHash !== hmac) {
+    if (generatedHash !== hmac) {
       return returnResponse(400, { error: "Invalid Webhook: HMAC mismatch" });
     }
 

@@ -1,4 +1,4 @@
-import Widget from './widget';
+import Widget from "./widget";
 
 export default {
   name: "google-calendar-list",

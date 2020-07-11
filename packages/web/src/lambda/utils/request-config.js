@@ -14,8 +14,10 @@ const returnResponse = (code, body, _headers) => {
 
 const returnError = message => error => {
   console.error(`${message}\n`, error);
-  return returnResponse(500, { error: "An internal server error has occurred" });
-}
+  return returnResponse(500, {
+    error: "An internal server error has occurred",
+  });
+};
 
 const base64Encode = str => Buffer.from(str, "utf-8").toString("base64");
 const base64Decode = str => Buffer.from(str, "base64").toString("utf-8");

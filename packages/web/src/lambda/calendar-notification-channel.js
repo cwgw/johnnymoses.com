@@ -1,9 +1,13 @@
 const { google } = require("googleapis");
 const { v5: uuidV5 } = require("uuid");
 const sanityClient = require("@sanity/client");
-const crypto = require('crypto');
+const crypto = require("crypto");
 
-const { encode, returnResponse, returnError } = require("./utils/request-config");
+const {
+  encode,
+  returnResponse,
+  returnError,
+} = require("./utils/request-config");
 
 const {
   GOOGLE_SERVICE_ACCT_KEY,
@@ -20,7 +24,8 @@ const client = sanityClient({
   useCdn: false,
 });
 
-const EVENTS_SYNC_ENDPOINT = "https://johnnymoses.netlify.app/.netlify/functions/calendar-events-sync/";
+const EVENTS_SYNC_ENDPOINT =
+  "https://johnnymoses.netlify.app/.netlify/functions/calendar-events-sync/";
 const UID_NAMESPACE = uuidV5("https://johnnymoses.netlify.app", uuidV5.URL);
 
 const hoursFromNowAsUnixTimestampInMiliseconds = (n = 1) => {
@@ -47,7 +52,7 @@ module.exports.handler = async event => {
 
   const appToken = event.headers["x-app-token"];
   const appMethod = event.headers["x-app-method"];
-  
+
   if (!appToken || appToken !== APP_TOKEN) {
     returnResponse(400, { error: `Invalid app token` });
   }
@@ -57,13 +62,13 @@ module.exports.handler = async event => {
   try {
     credentials = JSON.parse(GOOGLE_SERVICE_ACCT_KEY);
   } catch (error) {
-    returnError("Couldn't parse credentials")(error)
+    returnError("Couldn't parse credentials")(error);
   }
 
   try {
     calendarDocument = JSON.parse(event.body);
   } catch (error) {
-    returnError("Couldn't parse request body")(error)
+    returnError("Couldn't parse request body")(error);
   }
 
   const { calendarId, _id: documentId } = calendarDocument;
@@ -78,18 +83,16 @@ module.exports.handler = async event => {
     auth,
   });
 
-  if (appMethod === 'stop') {
+  if (appMethod === "stop") {
     const response = await calendar.channels
       .stop({
         requestBody: {
           id: calendarDocument.channelId,
           resourceId: calendarDocument.resourceId,
           token: calendarDocument.channelToken,
-        }
+        },
       })
-      .catch(
-        returnError("Could not stop notification channel")
-      );
+      .catch(returnError("Could not stop notification channel"));
 
     if (response.status !== 204) {
       console.log("Unexpected response. Expected status 204\n", response);
@@ -97,24 +100,28 @@ module.exports.handler = async event => {
       console.log("Successfully stopped Google Calendar notification channel");
     }
 
-    const fields = [ 'resourceId', 'channelId', 'channelExpiration', 'channelToken', 'nextSyncToken' ];
+    const fields = [
+      "resourceId",
+      "channelId",
+      "channelExpiration",
+      "channelToken",
+      "nextSyncToken",
+    ];
     await client
       .patch(documentId)
       .unset(fields)
       .commit()
-      .catch(
-        returnError(`Could not patch calendar '${documentId}'`)
-      );
+      .catch(returnError(`Could not patch calendar '${documentId}'`));
 
     console.log(`Successfully patched calendar '${documentId}' in Sanity`);
-    
+
     return returnResponse(200, "");
   }
 
   const hmac = crypto
-    .createHmac('sha256', APP_TOKEN)
+    .createHmac("sha256", APP_TOKEN)
     .update(`${calendarId} ${documentId}`)
-    .digest('hex');
+    .digest("hex");
 
   const params = {
     calendarId,
@@ -123,9 +130,9 @@ module.exports.handler = async event => {
       address: EVENTS_SYNC_ENDPOINT,
       type: "web_hook",
       token: encode(calendarId, documentId, hmac),
-      expiration: hoursFromNowAsUnixTimestampInMiliseconds(1/6),
-    }
-  }
+      expiration: hoursFromNowAsUnixTimestampInMiliseconds(1 / 6),
+    },
+  };
 
   const channel = await calendar.events
     .watch(params)
@@ -146,9 +153,7 @@ module.exports.handler = async event => {
     .patch(documentId)
     .set(documentData)
     .commit()
-    .catch(
-      returnError("Sanity error")
-    );
+    .catch(returnError("Sanity error"));
 
   console.log(`Successfully patched calendar '${documentId}' in Sanity`);
 

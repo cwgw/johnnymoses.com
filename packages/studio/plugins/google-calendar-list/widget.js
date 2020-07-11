@@ -1,29 +1,29 @@
 import React from "react";
 import { List } from "part:@sanity/components/lists/default";
-import Spinner from 'part:@sanity/components/loading/spinner'
+import Spinner from "part:@sanity/components/loading/spinner";
 import IntentButton from "part:@sanity/components/buttons/intent";
 import styles from "./styles.css";
-import ListItem from './listItem'
-import useSubscription from './useSubscription';
+import ListItem from "./listItem";
+import useSubscription from "./useSubscription";
 
 const query = "*[_type==$type]";
 const params = { type: "calendar" };
 
 const defaultProps = {
-  title: 'Calendar Notification Channels'
-}
+  title: "Calendar Notification Channels",
+};
 
 const Widget = ({ title }) => {
   const { items, error } = useSubscription(query, params);
 
   // loading
   let content = <Spinner center message="Loading..." />;
-  
+
   // error
   if (error) {
     content = <div>{error.message}</div>;
   }
-  
+
   if (items) {
     if (items.length > 0) {
       content = (
@@ -32,7 +32,7 @@ const Widget = ({ title }) => {
             <ListItem key={item._id} item={item} />
           ))}
         </List>
-      )
+      );
     } else {
       content = <div>Couldn't fetch any calendars</div>;
     }
@@ -45,7 +45,13 @@ const Widget = ({ title }) => {
       </header>
       <div className={styles.content}>{content}</div>
       <div className={styles.footer}>
-        <IntentButton bleed color="primary" kind="simple" intent="create" params={params}>
+        <IntentButton
+          bleed
+          color="primary"
+          kind="simple"
+          intent="create"
+          params={params}
+        >
           Create new calendar
         </IntentButton>
       </div>

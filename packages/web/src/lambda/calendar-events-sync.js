@@ -28,9 +28,9 @@ module.exports.handler = async event => {
 
   const [calendarId, documentId, hmac] = decode(channelToken);
   const generated = crypto
-    .createHmac('sha256', APP_TOKEN)
+    .createHmac("sha256", APP_TOKEN)
     .update(`${calendarId} ${documentId}`)
-    .digest('hex');
+    .digest("hex");
 
   if (hmac !== generated) {
     returnResponse(400, { error: `Invalid token` });
