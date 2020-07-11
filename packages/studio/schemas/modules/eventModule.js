@@ -13,6 +13,7 @@ export default {
     {
       name: "cancelled",
       title: "Cancelled",
+      type: "string",
       description: 'This event has been cancelled or deleted in your calendar',
       readOnly: true,
     },
