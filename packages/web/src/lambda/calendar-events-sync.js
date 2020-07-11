@@ -98,7 +98,7 @@ module.exports.handler = async event => {
     }
 
     // fetch modified events
-    const res = await calendar.events
+    const response = await calendar.events
       .list({
         calendarId,
         syncToken: doc.nextSyncToken,
@@ -107,13 +107,13 @@ module.exports.handler = async event => {
         returnError(`Could not fetch events from Google Calendar ${calendarId}`)
       );
 
-    if (res.status !== 200 || res.data) {
+    if (response.status !== 200 || response.data) {
       console.log("Unexpected response. Expected status 204\n", response);
     } else {
       console.log("Successfully retrieved modified events");
     }
   
-    const { items, nextSyncToken } = res.data;
+    const { items, nextSyncToken } = response.data;
 
     const patchCalendar = client
       .patch(documentId)
