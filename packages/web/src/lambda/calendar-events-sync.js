@@ -128,29 +128,23 @@ module.exports.handler = async event => {
         _type: "event",
         _id: item.id,
       };
-
-      if (item.status === 'cancelled') {
-        return client
-          .transaction()
-          .createIfNotExists(eventDocument)
-          .patch({ cancelled: true })
-          .commit()
-          .catch(
-            returnError("Sanity error")
-          );
-      }
       
-      const eventDocumentData = {
-        "content.main.title": item.summary,
-        "content.main.start": item.start.dateTime,
-        "content.main.end": item.end.dateTime,
-        "content.main.location": item.location,
-        "content.main.description": item.description,
-        "content.main.uid": item.iCalUID,
-        "content.main.created": item.created,
-        "content.main.updated": item.updated,
-        "content.main.htmlLink": item.htmlLink,
-      };
+      const eventDocumentData = item.status === 'cancelled'
+        ? {
+          "content.main.cancelled": true
+        }
+        : {
+          "content.main.title": item.summary,
+          "content.main.start": item.start.dateTime,
+          "content.main.end": item.end.dateTime,
+          "content.main.location": item.location,
+          "content.main.description": item.description,
+          "content.main.uid": item.iCalUID,
+          "content.main.created": item.created,
+          "content.main.updated": item.updated,
+          "content.main.htmlLink": item.htmlLink,
+        };
+
       return client
         .transaction()
         .createIfNotExists(eventDocument)
