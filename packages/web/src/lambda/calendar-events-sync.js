@@ -65,7 +65,7 @@ module.exports.handler = async event => {
       );
 
     if (response.status !== 200) {
-      console.log("Unexpected response. Expected status 204\n", response);
+      console.log("Unexpected response. Expected status 200\n", response);
     } else {
       console.log("Successfully retrieved inital sync token");
     }
@@ -86,13 +86,13 @@ module.exports.handler = async event => {
   if (resourceState === "exists") {
     // try {
     // fetch document for its sync token
-    const doc = await client
+    const document = await client
       .fetch(`*[_id==$id][0]`, { id: documentId })
       .catch(
         returnError(`Could not fetch calendar '${documentId}'`)
       );
 
-    if (!doc) {
+    if (!document) {
       console.log(`Calendar '${documentId}' can't be retrieved. Maybe it's been deleted?`);
       returnResponse(200, "");
     }
@@ -101,14 +101,14 @@ module.exports.handler = async event => {
     const response = await calendar.events
       .list({
         calendarId,
-        syncToken: doc.nextSyncToken,
+        syncToken: document.nextSyncToken,
       })
       .catch(
         returnError(`Could not fetch events from Google Calendar ${calendarId}`)
       );
 
     if (response.status !== 200 || response.data) {
-      console.log("Unexpected response. Expected status 204\n", response);
+      console.log("Unexpected response. Expected status 204\n", JSON.stringify(response));
     } else {
       console.log("Successfully retrieved modified events");
     }
