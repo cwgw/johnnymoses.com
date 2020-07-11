@@ -23,12 +23,17 @@ module.exports.handler = async event => {
 
   // validate token
   if (!channelToken) {
-    returnResponse(400, { error: `Invalid app token` });
+    returnResponse(400, { error: `Invalid token` });
   }
 
-  const [calendarId, documentId, appToken] = decode(channelToken);
-  if (appToken !== APP_TOKEN) {
-    returnResponse(400, { error: `Invalid app token` });
+  const [calendarId, documentId, hmac] = decode(channelToken);
+  const generated = crypto
+    .createHmac("sha256", APP_TOKEN)
+    .update(`${calendarId} ${documentId}`)
+    .digest("hex");
+
+  if (hmac !== generated) {
+    returnResponse(400, { error: `Invalid token` });
   }
 
   let credentials;

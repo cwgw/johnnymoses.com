@@ -1,10 +1,10 @@
-import Tabs from "sanity-plugin-tabs";
+// import Tabs from "sanity-plugin-tabs";
 
 export default {
   name: "productContent",
   title: "Product Content",
   type: "object",
-  inputComponent: Tabs,
+  // inputComponent: Tabs,
   fieldsets: [
     { name: "main", title: "Main" },
     { name: "shopify", title: "Shopify" },

@@ -16,14 +16,6 @@ export default {
     },
     {
       name: "google-calendar-list",
-      options: {
-        displayProperties: [
-          "resourceId",
-          "channelId",
-          "channelExpiration",
-          "nextSyncToken",
-        ],
-      },
       layout: {
         width: "medium",
         height: "small",

@@ -20,7 +20,7 @@ export default {
     {
       title: "Notification Resource ID",
       name: "resourceId",
-      type: "datetime",
+      type: "string",
       readOnly: true,
     },
     {
@@ -32,7 +32,7 @@ export default {
     {
       title: "Notification Channel Expiration",
       name: "channelExpiration",
-      type: "datetime",
+      type: "string",
       readOnly: true,
     },
     {

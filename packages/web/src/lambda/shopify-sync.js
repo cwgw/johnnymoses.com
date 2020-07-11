@@ -27,14 +27,16 @@ module.exports.handler = async event => {
   const hmac = event.headers["x-shopify-hmac-sha256"];
 
   try {
-    data = JSON.parse(event.body);
     const generatedHash = crypto
       .createHmac("sha256", SHOPIFY_SHARED_SECRET)
       .update(event.body)
       .digest("base64");
+
     if (generatedHash !== hmac) {
       return returnResponse(400, { error: "Invalid Webhook: HMAC mismatch" });
     }
+
+    data = JSON.parse(event.body);
   } catch (error) {
     console.error("JSON parsing error:", error);
     return returnResponse(400, { error: "Bad request body" });
