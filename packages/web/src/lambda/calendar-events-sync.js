@@ -131,6 +131,7 @@ module.exports.handler = async event => {
 
       if (item.status === 'cancelled') {
         return client
+          .transaction()
           .createIfNotExists(eventDocument)
           .patch({ cancelled: true })
           .commit()
@@ -161,6 +162,7 @@ module.exports.handler = async event => {
     });
 
     await Promise.all([patchCalendar, ...patchEvents]);
+    console.log("Successfully patched modified events");
     return returnResponse(200, "");
   }
 
