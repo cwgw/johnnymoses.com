@@ -1,6 +1,6 @@
 module.exports = {
-	optimization: { minimize: false },
 	externals: {
-		canvas: "commonjs canvas"
-	}
+		canvas: "commonjs canvas",
+	},
+	mode: "production",
 };
