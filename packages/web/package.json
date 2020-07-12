@@ -43,6 +43,7 @@
     "jsdom": "^16.3.0",
     "lodash": "^4.17.15",
     "netlify-lambda": "^1.6.3",
+    "node-loader": "^1.0.0",
     "prop-types": "^15.7.2",
     "query-string": "^6.13.1",
     "react": "^16.12.0",
@@ -63,7 +64,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/cwgw/johnnymoses.com.git",
+    "url": "https://github.com/cwgw/johnnymoses.com",
     "directory": "packages/web"
   },
   "lint-staged": {

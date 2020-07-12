@@ -1,5 +1,5 @@
+import { v5 as uuidv5 } from 'uuid';
 const { google } = require("googleapis");
-const { v5: uuidV5 } = require("uuid");
 const sanityClient = require("@sanity/client");
 const crypto = require("crypto");
 
@@ -95,7 +95,11 @@ module.exports.handler = async event => {
       .catch(returnError("Could not stop notification channel"));
 
     if (response.status !== 204) {
-      console.log("Unexpected response. Expected status 204\n", response);
+      console.log("Unexpected response. Expected 204\n", response);
+      returnError(
+        "Unexpected response. Expected 204",
+        response.errors || response.error || response.data
+      );
     } else {
       console.log("Successfully stopped Google Calendar notification channel");
     }

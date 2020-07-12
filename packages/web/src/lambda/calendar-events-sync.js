@@ -28,14 +28,18 @@ module.exports.handler = async event => {
     returnResponse(400, { error: `Invalid token` });
   }
 
-  const [calendarId, documentId, hmac] = decode(channelToken);
-  const generated = crypto
-    .createHmac("sha256", APP_TOKEN)
-    .update(`${calendarId} ${documentId}`)
-    .digest("hex");
-
-  if (hmac !== generated) {
-    returnResponse(400, { error: `Invalid token` });
+  try {
+    const [calendarId, documentId, hmac] = decode(channelToken);
+    const generated = crypto
+      .createHmac("sha256", APP_TOKEN)
+      .update(`${calendarId} ${documentId}`)
+      .digest("hex");
+    
+    if (hmac !== generated) {
+      returnResponse(400, { error: `Invalid token` });
+    }
+  } catch(error) {
+    returnError("Couldn't decode token")(error)
   }
 
   let credentials;
