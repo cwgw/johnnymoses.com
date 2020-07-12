@@ -47,6 +47,13 @@ export default {
       readOnly: true,
     },
     {
+      name: "descriptionText",
+      title: "Description",
+      type: "string",
+      description: 'Set through your calendar',
+      readOnly: true,
+    },
+    {
       name: "uid",
       title: "UId",
       type: "string",
