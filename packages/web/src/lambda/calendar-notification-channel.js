@@ -1,4 +1,4 @@
-import { v5 as uuidv5 } from 'uuid';
+import { v5 as uuidV5 } from 'uuid';
 const { google } = require("googleapis");
 const sanityClient = require("@sanity/client");
 const crypto = require("crypto");
@@ -35,7 +35,7 @@ const hoursFromNowAsUnixTimestampInMiliseconds = (n = 1) => {
   return then.getTime();
 };
 
-module.exports.handler = async event => {
+export const handler = async event => {
   // satisfy preflight
   if (event.httpMethod === "OPTIONS") {
     return returnResponse(200, "", {
