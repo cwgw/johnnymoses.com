@@ -1,0 +1,22 @@
+name: Send Web Request
+description: Sends a web request with the provided paramaeters
+inputs:
+  url:
+    description: Request URL endpoint
+    required: true
+  method:
+    description: Request method (`GET`, `POST`, `PUT`, `PATCH`, `DELETE`)
+    required: true
+    default: GET
+  body:
+    description: Request payload in JSON format
+    required: false
+  headers:
+    description: Request headers in JSON format
+    required: false
+outputs:
+  output:
+    description: data output from the web request
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
