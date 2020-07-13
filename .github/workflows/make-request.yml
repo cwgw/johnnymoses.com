@@ -22,6 +22,7 @@ jobs:
     name: Make request
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v1
       - name: Make request
         uses: ./.github/actions/make-web-request
         with:
