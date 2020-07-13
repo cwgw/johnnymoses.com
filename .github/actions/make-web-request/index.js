@@ -19,13 +19,7 @@ async function makeRequest() {
   const url = core.getInput('url');
   const method = core.getInput('method');
   
-  let body;
-  try {
-    const bodyInput = core.getInput('body');
-    body = bodyInput ? JSON.parse(bodyInput) : null;
-  } catch (error) {
-    return [error];
-  }
+  let body = core.getInput('body');
 
   let headers;
   try {
@@ -33,6 +27,16 @@ async function makeRequest() {
     headers = headersInput ? JSON.parse(headersInput) : null;
   } catch (error) {
     return [error];
+  }
+
+  if (headers['content-type'] === 'application/json') {
+    try {
+      JSON.parse(bodyInput);
+    } catch (error) {
+      console.warn(
+        "Content-Type header is specified as 'application/json' but body is not a valid json string"
+      );
+    }
   }
 
   const params = { method, body, headers }
