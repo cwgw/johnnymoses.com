@@ -1,6 +1,6 @@
-import { v5 as uuidV5 } from 'uuid';
+import { v4 as uuidV4 } from 'uuid';
 const { google } = require("googleapis");
-const sanityClient = require("@sanity/client");
+const sanity = require("@sanity/client");
 const crypto = require("crypto");
 
 const {
@@ -17,23 +17,11 @@ const {
   APP_TOKEN,
 } = process.env;
 
-const client = sanityClient({
-  projectId: SANITY_PROJECT_ID,
-  dataset: SANITY_DATASET,
-  token: SANITY_API_TOKEN,
-  useCdn: false,
-});
-
 const EVENTS_SYNC_ENDPOINT =
   "https://johnnymoses.netlify.app/.netlify/functions/calendar-events-sync/";
-const UID_NAMESPACE = uuidV5("https://johnnymoses.netlify.app", uuidV5.URL);
 
-const hoursFromNowAsUnixTimestampInMiliseconds = (n = 1) => {
-  let now = new Date();
-  let then = new Date();
-  then.setTime(now.getTime() + n * 60 * 60 * 1000);
-  return then.getTime();
-};
+let calendarClient, sanityClient;
+
 
 export const handler = async event => {
   // satisfy preflight
@@ -50,14 +38,142 @@ export const handler = async event => {
     return returnResponse(400, "");
   }
 
-  const appToken = event.headers["x-app-token"];
-  const appMethod = event.headers["x-app-method"];
+  const appToken = event.headers["x-jm-app-token"];
+  const appMethod = event.headers["x-jm-app-method"];
 
   if (!appToken || appToken !== APP_TOKEN) {
     returnResponse(400, { error: `Invalid app token` });
   }
 
-  let credentials, calendarDocument;
+  let calendarDocument;
+  try {
+    calendarDocument = JSON.parse(event.body);
+  } catch (error) {
+    returnError("Couldn't parse request body")(error);
+  }
+
+  setSanityClient();
+  setGoogleCalendarClient();
+
+  if (appMethod === "stop") {
+    await stopNotificationChannel(calendarDocument);
+    return returnResponse(200, "");
+  }
+
+  if (appMethod == 'watch') {
+    await createNotificationChannel(calendarDocument);
+    return returnResponse(200, "");
+  }
+
+  returnResponse(400, "");
+};
+
+
+async function createNotificationChannel({ _id: id, calendarId }) {
+  const hmac = crypto
+    .createHmac("sha256", APP_TOKEN)
+    .update(`${calendarId} ${id}`)
+    .digest("hex");
+
+  const params = {
+    calendarId,
+    requestBody: {
+      id: uuidV4(),
+      address: EVENTS_SYNC_ENDPOINT,
+      type: "web_hook",
+      token: encode(calendarId, id, hmac),
+      expiration: hoursFromNowAsUnixTimestampInMiliseconds(1 / 6),
+    },
+  };
+
+  let err, response;
+  while (!err && !response) {
+    try {
+      response = await calendarClient.events.watch(params);
+    } catch (error) {
+      if (
+        error.code === 400
+        && error.errors.some(({ reason }) => reason == "channelIdNotUnique")
+      ) {
+        params.requestBody.id = uuidV4();
+      } else {
+        err = error;
+      }
+    }
+  }
+
+  if (err) {
+    return returnError("Couldn't create notification channel")(err)
+  }
+
+  console.log(`Successfully created Google Calendar notification channel`);
+
+  await sanityClient
+    .patch(id)
+    .set({
+      resourceId: response.data.resourceId,
+      channelId: response.data.id,
+      channelExpiration: response.data.expiration,
+      channelToken: response.data.token,
+    })
+    .commit()
+    .catch(returnError("Sanity error"));
+
+  console.log(`Successfully patched calendar '${id}' in Sanity`);
+
+  return;
+}
+
+
+async function stopNotificationChannel({ _id: id, channelId, channelToken, resourceId}) {
+  const response = await calendarClient.channels
+    .stop({
+      requestBody: {
+        id: channelId,
+        resourceId: resourceId,
+        token: channelToken,
+      },
+    })
+    .catch(returnError("Could not stop notification channel"));
+
+  if (response.status !== 204) {
+    returnError("Unexpected response. Expected 204")(response)
+  }
+
+  console.log("Successfully stopped Google Calendar notification channel");
+
+  await sanityClient
+    .patch(id)
+    .unset([
+      "resourceId",
+      "channelId",
+      "channelExpiration",
+      "channelToken",
+      "nextSyncToken",
+    ])
+    .commit()
+    .catch(returnError(`Could not patch calendar '${id}'`));
+
+  console.log(`Successfully patched calendar '${id}' in Sanity`);
+
+  return;
+}
+
+
+function setSanityClient() {
+  sanityClient = sanity({
+    projectId: SANITY_PROJECT_ID,
+    dataset: SANITY_DATASET,
+    token: SANITY_API_TOKEN,
+    useCdn: false,
+  });
+
+  return;
+}
+
+
+function setGoogleCalendarClient () {
+  let credentials;
 
   try {
     credentials = JSON.parse(GOOGLE_SERVICE_ACCT_KEY);
@@ -65,101 +181,23 @@ export const handler = async event => {
     returnError("Couldn't parse credentials")(error);
   }
 
-  try {
-    calendarDocument = JSON.parse(event.body);
-  } catch (error) {
-    returnError("Couldn't parse request body")(error);
-  }
-
-  const { calendarId, _id: documentId } = calendarDocument;
-
   const auth = new google.auth.GoogleAuth({
     credentials,
     scopes: ["https://www.googleapis.com/auth/calendar.events.readonly"],
   });
 
-  const calendar = google.calendar({
+  calendarClient = google.calendar({
     version: "v3",
     auth,
   });
 
-  if (appMethod === "stop") {
-    const response = await calendar.channels
-      .stop({
-        requestBody: {
-          id: calendarDocument.channelId,
-          resourceId: calendarDocument.resourceId,
-          token: calendarDocument.channelToken,
-        },
-      })
-      .catch(returnError("Could not stop notification channel"));
+  return;
+}
 
-    if (response.status !== 204) {
-      console.log("Unexpected response. Expected 204\n", response);
-      returnError(
-        "Unexpected response. Expected 204",
-        response.errors || response.error || response.data
-      );
-    } else {
-      console.log("Successfully stopped Google Calendar notification channel");
-    }
 
-    const fields = [
-      "resourceId",
-      "channelId",
-      "channelExpiration",
-      "channelToken",
-      "nextSyncToken",
-    ];
-    await client
-      .patch(documentId)
-      .unset(fields)
-      .commit()
-      .catch(returnError(`Could not patch calendar '${documentId}'`));
-
-    console.log(`Successfully patched calendar '${documentId}' in Sanity`);
-
-    return returnResponse(200, "");
-  }
-
-  const hmac = crypto
-    .createHmac("sha256", APP_TOKEN)
-    .update(`${calendarId} ${documentId}`)
-    .digest("hex");
-
-  const params = {
-    calendarId,
-    requestBody: {
-      id: uuidV5(calendarId, UID_NAMESPACE),
-      address: EVENTS_SYNC_ENDPOINT,
-      type: "web_hook",
-      token: encode(calendarId, documentId, hmac),
-      expiration: hoursFromNowAsUnixTimestampInMiliseconds(1 / 6),
-    },
-  };
-
-  const channel = await calendar.events
-    .watch(params)
-    .catch(
-      returnError("Could not create Google Calendar notification channel")
-    );
-
-  console.log(`Successfully created Google Calendar notification channel`);
-
-  const documentData = {
-    resourceId: channel.data.resourceId,
-    channelId: channel.data.id,
-    channelExpiration: channel.data.expiration,
-    channelToken: channel.data.token,
-  };
-
-  await client
-    .patch(documentId)
-    .set(documentData)
-    .commit()
-    .catch(returnError("Sanity error"));
-
-  console.log(`Successfully patched calendar '${documentId}' in Sanity`);
-
-  return returnResponse(200, "");
+function hoursFromNowAsUnixTimestampInMiliseconds(n = 1) {
+  let now = new Date();
+  let then = new Date();
+  then.setTime(now.getTime() + n * 60 * 60 * 1000);
+  return then.getTime();
 };
