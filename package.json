@@ -7,6 +7,7 @@
   ],
   "scripts": {
     "build": "lerna run build --parallel",
+    "build:actions": "node scripts/build-actions.js",
     "build:studio": "(cd packages/studio && yarn run build)",
     "build:web": "(cd packages/studio && SANITY_AUTH_TOKEN=$SANITY_DEPLOY_STUDIO_TOKEN yarn run graphql-deploy) && (cd packages/web && yarn run build)",
     "start": "lerna run start --parallel",
@@ -14,6 +15,8 @@
     "graphql-deploy": "lerna run graphql-deploy"
   },
   "devDependencies": {
+    "@zeit/ncc": "^0.22.3",
+    "fs-extra": "^9.0.1",
     "husky": "^4.2.5"
   },
   "dependencies": {
@@ -25,7 +28,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lerna run --concurrency 1 --stream precommit --since HEAD --exclude-dependents"
+      "pre-commit": "yarn run build:actions && lerna run --concurrency 1 --stream precommit --since HEAD --exclude-dependents"
     }
   }
 }
