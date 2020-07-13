@@ -1,0 +1,31 @@
+name: Make a web request
+
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: Request URL endpoint
+        required: true
+      method:
+        description: Request method (`GET`, `POST`, `PUT`, `PATCH`, `DELETE`)
+        required: true
+        default: GET
+      body:
+        description: Request payload in JSON format
+        required: false
+      headers:
+        description: Request headers in JSON format
+        required: false
+
+jobs:
+  request:
+    name: Make request
+    runs-on: ubuntu-latest
+    steps:
+      - name: Make request
+        uses: ./.github/actions/make-web-request
+        with:
+          - url: ${{ github.event.inputs.url }}
+          - method: ${{ github.event.inputs.method }}
+          - body: ${{ github.event.inputs.body }}
+          - headers: ${{ github.event.inputs.headers }}

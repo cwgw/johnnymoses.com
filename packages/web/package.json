@@ -6,6 +6,7 @@
   "author": "Charlie Wright <charlie@cwgw.co>",
   "scripts": {
     "build": "gatsby build && yarn run build:lambda",
+    "build:actions": "node scripts/build-actions.js",
     "build:lambda": "netlify-lambda build src/lambda -c ./webpack.functions.js",
     "clean": "gatsby clean",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
@@ -60,6 +61,8 @@
   },
   "devDependencies": {
     "@babel/plugin-transform-spread": "^7.10.1",
+    "@zeit/ncc": "^0.22.3",
+    "fs-extra": "^9.0.1",
     "lint-staged": "^10.2.11",
     "prettier": "2.0.5"
   },
@@ -71,6 +74,9 @@
   "lint-staged": {
     "*.{js,jsx,json,md}": [
       "yarn run format"
+    ],
+    "**/.github/actions/*.{js}": [
+      "yarn run build:actions"
     ]
   }
 }
