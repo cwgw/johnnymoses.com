@@ -65,6 +65,8 @@ async function makeRequest() {
     response,
   };
 
+  console.log({ output });
+
   try {
     output = JSON.stringify(output);
   } catch (error) {
