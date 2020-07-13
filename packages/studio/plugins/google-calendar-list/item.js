@@ -39,8 +39,8 @@ const Item = ({ item, displayProperties }) => {
       const init = {
         method: "POST",
         headers: {
-          "X-App-Token": SANITY_STUDIO_APP_TOKEN,
-          "X-App-Method": method,
+          "X-JM-App-Token": SANITY_STUDIO_APP_TOKEN,
+          "X-JM-App-Method": method,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(item),
@@ -91,14 +91,14 @@ const Item = ({ item, displayProperties }) => {
           onClick={() => handleClick("watch")}
           disabled={isActive && !isExpired}
         >
-          {isActive ? "Renew channel" : "Create channel"}
+          Create channel
         </Button>
         <Button
           kind="secondary"
           onClick={() => handleClick("stop")}
           disabled={!isActive || isExpired}
         >
-          Kill channel
+          Stop channel
         </Button>
         <IntentButton
           intent="edit"

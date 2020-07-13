@@ -1,9 +1,10 @@
 import React from "react";
-import { List } from "part:@sanity/components/lists/default";
+import { List as SanityList } from "part:@sanity/components/lists/default";
 import Spinner from "part:@sanity/components/loading/spinner";
 import IntentButton from "part:@sanity/components/buttons/intent";
+
 import styles from "./styles.css";
-import ListItem from "./listItem";
+import Item from "./item";
 import useSubscription from "./useSubscription";
 
 const query = "*[_type==$type]";
@@ -13,7 +14,7 @@ const defaultProps = {
   title: "Calendar Notification Channels",
 };
 
-const Widget = ({ title }) => {
+const List = ({ title }) => {
   const { items, error } = useSubscription(query, params);
 
   // loading
@@ -27,11 +28,11 @@ const Widget = ({ title }) => {
   if (items) {
     if (items.length > 0) {
       content = (
-        <List>
+        <SanityList>
           {items.map(item => (
-            <ListItem key={item._id} item={item} />
+            <Item key={item._id} item={item} />
           ))}
-        </List>
+        </SanityList>
       );
     } else {
       content = <div>Couldn't fetch any calendars</div>;
@@ -59,6 +60,6 @@ const Widget = ({ title }) => {
   );
 };
 
-Widget.defaultProps = defaultProps;
+List.defaultProps = defaultProps;
 
-export default Widget;
+export default List;

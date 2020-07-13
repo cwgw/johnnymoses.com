@@ -1,6 +1,6 @@
-import Widget from "./widget";
+import List from "./list";
 
 export default {
   name: "google-calendar-list",
-  component: Widget,
+  component: List,
 };
