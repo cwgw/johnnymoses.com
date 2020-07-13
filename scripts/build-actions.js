@@ -4,6 +4,7 @@ const ACTIONS_DIR = `./.github/actions`
 const path = require('path');
 const fs = require('fs-extra')
 const ncc = require('@zeit/ncc');
+const util = require('util')
 
 buildActions();
 
@@ -40,11 +41,28 @@ async function buildActions() {
       const output = path.resolve(root, 'dist');
       await fs.ensureDir(output);
       await fs.emptyDir(output);
-      const { code } = await ncc(input, { minify: true });
+      const { code, map, assets } = await ncc(input, {
+        minify: true,
+        sourceMap: true,
+      });
       await fs.writeFile(
         path.resolve(output, 'index.js'),
         code
       );
+      if (map) {
+        await fs.writeFile(
+          path.resolve(output, 'index.map.js'),
+          map
+        );
+      }
+      if (assets) {
+        await Promise.all(Object.entries(assets).map(
+          ([file, { source }]) => fs.writeFile(
+            path.resolve(output, file),
+            source
+          )
+        ));
+      }
     } catch(error) {
       exitWithError(error);
     }

@@ -3,7 +3,8 @@
   "private": true,
   "description": "The website of Native American storyteller Johnny Moses",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    ".github/actions/*"
   ],
   "scripts": {
     "build": "lerna run build --parallel",
