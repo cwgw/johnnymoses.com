@@ -25,7 +25,7 @@ jobs:
       - name: Make request
         uses: ./.github/actions/make-web-request
         with:
-          - url: ${{ github.event.inputs.url }}
-          - method: ${{ github.event.inputs.method }}
-          - body: ${{ github.event.inputs.body }}
-          - headers: ${{ github.event.inputs.headers }}
+          url: ${{ github.event.inputs.url }}
+          method: ${{ github.event.inputs.method }}
+          body: ${{ github.event.inputs.body }}
+          headers: ${{ github.event.inputs.headers }}
