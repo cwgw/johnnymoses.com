@@ -1,4 +1,4 @@
-name: Make a web request
+name: Schedule a web request
 
 on:
   schedule:
