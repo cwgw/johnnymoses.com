@@ -44,15 +44,20 @@ export const handler = async event => {
     returnResponse(400, "");
   }
 
+  setSanityClient();
+  setGoogleCalendarClient();
+
+  if (appMethod == "renew") {
+    await renewNotificationChannels();
+    return returnResponse(200, "");
+  }
+
   let calendarDocument;
   try {
     calendarDocument = JSON.parse(event.body);
   } catch (error) {
     returnError("Couldn't parse request body")(error);
   }
-
-  setSanityClient();
-  setGoogleCalendarClient();
 
   if (appMethod === "stop") {
     await stopNotificationChannel(calendarDocument);
@@ -61,11 +66,6 @@ export const handler = async event => {
 
   if (appMethod == "watch") {
     await createNotificationChannel(calendarDocument);
-    return returnResponse(200, "");
-  }
-
-  if (appMethod == "renew") {
-    await renewNotificationChannels();
     return returnResponse(200, "");
   }
 
