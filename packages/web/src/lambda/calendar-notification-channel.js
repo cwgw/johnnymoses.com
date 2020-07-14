@@ -1,4 +1,4 @@
-import { v4 as uuidV4 } from 'uuid';
+import { v4 as uuidV4 } from "uuid";
 const { google } = require("googleapis");
 const sanity = require("@sanity/client");
 const crypto = require("crypto");
@@ -22,7 +22,6 @@ const EVENTS_SYNC_ENDPOINT =
 
 let calendarClient, sanityClient;
 
-
 export const handler = async event => {
   // satisfy preflight
   if (event.httpMethod === "OPTIONS") {
@@ -34,7 +33,7 @@ export const handler = async event => {
     });
   }
 
-  if (event.httpMethod !== "POST" || !event.body) {
+  if (event.httpMethod !== "POST") {
     return returnResponse(400, "");
   }
 
@@ -42,7 +41,7 @@ export const handler = async event => {
   const appMethod = event.headers["x-jm-app-method"];
 
   if (!appToken || appToken !== APP_TOKEN) {
-    returnResponse(400, { error: `Invalid app token` });
+    returnResponse(400, "");
   }
 
   let calendarDocument;
@@ -60,14 +59,18 @@ export const handler = async event => {
     return returnResponse(200, "");
   }
 
-  if (appMethod == 'watch') {
+  if (appMethod == "watch") {
     await createNotificationChannel(calendarDocument);
+    return returnResponse(200, "");
+  }
+
+  if (appMethod == "renew") {
+    await renewNotificationChannels();
     return returnResponse(200, "");
   }
 
   returnResponse(400, "");
 };
-
 
 async function createNotificationChannel({ _id: id, calendarId }) {
   const hmac = crypto
@@ -82,7 +85,7 @@ async function createNotificationChannel({ _id: id, calendarId }) {
       address: EVENTS_SYNC_ENDPOINT,
       type: "web_hook",
       token: encode(calendarId, id, hmac),
-      expiration: hoursFromNowAsUnixTimestampInMiliseconds(1 / 6),
+      expiration: hoursFromNowAsUnixTimestampInMiliseconds(1),
     },
   };
 
@@ -92,8 +95,8 @@ async function createNotificationChannel({ _id: id, calendarId }) {
       response = await calendarClient.events.watch(params);
     } catch (error) {
       if (
-        error.code === 400
-        && error.errors.some(({ reason }) => reason == "channelIdNotUnique")
+        error.code === 400 &&
+        error.errors.some(({ reason }) => reason == "channelIdNotUnique")
       ) {
         params.requestBody.id = uuidV4();
       } else {
@@ -103,7 +106,7 @@ async function createNotificationChannel({ _id: id, calendarId }) {
   }
 
   if (err) {
-    return returnError("Couldn't create notification channel")(err)
+    return returnError("Couldn't create notification channel")(err);
   }
 
   console.log(`Successfully created Google Calendar notification channel`);
@@ -124,8 +127,12 @@ async function createNotificationChannel({ _id: id, calendarId }) {
   return;
 }
 
-
-async function stopNotificationChannel({ _id: id, channelId, channelToken, resourceId}) {
+async function stopNotificationChannel({
+  _id: id,
+  channelId,
+  channelToken,
+  resourceId,
+}) {
   const response = await calendarClient.channels
     .stop({
       requestBody: {
@@ -137,7 +144,7 @@ async function stopNotificationChannel({ _id: id, channelId, channelToken, resou
     .catch(returnError("Could not stop notification channel"));
 
   if (response.status !== 204) {
-    returnError("Unexpected response. Expected 204")(response)
+    returnError("Unexpected response. Expected 204")(response);
   }
 
   console.log("Successfully stopped Google Calendar notification channel");
@@ -159,6 +166,37 @@ async function stopNotificationChannel({ _id: id, channelId, channelToken, resou
   return;
 }
 
+async function renewNotificationChannels() {
+  const calendars = await sanityClient
+    .fetch("*[_type==$type]", { type: "calendar" })
+    .catch(returnError("Couldn't fetch calendars"));
+
+  if (!calendars || calendars.length < 1) {
+    console.log("No calendars exist");
+    return;
+  }
+
+  const tasks = calendars.map(async calendarDocument => {
+    const { _id: id, channelExpiration } = calendarDocument;
+    if (
+      channelExpiration &&
+      channelExpiration < hoursFromNowAsUnixTimestampInMiliseconds(1)
+    ) {
+      await stopNotificationChannel(calendarDocument);
+      return createNotificationChannel(calendarDocument);
+    } else {
+      console.log(`Skipping calendar ${id}: Renewal unnecessary.`);
+    }
+
+    return Promise.resolve();
+  });
+
+  await Promise.all(tasks).catch(
+    returnError("Couldn't renew notification channels")
+  );
+
+  return;
+}
 
 function setSanityClient() {
   sanityClient = sanity({
@@ -171,8 +209,7 @@ function setSanityClient() {
   return;
 }
 
-
-function setGoogleCalendarClient () {
+function setGoogleCalendarClient() {
   let credentials;
 
   try {
@@ -194,10 +231,16 @@ function setGoogleCalendarClient () {
   return;
 }
 
-
 function hoursFromNowAsUnixTimestampInMiliseconds(n = 1) {
   let now = new Date();
   let then = new Date();
   then.setTime(now.getTime() + n * 60 * 60 * 1000);
   return then.getTime();
-};
+}
+
+function daysFromNowAsUnixTimestampInMiliseconds(n = 1) {
+  let now = new Date();
+  let then = new Date();
+  then.setTime(now.getTime() + n * 24 * 60 * 60 * 1000);
+  return then.getTime();
+}
