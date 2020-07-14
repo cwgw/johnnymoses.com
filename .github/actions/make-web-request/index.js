@@ -21,12 +21,13 @@ async function makeRequest() {
   
   let body = core.getInput('body');
 
-  let headers;
-  try {
-    const headersInput = core.getInput('headers');
-    headers = headersInput ? JSON.parse(headersInput) : null;
-  } catch (error) {
-    return [error];
+  let headers = core.getInput('headers');
+  if (typeof headers === 'string') {
+    try {
+      headers = JSON.parse(headersInput);
+    } catch (error) {
+      return [error];
+    }
   }
 
   if (headers['content-type'] === 'application/json') {
