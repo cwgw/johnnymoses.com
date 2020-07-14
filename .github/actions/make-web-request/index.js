@@ -3,6 +3,8 @@ const fetch = require("node-fetch");
 
 main();
 
+console.log("Making web request");
+
 async function main() {
   const [error, output] = await makeRequest();
 
