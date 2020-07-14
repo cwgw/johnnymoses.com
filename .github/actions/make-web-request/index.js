@@ -1,8 +1,7 @@
-const core = require('@actions/core');
-const fetch = require('node-fetch');
+const core = require("@actions/core");
+const fetch = require("node-fetch");
 
 main();
-
 
 async function main() {
   const [error, output] = await makeRequest();
@@ -11,25 +10,24 @@ async function main() {
     core.setFailed(error);
   }
 
-  core.setOutput('output', output);
+  core.setOutput("output", output);
 }
 
-
 async function makeRequest() {
-  const url = core.getInput('url');
-  const method = core.getInput('method');
-  
-  let body = core.getInput('body');
+  const url = core.getInput("url");
+  const method = core.getInput("method");
+
+  let body = core.getInput("body");
 
   let headers;
   try {
-    const input = core.getInput('headers')
+    const input = core.getInput("headers");
     headers = input ? JSON.parse(input) : null;
   } catch (error) {
     return [error];
   }
 
-  if (headers['content-type'] === 'application/json') {
+  if (headers["content-type"] === "application/json") {
     try {
       JSON.parse(bodyInput);
     } catch (error) {
@@ -39,7 +37,7 @@ async function makeRequest() {
     }
   }
 
-  const params = { method, body, headers }
+  const params = { method, body, headers };
 
   let response;
   try {
@@ -52,15 +50,15 @@ async function makeRequest() {
     return [
       {
         message: `HTTP request failed with status code: ${response.status}`,
-        response
-      }
+        response,
+      },
     ];
   }
 
   let output = {
     request: {
       url,
-      ...params
+      ...params,
     },
     response,
   };
