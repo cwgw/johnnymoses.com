@@ -2,7 +2,7 @@ name: Renew calendar notification channels
 
 on:
   schedule:
-    - cron: "*/10 * * * *"
+    - cron: "0/10 * * * *"
 
 jobs:
   request:
@@ -15,6 +15,4 @@ jobs:
         with:
           url: ${{ secrets.EVENT_SYNC_RENEWAL_ENDPOINT }}
           method: POST
-          headers:
-            - x-jm-app-token: ${{ secrets.EVENT_SYNC_TOKEN }}
-            - x-jm-app-method: renew
+          headers: '{ "x-jm-app-token": "${{ secrets.EVENT_SYNC_TOKEN }}", "x-jm-app-method": "renew" }'
