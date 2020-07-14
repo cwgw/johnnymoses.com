@@ -2,7 +2,7 @@ name: Renew calendar notification channels
 
 on:
   schedule:
-    - cron: "0/10 * * * *"
+    - cron: "0 * * * *"
 
 jobs:
   request:
