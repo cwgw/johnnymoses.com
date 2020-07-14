@@ -33,43 +33,70 @@ export const handler = async event => {
     });
   }
 
-  if (event.httpMethod !== "POST") {
-    return returnResponse(400, "");
-  }
-
   const appToken = event.headers["x-jm-app-token"];
   const appMethod = event.headers["x-jm-app-method"];
 
-  if (!appToken || appToken !== APP_TOKEN) {
+  if (!appToken || appToken !== APP_TOKEN || event.httpMethod !== "POST") {
     returnResponse(400, "");
+  }
+
+  if (!appMethod) {
+    returnResponse(400, { error: "No 'X-JM-App-Method' header provided" });
   }
 
   setSanityClient();
   setGoogleCalendarClient();
 
   if (appMethod == "renew") {
-    await renewNotificationChannels();
-    return returnResponse(200, "");
+    const [error] = await renewNotificationChannels();
+    if (error) {
+      return returnResponse(500, { error });
+    }
+
+    return returnResponse(204, "");
   }
 
   let calendarDocument;
   try {
     calendarDocument = JSON.parse(event.body);
   } catch (error) {
-    returnError("Couldn't parse request body")(error);
-  }
-
-  if (appMethod === "stop") {
-    await stopNotificationChannel(calendarDocument);
-    return returnResponse(200, "");
+    returnResponse(400, "");
   }
 
   if (appMethod == "watch") {
-    await createNotificationChannel(calendarDocument);
-    return returnResponse(200, "");
+    let [error, data] = await createNotificationChannel(calendarDocument);
+    if (!error) {
+      [error] = await updateCalendarDocument({
+        resourceId: data.resourceId,
+        channelId: data.id,
+        channelExpiration: data.expiration,
+        channelToken: data.token,
+      });
+    }
+
+    if (error) {
+      return returnResponse(500, { error });
+    }
+
+    return returnResponse(204, "");
   }
 
-  returnResponse(400, "");
+  if (appMethod === "stop") {
+    let [error] = await stopNotificationChannel(calendarDocument);
+    if (!error) {
+      [error] = await unsetCalendarDocumentFields(calendarDocument._id);
+    }
+
+    if (error) {
+      returnResponse(500, { error });
+    }
+
+    return returnResponse(204, "");
+  }
+
+  returnResponse(400, {
+    error: `X-JM-App-Method header unrecognized. Expected one of 'watch', 'stop', or 'renew'`,
+  });
 };
 
 async function createNotificationChannel({ _id: id, calendarId }) {
@@ -85,7 +112,7 @@ async function createNotificationChannel({ _id: id, calendarId }) {
       address: EVENTS_SYNC_ENDPOINT,
       type: "web_hook",
       token: encode(calendarId, id, hmac),
-      expiration: hoursFromNowAsUnixTimestampInMiliseconds(1),
+      expiration: hoursFromNowAsUnixTimestampInMiliseconds(1 / 6),
     },
   };
 
@@ -106,25 +133,14 @@ async function createNotificationChannel({ _id: id, calendarId }) {
   }
 
   if (err) {
-    return returnError("Couldn't create notification channel")(err);
+    console.log(`Couldn't create notification channel for calendar ${id}`);
+    return [err];
   }
 
-  console.log(`Successfully created Google Calendar notification channel`);
-
-  await sanityClient
-    .patch(id)
-    .set({
-      resourceId: response.data.resourceId,
-      channelId: response.data.id,
-      channelExpiration: response.data.expiration,
-      channelToken: response.data.token,
-    })
-    .commit()
-    .catch(returnError("Sanity error"));
-
-  console.log(`Successfully patched calendar '${id}' in Sanity`);
-
-  return;
+  console.log(
+    `Successfully created Google Calendar notification channel for calendar ${id}`
+  );
+  return [null, response.data];
 }
 
 async function stopNotificationChannel({
@@ -133,69 +149,134 @@ async function stopNotificationChannel({
   channelToken,
   resourceId,
 }) {
-  const response = await calendarClient.channels
-    .stop({
+  let err, response;
+  try {
+    response = await calendarClient.channels.stop({
       requestBody: {
         id: channelId,
         resourceId: resourceId,
         token: channelToken,
       },
-    })
-    .catch(returnError("Could not stop notification channel"));
-
-  if (response.status !== 204) {
-    returnError("Unexpected response. Expected 204")(response);
+    });
+  } catch (error) {
+    err = error;
   }
 
-  console.log("Successfully stopped Google Calendar notification channel");
+  if (err) {
+    console.log(`Could not stop notification channel for calendar ${id}`);
+    return [err];
+  } else if (response.status !== 204) {
+    console.log("Unexpected response. Expected 204");
+    return [response];
+  }
 
-  await sanityClient
-    .patch(id)
-    .unset([
-      "resourceId",
-      "channelId",
-      "channelExpiration",
-      "channelToken",
-      "nextSyncToken",
-    ])
-    .commit()
-    .catch(returnError(`Could not patch calendar '${id}'`));
-
-  console.log(`Successfully patched calendar '${id}' in Sanity`);
-
-  return;
+  console.log(
+    `Successfully stopped Google Calendar notification channel for calendar ${id}`
+  );
+  return [null];
 }
 
 async function renewNotificationChannels() {
-  const calendars = await sanityClient
-    .fetch("*[_type==$type]", { type: "calendar" })
-    .catch(returnError("Couldn't fetch calendars"));
+  let calendars;
+  try {
+    calendars = await sanityClient.fetch("*[_type==$type]", {
+      type: "calendar",
+    });
+  } catch (error) {
+    console.log("Couldn't fetch calendar documents");
+    return [error];
+  }
 
   if (!calendars || calendars.length < 1) {
-    console.log("No calendars exist");
-    return;
+    console.log("No calendars exist. Nothing to do.");
+    return [null];
   }
 
   const tasks = calendars.map(async calendarDocument => {
     const { _id: id, channelExpiration } = calendarDocument;
     if (
       channelExpiration &&
-      channelExpiration < hoursFromNowAsUnixTimestampInMiliseconds(1)
+      channelExpiration < hoursFromNowAsUnixTimestampInMiliseconds(1 / 6)
     ) {
-      await stopNotificationChannel(calendarDocument);
-      return createNotificationChannel(calendarDocument);
-    } else {
-      console.log(`Skipping calendar ${id}: Renewal unnecessary.`);
+      let [error] = stopNotificationChannel(calendarDocument);
+      if (error) {
+        return [error];
+      }
+
+      [error, data] = createNotificationChannel(calendarDocument);
+      if (error) {
+        [error] = await unsetCalendarDocumentFields(id);
+        return [error];
+      }
+
+      [error] = await updateCalendarDocument({
+        resourceId: data.resourceId,
+        channelId: data.id,
+        channelExpiration: data.expiration,
+        channelToken: data.token,
+      });
+      if (error) {
+        return [error];
+      }
+
+      console.log(`Successfully renewed channel for calendar ${id}`);
+      return [null];
     }
 
-    return Promise.resolve();
+    console.log(`Skipping calendar ${id}: Renewal unnecessary.`);
+    return Promise.resolve([null]);
   });
 
-  await Promise.all(tasks).catch(
-    returnError("Couldn't renew notification channels")
-  );
+  try {
+    await Promise.all(tasks);
+  } catch (error) {
+    return [error];
+  }
 
-  return;
+  return [null];
+}
+
+async function updateCalendarDocument(data) {
+  let err;
+  try {
+    await sanityClient.patch(id).set(data).commit();
+  } catch (error) {
+    err = error;
+  }
+
+  if (err) {
+    console.log(`Couldn't patch calendar '${id}'`);
+  } else {
+    console.log(`Successfully patched calendar '${id}' in Sanity`);
+  }
+
+  return [err];
+}
+
+async function unsetCalendarDocumentFields(id) {
+  let err;
+  try {
+    await sanityClient
+      .patch(id)
+      .unset([
+        "resourceId",
+        "channelId",
+        "channelExpiration",
+        "channelToken",
+        "nextSyncToken",
+      ])
+      .commit();
+  } catch (error) {
+    err = error;
+  }
+
+  if (err) {
+    console.log(`Couldn't patch calendar '${id}'`);
+  } else {
+    console.log(`Successfully patched calendar '${id}' in Sanity`);
+  }
+
+  return [err];
 }
 
 function setSanityClient() {
@@ -205,8 +286,6 @@ function setSanityClient() {
     token: SANITY_API_TOKEN,
     useCdn: false,
   });
-
-  return;
 }
 
 function setGoogleCalendarClient() {
@@ -227,8 +306,6 @@ function setGoogleCalendarClient() {
     version: "v3",
     auth,
   });
-
-  return;
 }
 
 function hoursFromNowAsUnixTimestampInMiliseconds(n = 1) {
