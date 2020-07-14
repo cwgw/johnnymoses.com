@@ -16,6 +16,11 @@ on:
       headers:
         description: Request headers in JSON format
         required: false
+      cron:
+        description: Schedule to execute web request
+        required: true
+  schedule:
+    - cron: ${{ github.event.inputs.cron }}
 
 jobs:
   request:
