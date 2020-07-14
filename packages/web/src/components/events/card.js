@@ -73,7 +73,7 @@ const EventCard = ({
         itemProp="description"
         sx={{
           mb: 4,
-          color: "grays.400"
+          color: "grays.400",
         }}
       />
       <Flex

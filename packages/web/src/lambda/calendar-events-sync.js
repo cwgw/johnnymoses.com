@@ -2,8 +2,12 @@ const { google } = require("googleapis");
 const sanityClient = require("@sanity/client");
 const crypto = require("crypto");
 
-const { getSanitizedPortableText } = require('./utils/html-utils')
-const { decode, returnResponse, returnError } = require("./utils/request-config");
+const { getSanitizedPortableText } = require("./utils/html-utils");
+const {
+  decode,
+  returnResponse,
+  returnError,
+} = require("./utils/request-config");
 
 const {
   GOOGLE_SERVICE_ACCT_KEY,
@@ -36,12 +40,12 @@ module.exports.handler = async event => {
       .createHmac("sha256", APP_TOKEN)
       .update(`${calendarId} ${documentId}`)
       .digest("hex");
-    
+
     if (hmac !== generated) {
       returnResponse(400, { error: `Invalid token` });
     }
-  } catch(error) {
-    returnError("Couldn't decode token")(error)
+  } catch (error) {
+    returnError("Couldn't decode token")(error);
   }
 
   let credentials;
@@ -95,12 +99,12 @@ module.exports.handler = async event => {
     // fetch document for its sync token
     const document = await client
       .fetch(`*[_id==$id][0]`, { id: documentId })
-      .catch(
-        returnError(`Could not fetch calendar '${documentId}'`)
-      );
+      .catch(returnError(`Could not fetch calendar '${documentId}'`));
 
     if (!document) {
-      console.log(`Calendar '${documentId}' can't be retrieved. Maybe it's been deleted?`);
+      console.log(
+        `Calendar '${documentId}' can't be retrieved. Maybe it's been deleted?`
+      );
       returnResponse(200, "");
     }
 
@@ -115,20 +119,21 @@ module.exports.handler = async event => {
       );
 
     if (response.status !== 200 || !response.data) {
-      console.log("Unexpected response. Expected status 200\n", JSON.stringify(response));
+      console.log(
+        "Unexpected response. Expected status 200\n",
+        JSON.stringify(response)
+      );
     } else {
       console.log("Successfully retrieved modified events");
     }
-  
+
     const { items, nextSyncToken } = response.data;
 
     const patchCalendar = client
       .patch(documentId)
       .set({ nextSyncToken })
       .commit()
-      .catch(
-        returnError(`Couldn't patch calendar ${documentId}`)
-      );
+      .catch(returnError(`Couldn't patch calendar ${documentId}`));
 
     const patchEvents = items.map(item => {
       const eventDocument = {
@@ -138,39 +143,40 @@ module.exports.handler = async event => {
 
       let description;
       if (item.description) {
-        const [error, portableText] = getSanitizedPortableText(item.description);
+        const [error, portableText] = getSanitizedPortableText(
+          item.description
+        );
         if (error) {
           console.error(error);
         }
 
         description = portableText;
       }
-      
-      const eventDocumentData = item.status === 'cancelled'
-        ? {
-          "content.main.cancelled": true
-        }
-        : {
-          "content.main.title": item.summary,
-          "content.main.start": item.start.dateTime,
-          "content.main.end": item.end.dateTime,
-          "content.main.location": item.location,
-          "content.main.description": description.blocks,
-          "content.main.descriptionText": description.textContent,
-          "content.main.uid": item.iCalUID,
-          "content.main.created": item.created,
-          "content.main.updated": item.updated,
-          "content.main.htmlLink": item.htmlLink,
-        };
+
+      const eventDocumentData =
+        item.status === "cancelled"
+          ? {
+              "content.main.cancelled": true,
+            }
+          : {
+              "content.main.title": item.summary,
+              "content.main.start": item.start.dateTime,
+              "content.main.end": item.end.dateTime,
+              "content.main.location": item.location,
+              "content.main.description": description.blocks,
+              "content.main.descriptionText": description.textContent,
+              "content.main.uid": item.iCalUID,
+              "content.main.created": item.created,
+              "content.main.updated": item.updated,
+              "content.main.htmlLink": item.htmlLink,
+            };
 
       return client
         .transaction()
         .createIfNotExists(eventDocument)
         .patch(item.id, p => p.set(eventDocumentData))
         .commit()
-        .catch(
-          returnError("Sanity error")
-        );
+        .catch(returnError("Sanity error"));
     });
 
     await Promise.all([patchCalendar, ...patchEvents]);
@@ -182,6 +188,6 @@ module.exports.handler = async event => {
     console.log("\n", "We got one! type is 'not_exists'", "\n");
     console.log({ event });
   }
-  
+
   return returnResponse(400, "");
 };
