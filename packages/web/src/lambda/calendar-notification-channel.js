@@ -66,7 +66,7 @@ export const handler = async event => {
   if (appMethod == "watch") {
     let [error, data] = await createNotificationChannel(calendarDocument);
     if (!error) {
-      [error] = await updateCalendarDocument({
+      [error] = await updateCalendarDocument(calendarDocument._id, {
         resourceId: data.resourceId,
         channelId: data.id,
         channelExpiration: data.expiration,
@@ -209,7 +209,7 @@ async function renewNotificationChannels() {
         return [error];
       }
 
-      [error] = await updateCalendarDocument({
+      [error] = await updateCalendarDocument(calendarDocument._id, {
         resourceId: data.resourceId,
         channelId: data.id,
         channelExpiration: data.expiration,
@@ -236,7 +236,7 @@ async function renewNotificationChannels() {
   return [null];
 }
 
-async function updateCalendarDocument(data) {
+async function updateCalendarDocument(id, data) {
   let err;
   try {
     await sanityClient.patch(id).set(data).commit();
