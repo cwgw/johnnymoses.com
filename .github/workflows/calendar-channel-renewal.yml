@@ -1,0 +1,20 @@
+name: Renew calendar notification channels
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+
+jobs:
+  request:
+    name: Make request
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Make request
+        uses: ./.github/actions/make-web-request
+        with:
+          url: ${{ secrets.EVENT_SYNC_RENEWAL_ENDPOINT }}
+          method: POST
+          headers:
+            - x-jm-app-token: ${{ secrets.EVENT_SYNC_TOKEN }}
+            - x-jm-app-method: renew
