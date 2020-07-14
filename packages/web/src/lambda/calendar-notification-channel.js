@@ -198,9 +198,12 @@ async function renewNotificationChannels() {
       channelExpiration &&
       channelExpiration < hoursFromNowAsUnixTimestampInMiliseconds(1 / 6)
     ) {
-      let [error] = stopNotificationChannel(calendarDocument);
-      if (error) {
-        return [error];
+      let error;
+      if (channelExpiration > new Date().getTime()) {
+        [error] = stopNotificationChannel(calendarDocument);
+        if (error) {
+          return [error];
+        }
       }
 
       [error, data] = createNotificationChannel(calendarDocument);
