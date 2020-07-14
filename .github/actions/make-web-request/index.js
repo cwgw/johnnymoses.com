@@ -10,7 +10,7 @@ async function main() {
     core.setFailed(error);
   }
 
-  core.setOutput('output', output);
+  core.setOutput("output", output);
 }
 
 async function makeRequest() {
