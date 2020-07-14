@@ -51,7 +51,7 @@ async function makeRequest() {
   if (response.status >= 400) {
     return [
       {
-        message: `HTTP request failed with status code: ${status}`,
+        message: `HTTP request failed with status code: ${response.status}`,
         response
       }
     ];
