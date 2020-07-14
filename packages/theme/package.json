@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "author": "",
   "scripts": {
-    "format": "prettier --write \"**/*.{js,jsx,json}\"",
+    "format": "prettier --config ../../.prettierrc --write \"**/*.{js,jsx,json}\"",
     "precommit": "lint-staged",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

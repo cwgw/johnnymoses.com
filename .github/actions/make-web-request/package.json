@@ -7,10 +7,21 @@
     "@actions/core": "^1.2.4",
     "node-fetch": "^2.6.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@zeit/ncc": "^0.22.3",
+    "lint-staged": "^10.2.11",
+    "prettier": "^2.0.5"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "ncc build -m index.js -o dist",
+    "format": "prettier --config ../../../.prettierrc --write \"**/*.{js,jsx,json,md}\"",
+    "precommit": "lint-staged && yarn run build && git add dist"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "lint-staged": {
+    "*.js": [
+      "yarn run format"
+    ]
+  }
 }

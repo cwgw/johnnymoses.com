@@ -7,7 +7,7 @@
   "main": "./index.js",
   "scripts": {
     "build": "sanity build",
-    "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
+    "format": "prettier --config ../../.prettierrc --write \"**/*.{js,jsx,json}\"",
     "graphql-deploy": "sanity graphql deploy --playground --force",
     "precommit": "lint-staged",
     "start": "sanity start",
