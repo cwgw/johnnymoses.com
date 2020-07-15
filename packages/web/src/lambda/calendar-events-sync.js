@@ -32,8 +32,6 @@ module.exports.handler = async event => {
     returnResponse(400, { error: `Invalid token` });
   }
 
-  console.log({ event });
-
   let calendarId, documentId;
   try {
     let hmac;
@@ -59,6 +57,9 @@ module.exports.handler = async event => {
   }
 
   const resourceState = event.headers["x-goog-resource-state"];
+  const channelId = event.headers["x-goog-channel-id"];
+
+  console.log(`Received '${resourceState}' event from channel '${channelId}'`);
 
   const auth = new google.auth.GoogleAuth({
     credentials,
