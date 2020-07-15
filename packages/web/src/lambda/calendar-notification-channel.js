@@ -108,7 +108,7 @@ async function createNotificationChannel({ _id: id, calendarId }) {
       address: EVENTS_SYNC_ENDPOINT,
       type: "web_hook",
       token: encode(calendarId, id, hmac),
-      expiration: hoursFromNowAsUnixTimestampInMiliseconds(1 / 6),
+      expiration: daysFromNowAsUnixTimestampInMiliseconds(1),
     },
   };
 
@@ -192,7 +192,7 @@ async function renewNotificationChannels() {
     const { _id: id, channelExpiration } = calendarDocument;
     if (
       channelExpiration &&
-      channelExpiration < hoursFromNowAsUnixTimestampInMiliseconds(1 / 6)
+      channelExpiration < daysFromNowAsUnixTimestampInMiliseconds(1)
     ) {
       let error;
       if (channelExpiration > new Date().getTime()) {
