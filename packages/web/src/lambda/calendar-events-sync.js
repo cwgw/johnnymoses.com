@@ -32,6 +32,8 @@ module.exports.handler = async event => {
     returnResponse(400, { error: `Invalid token` });
   }
 
+  console.log({ event });
+
   let calendarId, documentId;
   try {
     let hmac;
