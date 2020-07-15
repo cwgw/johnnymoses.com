@@ -3,11 +3,7 @@ const { google } = require("googleapis");
 const sanity = require("@sanity/client");
 const crypto = require("crypto");
 
-const {
-  encode,
-  returnResponse,
-  returnError,
-} = require("./utils/request-config");
+const { encode, returnResponse } = require("./utils/request-config");
 
 const {
   GOOGLE_SERVICE_ACCT_KEY,
@@ -122,7 +118,7 @@ async function createNotificationChannel({ _id: id, calendarId }) {
       response = await calendarClient.events.watch(params);
     } catch (error) {
       if (
-        error.code === 400 &&
+        error.code == 400 &&
         error.errors.some(({ reason }) => reason == "channelIdNotUnique")
       ) {
         params.requestBody.id = uuidV4();
@@ -200,19 +196,22 @@ async function renewNotificationChannels() {
     ) {
       let error;
       if (channelExpiration > new Date().getTime()) {
-        [error] = stopNotificationChannel(calendarDocument);
-        if (error) {
-          return [error];
-        }
+        [error] = await stopNotificationChannel(calendarDocument);
       }
 
-      [error, data] = createNotificationChannel(calendarDocument);
+      if (error) {
+        return [error];
+      }
+
+      let data;
+      [error, data] = await createNotificationChannel(calendarDocument);
+
       if (error) {
         [error] = await unsetCalendarDocumentFields(id);
         return [error];
       }
 
-      [error] = await updateCalendarDocument(calendarDocument._id, {
+      [error] = await updateCalendarDocument(id, {
         resourceId: data.resourceId,
         channelId: data.id,
         channelExpiration: data.expiration,
@@ -227,7 +226,7 @@ async function renewNotificationChannels() {
     }
 
     console.log(`Skipping calendar ${id}: Renewal unnecessary.`);
-    return Promise.resolve([null]);
+    return [null];
   });
 
   try {
@@ -297,7 +296,7 @@ function setGoogleCalendarClient() {
   try {
     credentials = JSON.parse(GOOGLE_SERVICE_ACCT_KEY);
   } catch (error) {
-    returnError("Couldn't parse credentials")(error);
+    return returnResponse(500, { error: "Couldn't parse credentials" });
   }
 
   const auth = new google.auth.GoogleAuth({
