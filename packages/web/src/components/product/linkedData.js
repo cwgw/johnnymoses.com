@@ -1,18 +1,18 @@
-import React from 'react';
-import { useStaticQuery, graphql } from 'gatsby'
-import get from 'lodash/get'
+import React from "react";
+import { useStaticQuery, graphql } from "gatsby";
+import get from "lodash/get";
 
-import { resolve as urlResolve } from '../../utils/url';
+import { resolve as urlResolve } from "../../utils/url";
 
 function blocksToPlainText(blocks = []) {
   return blocks
     .map(block => {
-      if (block._type !== 'block' || !block.children) {
-        return ''
+      if (block._type !== "block" || !block.children) {
+        return "";
       }
-      return block.children.map((child) => child.text).join('')
+      return block.children.map(child => child.text).join("");
     })
-    .join('\n\n')
+    .join("\n\n");
 }
 
 const LinkedData = ({ main, shopify }) => {
@@ -34,21 +34,15 @@ const LinkedData = ({ main, shopify }) => {
     }
   `);
 
-  const siteTitle = get(
-    data,
-    'sanitySiteGlobal.content.siteTitle'
-  );
-  
-  const hostname = get(
-    data,
-    'sanitySiteGlobal.content.siteHostname.current'
-  );
+  const siteTitle = get(data, "sanitySiteGlobal.content.siteTitle");
+
+  const hostname = get(data, "sanitySiteGlobal.content.siteHostname.current");
 
   const siteUrl = urlResolve(hostname);
 
   const productRoute = get(
     data,
-    'sanitySiteGlobal.content.routes.productRouteRoot.current'
+    "sanitySiteGlobal.content.routes.productRouteRoot.current"
   );
 
   const productPath = urlResolve(hostname, productRoute, main.slug.current);
@@ -58,7 +52,8 @@ const LinkedData = ({ main, shopify }) => {
     "@type": "Product",
     name: main.title,
     image: main.mainImage && main.mainImage.asset.url,
-    description: main.productDescription && blocksToPlainText(main.productDescription),
+    description:
+      main.productDescription && blocksToPlainText(main.productDescription),
     sku: shopify.defaultVariant.sku,
     mpn: shopify.defaultVariant.sku,
     brand: {
@@ -77,15 +72,11 @@ const LinkedData = ({ main, shopify }) => {
         "@type": "Brand",
         name: siteTitle,
         url: siteUrl,
-        }
-    }
-  }
-  
-  return (
-    <script type="application/ld+json">
-      {JSON.stringify(doc)}
-    </script>
-  )  
-}
+      },
+    },
+  };
+
+  return <script type="application/ld+json">{JSON.stringify(doc)}</script>;
+};
 
 export default LinkedData;

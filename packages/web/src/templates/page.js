@@ -10,13 +10,13 @@ const PageTemplate = ({ data, previewData }) => {
   const { main, meta } = previewData
     ? previewData.content
     : data.sanityPage._rawContent;
-  
+
   return (
     <React.Fragment>
       <SEO meta={meta} />
       {renderPageModules(main.modules)}
     </React.Fragment>
-  )
+  );
 };
 
 export default PageTemplate;

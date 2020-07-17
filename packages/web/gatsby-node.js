@@ -1,4 +1,4 @@
-const get = require('lodash/get')
+const get = require("lodash/get");
 
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions;
@@ -66,8 +66,8 @@ exports.createPages = async ({ graphql, actions }) => {
 
   const productPath = get(
     data,
-    'sanitySiteGlobal.content.routes.productRouteRoot.current',
-    'product'
+    "sanitySiteGlobal.content.routes.productRouteRoot.current",
+    "product"
   );
 
   const products = data.allSanityProduct.edges || [];

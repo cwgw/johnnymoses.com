@@ -1,15 +1,15 @@
-import get from 'lodash/get'
-import { useStaticQuery, graphql } from 'gatsby';
+import get from "lodash/get";
+import { useStaticQuery, graphql } from "gatsby";
 
-import { resolve as urlResolve } from '../utils/url'
+import { resolve as urlResolve } from "../utils/url";
 
 const defaults = {
-  absolute: false
-}
+  absolute: false,
+};
 
-const useProductURL = (slug = '', _options = {}) => {
+const useProductURL = (slug = "", _options = {}) => {
   const options = { ...defaults, ..._options };
-  
+
   const data = useStaticQuery(graphql`
     {
       sanitySiteGlobal {
@@ -26,15 +26,12 @@ const useProductURL = (slug = '', _options = {}) => {
       }
     }
   `);
-  
-  const hostname = get(
-    data,
-    'sanitySiteGlobal.content.siteHostname.current'
-  );
+
+  const hostname = get(data, "sanitySiteGlobal.content.siteHostname.current");
 
   const productRoute = get(
     data,
-    'sanitySiteGlobal.content.routes.productRouteRoot.current'
+    "sanitySiteGlobal.content.routes.productRouteRoot.current"
   );
 
   if (options.absolute) {
@@ -42,6 +39,6 @@ const useProductURL = (slug = '', _options = {}) => {
   }
 
   return urlResolve(productRoute, slug);
-}
+};
 
 export default useProductURL;
