@@ -1,6 +1,7 @@
 import React from "react";
 import { graphql } from "gatsby";
 
+import SEO from "../components/seo";
 import Product from "../components/product/product";
 import Box from "../components/box";
 
@@ -11,6 +12,7 @@ const PageTemplate = ({ data, previewData }) => {
 
   return (
     <Box variant="container">
+      <SEO meta={content.meta} />
       <Product content={content} />
     </Box>
   );

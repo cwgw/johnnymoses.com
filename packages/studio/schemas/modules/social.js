@@ -19,5 +19,10 @@ export default {
       type: "url",
       title: "Facebook URL",
     },
+    {
+      name: "youtube",
+      type: "url",
+      title: "YouTube URL",
+    },
   ],
 };

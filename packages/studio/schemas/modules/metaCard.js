@@ -6,39 +6,47 @@ export default {
   fieldsets: [
     {
       name: "opengraph",
-      title: "Open Graph Protocol",
+      title: "Open Graph Meta Properties",
       options: {
-        collapsible: true,
-        collapsed: true,
+        collapsible: false,
+        collapsed: false,
       },
     },
     {
       name: "twitter",
-      title: "Twitter Protocol",
+      title: "Twitter Meta Properties",
       options: {
-        collapsible: true,
-        collapsed: true,
+        collapsible: false,
+        collapsed: false,
       },
     },
   ],
   fields: [
     {
-      name: "metaTitle",
-      title: "Meta Title (overrides default title)",
+      name: "title",
+      title: "Title",
       type: "string",
     },
     {
-      name: "metaDescription",
-      title: "Meta Description",
+      name: "description",
+      title: "Description",
       type: "string",
     },
     {
-      name: "metaKeywords",
-      title: "Meta Keywords",
+      name: "keywords",
+      title: "Keywords",
       type: "string",
     },
     {
-      name: "openImage",
+      name: "image",
+      title: "Image",
+      type: "image",
+      options: {
+        hotspot: true,
+      },
+    },
+    {
+      name: "opengraphImage",
       title: "Open Graph Image",
       type: "image",
       description: "Ideal size for open graph images is 1200 x 600",

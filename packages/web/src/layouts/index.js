@@ -23,7 +23,7 @@ const Layout = ({ children }) => {
       sanitySiteGlobal {
         content {
           metaInformation {
-            metaTitle
+            title
           }
         }
       }
@@ -68,7 +68,7 @@ const Layout = ({ children }) => {
 
   const headerNavItems = data.mainMenu?.items || [];
   const footerNavItems = data.footerMenu?.items || [];
-  const siteTitle = data.sanitySiteGlobal.content.metaInformation.metaTitle;
+  const siteTitle = data.sanitySiteGlobal.content.metaInformation.title;
 
   return (
     <StoreContextProvider>

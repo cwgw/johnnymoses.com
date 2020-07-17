@@ -1,5 +1,6 @@
 import React from "react";
 import sanityClient from "@sanity/client";
+import imageUrlBuilder from '@sanity/image-url'
 
 export const SanityClientContext = React.createContext({});
 
@@ -8,10 +9,12 @@ export const SanityClientProvider = ({ projectId, dataset, children }) => {
     const config = { projectId, dataset };
     const client = sanityClient({
       ...config,
-      useCdn: false,
+      useCdn: true,
       withCredentials: true,
     });
-    return { client, config };
+    const imageBuilder = imageUrlBuilder(client);
+    const imgUrl = source => imageBuilder.image(source);
+    return { client, config, imgUrl };
   }, [projectId, dataset]);
 
   return <SanityClientContext.Provider value={value} children={children} />;
