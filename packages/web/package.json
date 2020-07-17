@@ -43,7 +43,7 @@
     "js-cookie": "^2.2.1",
     "jsdom": "^16.3.0",
     "lodash": "^4.17.15",
-    "netlify-lambda": "^2",
+    "netlify-lambda": "1.6.3",
     "node-loader": "^1.0.0",
     "null-loader": "^4.0.0",
     "prop-types": "^15.7.2",
