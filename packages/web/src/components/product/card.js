@@ -8,16 +8,21 @@ import Heading from "../heading";
 import Image from "../image";
 import Link from "../link";
 
-import Form from "./form";
+import useProductURL from '../../hooks/useProductURL'
 
-const ProductCard = props => {
-  // console.log({ props });
-  const {
-    content: { main, shopify },
-    _type,
-  } = props;
+import Form from "./form";
+import LinkedData from './linkedData'
+
+const ProductCard = ({
+  content,
+  _type,
+}) => {
+  const { main, shopify } = content;
 
   const isThirdParty = _type === "productThirdParty";
+
+  const slug = useProductURL(main.slug && main.slug.current);
+  const url = isThirdParty ? main.url : slug;
 
   return (
     <Flex
@@ -30,6 +35,9 @@ const ProductCard = props => {
         textAlign: "center",
       }}
     >
+      {shopify && (
+        <LinkedData {...content} />
+      )}
       {main.mainImage && (
         <Box>
           <Image width={400} {...main.mainImage} />
@@ -44,7 +52,7 @@ const ProductCard = props => {
       >
         <Heading as="h4" variant="body" mb={3}>
           <Link
-            to={isThirdParty ? main.url : `/store/${main.slug.current}`}
+            to={url}
             variant="fill"
             sx={{
               color: "inherit",

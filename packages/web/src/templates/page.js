@@ -3,14 +3,20 @@ import { jsx } from "theme-ui";
 import React from "react";
 import { graphql } from "gatsby";
 
+import SEO from "../components/seo";
 import renderPageModules from "../utils/renderPageModules";
 
 const PageTemplate = ({ data, previewData }) => {
-  const { main } = previewData
+  const { main, meta } = previewData
     ? previewData.content
     : data.sanityPage._rawContent;
-
-  return <React.Fragment>{renderPageModules(main.modules)}</React.Fragment>;
+  
+  return (
+    <React.Fragment>
+      <SEO meta={meta} />
+      {renderPageModules(main.modules)}
+    </React.Fragment>
+  )
 };
 
 export default PageTemplate;

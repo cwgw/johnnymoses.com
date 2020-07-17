@@ -39,6 +39,7 @@ import moduleContent from "./modules/moduleContent";
 import pageItem from "./modules/pageItem";
 import pageModule from "./modules/pageModule";
 import social from "./modules/social";
+import routes from "./modules/routes";
 import eventModule from "./modules/eventModule";
 
 // product modules
@@ -86,6 +87,7 @@ export default createSchema({
     pageItem,
     pageModule,
     social,
+    routes,
 
     productModule,
     shopifyProductModule,

@@ -1,3 +1,5 @@
+const get = require('lodash/get')
+
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions;
 
@@ -5,6 +7,15 @@ exports.createPages = async ({ graphql, actions }) => {
   const productTemplate = require.resolve("./src/templates/product");
   const { data, errors } = await graphql(`
     {
+      sanitySiteGlobal {
+        content {
+          routes {
+            productRouteRoot {
+              current
+            }
+          }
+        }
+      }
       allSanityPage {
         edges {
           node {
@@ -53,10 +64,16 @@ exports.createPages = async ({ graphql, actions }) => {
     });
   });
 
+  const productPath = get(
+    data,
+    'sanitySiteGlobal.content.routes.productRouteRoot.current',
+    'product'
+  );
+
   const products = data.allSanityProduct.edges || [];
   products.forEach(({ node }) => {
     const slug = node.content.main.slug.current;
-    const path = `/store/${slug}`;
+    const path = `/${productPath}/${slug}`;
     createPage({
       path,
       component: productTemplate,

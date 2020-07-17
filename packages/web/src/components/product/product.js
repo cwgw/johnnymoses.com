@@ -2,22 +2,27 @@
 import { jsx } from "theme-ui";
 
 import useVariant from "../../hooks/useVariant";
+
 import BlockContent from "../page-blocks/blockContent";
 import Box from "../box";
 import Flex from "../flex";
-import Form from "./form";
 import Heading from "../heading";
 import Image from "../image";
+
+import Form from "./form";
 import Options from "./options";
 import Price from "./price";
+import LinkedData from './linkedData'
 
-const ProductCard = ({ content: { main, shopify } }) => {
+const ProductCard = ({ content }) => {
+  const { main, shopify } = content;
   const { variant, product, handleOptionChange } = useVariant({
     handle: shopify.handle,
   });
 
   return (
-    <Flex>
+    <Flex as="article" >
+      <LinkedData {...content} />
       {main.mainImage && (
         <Box sx={{ flex: `0 0 400px` }}>
           <Image width={400} {...main.mainImage} />
