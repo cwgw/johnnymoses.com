@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import { Helmet } from "react-helmet";
 import { useStaticQuery, graphql } from "gatsby";
 
-import { useSanityClient } from '../context/sanityClient'
-import { resolve as urlResolve } from '../utils/url'
+import { useSanityClient } from "../context/sanityClient";
+import { resolve as urlResolve } from "../utils/url";
 
 function SEO({ lang, meta: _meta }) {
   const data = useStaticQuery(graphql`
@@ -17,35 +17,38 @@ function SEO({ lang, meta: _meta }) {
 
   const { imgUrl } = useSanityClient();
 
-  const siteMeta = data.sanitySiteGlobal._rawContent.metaInformation || {};  
+  const siteMeta = data.sanitySiteGlobal._rawContent.metaInformation || {};
   const meta = { ...siteMeta, ..._meta };
   const social = data.sanitySiteGlobal._rawContent.social;
 
-  const siteTitle = data.sanitySiteGlobal._rawContent.siteTitle
-  const siteHostname = data.sanitySiteGlobal._rawContent.siteHostname.current
-  const siteUrl = urlResolve(siteHostname)
+  const siteTitle = data.sanitySiteGlobal._rawContent.siteTitle;
+  const siteHostname = data.sanitySiteGlobal._rawContent.siteHostname.current;
+  const siteUrl = urlResolve(siteHostname);
 
   const sameAs = social
-    ? Object.entries(social).filter(a => !(a[0].startsWith('_'))).map(a => a[1])
+    ? Object.entries(social)
+        .filter(a => !a[0].startsWith("_"))
+        .map(a => a[1])
     : [];
 
   const title = meta.title || siteTitle;
-  const titleComplement = meta.title === siteMeta.title ? siteMeta.description : siteMeta.title;
-  
+  const titleComplement =
+    meta.title === siteMeta.title ? siteMeta.description : siteMeta.title;
+
   const description = {
-    name: 'description',
+    name: "description",
     content: meta.description,
-  }
+  };
 
   const keywords = meta.metaKeywords && {
-    name: 'keywords',
+    name: "keywords",
     content: meta.metaKeywords,
   };
 
   const image = meta.image && {
-    name: 'image',
-    content: imgUrl(meta.image).width(1024).height(1024).url()
-  }
+    name: "image",
+    content: imgUrl(meta.image).width(1024).height(1024).url(),
+  };
 
   const ogType = {
     property: `og:type`,
@@ -63,19 +66,22 @@ function SEO({ lang, meta: _meta }) {
   };
 
   const ogImage = (meta.opengraphImage || meta.image) && {
-    property: 'og:image',
-    content: imgUrl(meta.opengraphImage || meta.image).width(1200).height(630).url(),
-  }
+    property: "og:image",
+    content: imgUrl(meta.opengraphImage || meta.image)
+      .width(1200)
+      .height(630)
+      .url(),
+  };
 
   const ogSiteName = {
-    property: 'og:site_name',
-    content: siteMeta.title
-  }
+    property: "og:site_name",
+    content: siteMeta.title,
+  };
 
   const ogURL = {
-    property: 'og:url',
-    content: siteUrl
-  }
+    property: "og:url",
+    content: siteUrl,
+  };
 
   const twitterCard = {
     name: `twitter:card`,
@@ -88,16 +94,19 @@ function SEO({ lang, meta: _meta }) {
   };
 
   const twitterDescription = {
-    name: 'twitter:description',
-    content: meta.twitterDescription || meta.description
-  };
-  
-  const twitterimage = (meta.twitterImage || meta.image) && {
-    name: 'twitter:image:src',
-    content: imgUrl(meta.twitterImage || meta.image).width(1024).height(512).url()
+    name: "twitter:description",
+    content: meta.twitterDescription || meta.description,
   };
 
-  const metaTags = ([
+  const twitterimage = (meta.twitterImage || meta.image) && {
+    name: "twitter:image:src",
+    content: imgUrl(meta.twitterImage || meta.image)
+      .width(1024)
+      .height(512)
+      .url(),
+  };
+
+  const metaTags = [
     description,
     keywords,
     image,
@@ -110,8 +119,8 @@ function SEO({ lang, meta: _meta }) {
     twitterCard,
     twitterTitle,
     twitterDescription,
-    twitterimage
-  ]).filter(Boolean)
+    twitterimage,
+  ].filter(Boolean);
 
   return (
     <Helmet
@@ -128,9 +137,9 @@ function SEO({ lang, meta: _meta }) {
             name: siteTitle,
             url: siteUrl,
             image: image && image.content,
-            sameAs: sameAs
-          })
-        }
+            sameAs: sameAs,
+          }),
+        },
       ]}
     />
   );

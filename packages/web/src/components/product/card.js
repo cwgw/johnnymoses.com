@@ -8,15 +8,12 @@ import Heading from "../heading";
 import Image from "../image";
 import Link from "../link";
 
-import useProductURL from '../../hooks/useProductURL'
+import useProductURL from "../../hooks/useProductURL";
 
 import Form from "./form";
-import LinkedData from './linkedData'
+import LinkedData from "./linkedData";
 
-const ProductCard = ({
-  content,
-  _type,
-}) => {
+const ProductCard = ({ content, _type }) => {
   const { main, shopify } = content;
 
   const isThirdParty = _type === "productThirdParty";
@@ -35,9 +32,7 @@ const ProductCard = ({
         textAlign: "center",
       }}
     >
-      {shopify && (
-        <LinkedData {...content} />
-      )}
+      {shopify && <LinkedData {...content} />}
       {main.mainImage && (
         <Box>
           <Image width={400} {...main.mainImage} />

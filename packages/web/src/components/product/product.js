@@ -12,7 +12,7 @@ import Image from "../image";
 import Form from "./form";
 import Options from "./options";
 import Price from "./price";
-import LinkedData from './linkedData'
+import LinkedData from "./linkedData";
 
 const ProductCard = ({ content }) => {
   const { main, shopify } = content;
@@ -21,7 +21,7 @@ const ProductCard = ({ content }) => {
   });
 
   return (
-    <Flex as="article" >
+    <Flex as="article">
       <LinkedData {...content} />
       {main.mainImage && (
         <Box sx={{ flex: `0 0 400px` }}>
