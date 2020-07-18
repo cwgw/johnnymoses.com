@@ -28,16 +28,16 @@ export const buttons = {
   },
 
   tile: {
-    display: 'flex',
-    flexFlow: 'column nowrap',
-    alignItems: 'center',
+    display: "flex",
+    flexFlow: "column nowrap",
+    alignItems: "center",
     px: 4,
     borderColor: "grays.600",
     ":hover": {
       backgroundColor: "grays.900",
     },
     "&[data-checked='true']": {
-      borderColor: 'primary',
+      borderColor: "primary",
       backgroundColor: "transparent",
     },
   },
@@ -182,25 +182,24 @@ export const products = {
     fontWeight: "regular",
     textDecoration: "line-through",
   },
-}
+};
 
-export const cart = {
-}
+export const cart = {};
 
 export const icons = {
   default: {
-    display: 'inline-block',
+    display: "inline-block",
     height: "1em",
     width: "1em",
-    verticalAlign: '-0.1em',
-    fontSize: 'inherit',
+    verticalAlign: "-0.1em",
+    fontSize: "inherit",
     color: "grays.400",
   },
 
   tile: {
-    display: 'inline-block',
-    height: '1em',
-    width: '1em',
+    display: "inline-block",
+    height: "1em",
+    width: "1em",
     m: 0,
     fontSize: 5,
     color: "grays.600",
@@ -209,6 +208,6 @@ export const icons = {
     },
     "& *": {
       strokeWidth: 2,
-    }
-  }
-}
+    },
+  },
+};

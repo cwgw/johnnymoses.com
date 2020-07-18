@@ -8,6 +8,6 @@ export default {
       name: "productRouteRoot",
       title: "Root Product Route",
       type: "slug",
-    }
+    },
   ],
 };

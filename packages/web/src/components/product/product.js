@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import React from 'react'
+import React from "react";
 
 import useVariant from "../../hooks/useVariant";
 import formatPrice from "../../utils/formatPrice";
@@ -14,7 +14,7 @@ import FormField from "../formField";
 
 import Options from "./options";
 import Price from "./price";
-import Button from '../button';
+import Button from "../button";
 import LinkedData from "./linkedData";
 
 const Product = ({ content }) => {
@@ -32,14 +32,17 @@ const Product = ({ content }) => {
     handle: shopify.handle,
   });
 
-  const handleSubmit = React.useCallback(e => {
-    e.preventDefault();
-    e.stopPropagation();
-    handleAddItemToCart();
-  }, [handleAddItemToCart]);
+  const handleSubmit = React.useCallback(
+    e => {
+      e.preventDefault();
+      e.stopPropagation();
+      handleAddItemToCart();
+    },
+    [handleAddItemToCart]
+  );
 
-  console.log({variant})
-  
+  console.log({ variant });
+
   return (
     <Flex as="article">
       <LinkedData {...content} />
@@ -59,7 +62,7 @@ const Product = ({ content }) => {
         <span sx={{ variant: "text.eyebrow" }}>{main.productType}</span>
         <form onSubmit={handleSubmit}>
           <Heading as="h1">{main.title}</Heading>
-          <Box sx={{ mb: 4 }} >
+          <Box sx={{ mb: 4 }}>
             <Price
               price={variant.priceV2}
               compareAtPrice={variant.compareAtPriceV2}
@@ -83,18 +86,23 @@ const Product = ({ content }) => {
             onChange={handleQuantityChange}
             mx={3}
           />
-          <Button type="submit" disabled={!isAvailable || isAdding} variant="submit">
-            {isAvailable
-              ? isAdding
-                ? <span>Adding…</span>
-                : (
-                  <span>
-                    {"Add to cart - "}
-                    {formatPrice(variant.priceV2, quantity)}
-                  </span>
-                )
-              : <span>Currently out of stock</span>
-            }
+          <Button
+            type="submit"
+            disabled={!isAvailable || isAdding}
+            variant="submit"
+          >
+            {isAvailable ? (
+              isAdding ? (
+                <span>Adding…</span>
+              ) : (
+                <span>
+                  {"Add to cart - "}
+                  {formatPrice(variant.priceV2, quantity)}
+                </span>
+              )
+            ) : (
+              <span>Currently out of stock</span>
+            )}
           </Button>
         </form>
       </Flex>

@@ -36,7 +36,10 @@ const LinkedData = ({ main, shopify }) => {
 
   const siteTitle = get(sanitySiteGlobal, "content.siteTitle");
   const hostname = get(sanitySiteGlobal, "content.siteHostname.current");
-  const productRoute = get(sanitySiteGlobal, "content.routes.productRouteRoot.current");
+  const productRoute = get(
+    sanitySiteGlobal,
+    "content.routes.productRouteRoot.current"
+  );
   const siteUrl = urlResolve(hostname);
   const productPath = urlResolve(hostname, productRoute, main.slug.current);
 

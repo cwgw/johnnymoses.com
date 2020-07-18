@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import React from 'react'
+import React from "react";
 import { jsx } from "@theme-ui/core";
 
 import formatPrice from "../../utils/formatPrice";
@@ -8,7 +8,7 @@ import Box from "../box";
 
 const Price = ({ compareAtPrice, price, showCurrency, quantity, ...props }) => {
   const isOnSale = !!compareAtPrice;
-  
+
   return (
     <Box
       as="dl"
@@ -16,7 +16,7 @@ const Price = ({ compareAtPrice, price, showCurrency, quantity, ...props }) => {
         display: "inline-flex",
         flexFlow: "row wrap",
         mx: -1,
-        "div": {
+        div: {
           display: "inline-block",
           mx: 1,
         },
@@ -30,15 +30,15 @@ const Price = ({ compareAtPrice, price, showCurrency, quantity, ...props }) => {
       {isOnSale ? (
         <React.Fragement>
           <div>
-            <dt sx={{ variant: "utils.visuallyHidden" }} >Price</dt>
-            <dd sx={{ variant: "products.salePrice" }} >
+            <dt sx={{ variant: "utils.visuallyHidden" }}>Price</dt>
+            <dd sx={{ variant: "products.salePrice" }}>
               {formatPrice(price, quantity)}
               {showCurrency && ` ${price?.currencyCode}`}
             </dd>
           </div>
           <div>
-            <dt sx={{ variant: "utils.visuallyHidden" }} >List Price</dt>
-            <dd sx={{ variant: "products.compareAtPrice" }} >
+            <dt sx={{ variant: "utils.visuallyHidden" }}>List Price</dt>
+            <dd sx={{ variant: "products.compareAtPrice" }}>
               {formatPrice(compareAtPrice, quantity)}
               {showCurrency && ` ${compareAtPrice?.currencyCode}`}
             </dd>
@@ -46,8 +46,8 @@ const Price = ({ compareAtPrice, price, showCurrency, quantity, ...props }) => {
         </React.Fragement>
       ) : (
         <div>
-          <dt sx={{ variant: "utils.visuallyHidden" }} >Price</dt>
-          <dd sx={{ variant: "products.price" }} >
+          <dt sx={{ variant: "utils.visuallyHidden" }}>Price</dt>
+          <dd sx={{ variant: "products.price" }}>
             {formatPrice(price, quantity)}
             {showCurrency && ` ${price?.currencyCode}`}
           </dd>

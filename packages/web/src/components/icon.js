@@ -1,14 +1,14 @@
-import React from 'react';
-import * as Icons from 'react-feather'
+import React from "react";
+import * as Icons from "react-feather";
 
-import Text from './text';
+import Text from "./text";
 
 const baseStyles = {
   "& *": {
     strokeWidth: 1,
-    vectorEffect: 'non-scaling-stroke',
-  }
-}
+    vectorEffect: "non-scaling-stroke",
+  },
+};
 
 const Icon = ({ icon, ...props }) => {
   return (
@@ -16,11 +16,11 @@ const Icon = ({ icon, ...props }) => {
       as={Icons[icon]}
       variant="default"
       aria-hidden="true"
-     {...props}
-     __themeKey="icons"
-     __css={baseStyles}
+      {...props}
+      __themeKey="icons"
+      __css={baseStyles}
     />
   );
-}
+};
 
 export default Icon;

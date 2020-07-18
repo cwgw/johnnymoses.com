@@ -4,7 +4,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import debounce from "lodash/debounce";
 
-import Icon from './icon'
+import Icon from "./icon";
 
 const propTypes = {
   max: PropTypes.number,
@@ -46,7 +46,7 @@ const Button = ({ children, ...props }) => (
   </button>
 );
 
-const Input = (props) => (
+const Input = props => (
   <input
     sx={{
       display: "inline-block",
@@ -67,7 +67,7 @@ const Input = (props) => (
       },
       "&:active, &:focus": {
         outline: "none",
-      }
+      },
     }}
     {...props}
   />
@@ -93,10 +93,10 @@ const reducer = (state, [type, payload]) => {
       return value;
     }
     default: {
-      return state
+      return state;
     }
   }
-}
+};
 
 const Quantity = ({
   max,
@@ -111,22 +111,26 @@ const Quantity = ({
   ...props
 }) => {
   const [value, dispatch] = React.useReducer(reducer, controlledValue);
-  const handleChange = (e) => {
+  const handleChange = e => {
     const value = parseInt(e.target.value);
-    dispatch(["CHANGE", { value, onChange: debouncedOnChange }])
-  }
+    dispatch(["CHANGE", { value, onChange: debouncedOnChange }]);
+  };
 
   const debouncedOnChange = React.useCallback(
-    debounce((val) => {
-      onChange(val);
-    }, 500, { leading: true, trailing: true }),
+    debounce(
+      val => {
+        onChange(val);
+      },
+      500,
+      { leading: true, trailing: true }
+    ),
     [onChange]
   );
-  
+
   const handleIncrement = () => {
     dispatch(["INCREMENT", { onChange: debouncedOnChange }]);
   };
-  
+
   const handleDecrement = () => {
     dispatch(["DECREMENT", { onChange: debouncedOnChange }]);
   };
@@ -146,8 +150,8 @@ const Quantity = ({
           mx: 1,
         },
         "& input": {
-          mx: -1
-        }
+          mx: -1,
+        },
       }}
       {...props}
     >

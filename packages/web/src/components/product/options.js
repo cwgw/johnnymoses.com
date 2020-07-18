@@ -3,13 +3,13 @@ import { jsx } from "theme-ui";
 
 import isNotDefaultOption from "../../utils/isNotDefaultOption";
 import Listbox from "../listbox";
-import Tiles from '../tiles';
+import Tiles from "../tiles";
 
 const iconMap = {
-  cd: 'Disc',
-  dvd: 'Disc',
-  download: 'Download',
-}
+  cd: "Disc",
+  dvd: "Disc",
+  download: "Download",
+};
 
 const Options = ({ options, selectedOptions, onChange, ...props }) => {
   const handleChange = name => value => {
@@ -28,13 +28,13 @@ const Options = ({ options, selectedOptions, onChange, ...props }) => {
           label={option.name}
           options={option.values.map(({ value }) => ({
             icon: iconMap[value.toLowerCase()],
-            value
+            value,
           }))}
           onChange={handleChange(option.name)}
           value={selectedOptions[i].value}
           {...props}
         />
-      )
+      );
     }
 
     return (
@@ -46,7 +46,7 @@ const Options = ({ options, selectedOptions, onChange, ...props }) => {
         value={selectedOptions[i].value}
         {...props}
       />
-    )
+    );
   });
 };
 

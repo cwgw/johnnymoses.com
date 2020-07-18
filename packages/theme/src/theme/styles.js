@@ -39,4 +39,4 @@ export const h3 = {
 export const label = {
   fontWeight: "bold",
   mb: 2,
-}
+};

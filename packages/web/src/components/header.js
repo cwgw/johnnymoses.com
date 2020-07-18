@@ -19,7 +19,7 @@ const getHref = ({ link, url }) => {
 
 const Header = ({ navItems, siteTitle }) => {
   const cartCount = useCartCount();
-  console.log({navItems})
+  console.log({ navItems });
 
   return (
     <header role="banner">

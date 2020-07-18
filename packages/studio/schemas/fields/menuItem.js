@@ -13,7 +13,11 @@ export default {
       name: "items",
       title: "Nav Items",
       type: "array",
-      of: [{ type: "menuItem" }, { type: "internalLink" }, { type: "externalLink" }],
+      of: [
+        { type: "menuItem" },
+        { type: "internalLink" },
+        { type: "externalLink" },
+      ],
     },
   ],
 };

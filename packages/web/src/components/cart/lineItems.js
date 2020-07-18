@@ -14,7 +14,7 @@ import {
 } from "../../context/shopifyClient";
 
 import isNotDefaultOption from "../../utils/isNotDefaultOption";
-import useProductURL from '../../hooks/useProductURL'
+import useProductURL from "../../hooks/useProductURL";
 
 import Button from "../button";
 import Counter from "../counter";
@@ -22,7 +22,7 @@ import Link from "../link";
 import Text from "../text";
 import Flex from "../flex";
 import Box from "../box";
-import Price from '../product/price'
+import Price from "../product/price";
 
 const LineItem = ({ item }) => {
   const { variant, id, title, quantity } = item;
@@ -46,7 +46,7 @@ const LineItem = ({ item }) => {
     }
   }, [variant]);
 
-  const url = useProductURL(variant.product.handle)
+  const url = useProductURL(variant.product.handle);
 
   return (
     <Flex
@@ -208,7 +208,9 @@ const LineItemList = props => {
           py: 3,
         }}
       >
-        <Text ml="auto" variant="strong">Price</Text> 
+        <Text ml="auto" variant="strong">
+          Price
+        </Text>
       </Flex>
       <Box
         as="ul"
@@ -220,7 +222,7 @@ const LineItemList = props => {
       >
         {items.map(item => (
           <LineItem key={item.id} item={item} />
-          ))}
+        ))}
       </Box>
       <Flex
         sx={{
@@ -233,11 +235,8 @@ const LineItemList = props => {
         <Text ml="auto">
           {count < 1
             ? `Subtotal: `
-            : `Subtotal (${count} item${count > 1 ? "s" : ""}): `
-          }
-          <strong sx={{ variant: "products.price" }} >
-            {subtotal}
-          </strong>
+            : `Subtotal (${count} item${count > 1 ? "s" : ""}): `}
+          <strong sx={{ variant: "products.price" }}>{subtotal}</strong>
         </Text>
       </Flex>
     </Box>

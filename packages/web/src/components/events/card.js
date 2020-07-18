@@ -13,13 +13,10 @@ import Text from "../text";
 import Box from "../box";
 import Flex from "../flex";
 import Link from "../link";
-import Icon from '../icon';
-import LinkedData from './linkedData';
+import Icon from "../icon";
+import LinkedData from "./linkedData";
 
-const EventCard = ({
-  content,
-  className,
-}) => {
+const EventCard = ({ content, className }) => {
   const {
     main: {
       description,
@@ -29,16 +26,17 @@ const EventCard = ({
       start,
       title,
       htmlLink,
-    }
+    },
   } = content;
 
   const today = new Date();
   const startDate = new Date(start);
-  const dateFromNow = startDate < today
+  const dateFromNow =
+    startDate < today
       ? `${formatDistanceToNow(startDate)} ago`
       : differenceInMonths(startDate, today) > 1
-        ? `${formatDistanceToNow(startDate)} from now`
-        : `In ${formatDistanceToNow(startDate)}`;
+      ? `${formatDistanceToNow(startDate)} from now`
+      : `In ${formatDistanceToNow(startDate)}`;
 
   return (
     <Flex
