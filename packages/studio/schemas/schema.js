@@ -32,6 +32,7 @@ import blockContent from "./fields/blockContent";
 import externalLink from "./fields/externalLink";
 import formField from "./fields/formField";
 import internalLink from "./fields/internalLink";
+import menuItem from "./fields/menuItem";
 
 // modules
 import metaCard from "./modules/metaCard";
@@ -82,6 +83,8 @@ export default createSchema({
     externalLink,
     formField,
     internalLink,
+    menuItem,
+
     metaCard,
     moduleContent,
     pageItem,

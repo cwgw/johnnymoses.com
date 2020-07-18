@@ -10,7 +10,11 @@ import Button from "../button";
 import Heading from "../heading";
 import Box from "../box";
 
-const OrderSummary = props => {
+const defaultProps = {
+  title: "Order Summary",
+};
+
+const OrderSummary = ({ title, ...props }) => {
   const checkout = useCheckout();
   const cartCount = useCartCount();
   const isEmpty = cartCount < 1;
@@ -24,7 +28,6 @@ const OrderSummary = props => {
   return (
     <Box
       sx={{
-        backgroundColor: "grays.900",
         borderRadius: 3,
         display: "flex",
         flexFlow: "column nowrap",
@@ -35,15 +38,17 @@ const OrderSummary = props => {
       }}
       {...props}
     >
-      <Heading
-        sx={{
-          py: 3,
-          px: 4,
-          m: 0,
-        }}
-      >
-        Order Summary
-      </Heading>
+      {title && (
+        <Heading
+          sx={{
+            py: 3,
+            px: 4,
+            m: 0,
+          }}
+        >
+          {title}
+        </Heading>
+      )}
       {rows.map(([name, value]) => (
         <div
           key={name + value}
@@ -84,5 +89,7 @@ const OrderSummary = props => {
     </Box>
   );
 };
+
+OrderSummary.defaultProps = defaultProps;
 
 export default OrderSummary;

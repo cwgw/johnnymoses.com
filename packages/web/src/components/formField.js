@@ -6,7 +6,7 @@ import Box from "./box";
 import Label from "./label";
 import Input from "./input";
 import Textarea from "./textarea";
-import Quantity from "./quantity";
+import Counter from "./counter";
 
 const baseStyles = {
   mb: 3,
@@ -17,7 +17,7 @@ const FormField = React.forwardRef(
     const id = React.useRef(uniqueId("input"));
     const components = {
       textarea: Textarea,
-      quantity: Quantity,
+      counter: Counter,
     };
     const InputElement = components[type] || Input;
     return (

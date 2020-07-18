@@ -4,7 +4,6 @@ import format from "date-fns/format";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import differenceInMonths from "date-fns/differenceInMonths";
 import slugify from "slugify";
-import VisuallyHidden from "@reach/visually-hidden";
 
 import { createIcsDataUri } from "../../utils/iCalendar";
 
@@ -14,9 +13,14 @@ import Text from "../text";
 import Box from "../box";
 import Flex from "../flex";
 import Link from "../link";
+import Icon from '../icon';
+import LinkedData from './linkedData';
 
 const EventCard = ({
-  content: {
+  content,
+  className,
+}) => {
+  const {
     main: {
       description,
       descriptionText,
@@ -24,32 +28,22 @@ const EventCard = ({
       location,
       start,
       title,
-      created,
-      updated,
-      uid,
       htmlLink,
-    },
-  },
-  className,
-}) => {
+    }
+  } = content;
+
   const today = new Date();
   const startDate = new Date(start);
-  const endDate = new Date(end);
-  let dateFromNow =
-    differenceInMonths(startDate, today) > 1
-      ? `${formatDistanceToNow(startDate)} from now`
-      : `In ${formatDistanceToNow(startDate)}`;
-
-  if (startDate < today) {
-    dateFromNow = `${formatDistanceToNow(startDate)} ago`;
-  }
+  const dateFromNow = startDate < today
+      ? `${formatDistanceToNow(startDate)} ago`
+      : differenceInMonths(startDate, today) > 1
+        ? `${formatDistanceToNow(startDate)} from now`
+        : `In ${formatDistanceToNow(startDate)}`;
 
   return (
     <Flex
       as="article"
       className={className}
-      itemScope
-      itemType="http://schema.org/Event"
       sx={{
         flexFlow: "column nowrap",
         px: 4,
@@ -60,17 +54,17 @@ const EventCard = ({
         borderRadius: 3,
       }}
     >
+      <LinkedData {...content} />
       <header>
         <Text as="p" color="grays.500" variant="small">
           {dateFromNow}
         </Text>
-        <Heading as="h3" mb={3} itemProp="name">
+        <Heading as="h3" mb={3}>
           {title}
         </Heading>
       </header>
       <BlockContent
         blocks={description}
-        itemProp="description"
         sx={{
           mb: 4,
           color: "grays.400",
@@ -84,13 +78,12 @@ const EventCard = ({
       >
         <Box>
           <Text as="p" variant="small" itemProp="startDate" content={start}>
+            <Icon icon="Calendar" />
             {format(startDate, "MMMM do, yyyy")}
           </Text>
-          <VisuallyHidden itemProp="endDate" content={end}>
-            {format(endDate, "MMMM do, yyyy")}
-          </VisuallyHidden>
           {location && (
-            <Text as="p" variant="small" itemProp="location">
+            <Text as="p" variant="small">
+              <Icon icon="MapPin" />
               {location}
             </Text>
           )}
@@ -98,14 +91,11 @@ const EventCard = ({
         <Link to={htmlLink} ml="auto" mr={2} children="Google Calendar" />
         <Link
           to={createIcsDataUri({
+            ...content.main,
             summary: title,
             description: descriptionText,
             endDate: end,
-            location,
             startDate: start,
-            created,
-            updated,
-            uid,
           })}
           download={`${slugify(title, { lower: true })}.ics`}
           children=".ics"

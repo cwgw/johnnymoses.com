@@ -4,26 +4,52 @@ export const buttons = {
     cursor: "not-allowed",
   },
 
-  primary: {
-    borderWidth: 1,
+  secondary: {
     color: "text",
+    ":hover": {
+      backgroundColor: "grays.900",
+    },
     ":disabled": {
       variant: "buttons.disabled",
     },
   },
 
-  secondary: {
-    borderWidth: 1,
-    borderColor: "grays.300",
-    backgroundColor: "grays.300",
+  primary: {
+    borderColor: "primary",
+    backgroundColor: "primary",
     color: "white",
+    ":hover": {
+      backgroundColor: "text",
+      borderColor: "text",
+    },
     ":disabled": {
       variant: "buttons.disabled",
     },
+  },
+
+  tile: {
+    display: 'flex',
+    flexFlow: 'column nowrap',
+    alignItems: 'center',
+    px: 4,
+    borderColor: "grays.600",
+    ":hover": {
+      backgroundColor: "grays.900",
+    },
+    "&[data-checked='true']": {
+      borderColor: 'primary',
+      backgroundColor: "transparent",
+    },
+  },
+
+  submit: {
+    variant: "buttons.primary",
+    width: "100%",
   },
 
   link: {
     padding: 0,
+    border: "none",
     variant: "styles.a",
   },
 };
@@ -82,6 +108,10 @@ export const text = {
     fontSize: 1,
   },
 
+  strong: {
+    fontWeight: "bold",
+  },
+
   body: {
     fontWeight: "normal",
     fontSize: 2,
@@ -137,3 +167,48 @@ export const skipNav = {
     overflow: "visible",
   },
 };
+
+export const products = {
+  price: {
+    color: "darkRed",
+    fontWeight: "bold",
+  },
+  salePrice: {
+    fontWeight: "bold",
+    color: "darkGreen",
+  },
+  compareAtPrice: {
+    color: "grays.400",
+    fontWeight: "regular",
+    textDecoration: "line-through",
+  },
+}
+
+export const cart = {
+}
+
+export const icons = {
+  default: {
+    display: 'inline-block',
+    height: "1em",
+    width: "1em",
+    verticalAlign: '-0.1em',
+    fontSize: 'inherit',
+    color: "grays.400",
+  },
+
+  tile: {
+    display: 'inline-block',
+    height: '1em',
+    width: '1em',
+    m: 0,
+    fontSize: 5,
+    color: "grays.600",
+    "[data-checked='true'] &, [aria-selected='true'] &, [aria-checked='true'] &": {
+      color: "primary",
+    },
+    "& *": {
+      strokeWidth: 2,
+    }
+  }
+}

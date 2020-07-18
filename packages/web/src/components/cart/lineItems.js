@@ -6,18 +6,23 @@ import VisuallyHidden from "@reach/visually-hidden";
 import {
   client,
   useCartItems,
+  useCartCount,
   useCheckoutStatus,
   useUpdateItemsFromCart,
   useRemoveItemFromCart,
+  useCartTotals,
 } from "../../context/shopifyClient";
+
 import isNotDefaultOption from "../../utils/isNotDefaultOption";
-import formatPrice from "../../utils/formatPrice";
+import useProductURL from '../../hooks/useProductURL'
+
 import Button from "../button";
-import Quantity from "../quantity";
+import Counter from "../counter";
 import Link from "../link";
 import Text from "../text";
 import Flex from "../flex";
 import Box from "../box";
+import Price from '../product/price'
 
 const LineItem = ({ item }) => {
   const { variant, id, title, quantity } = item;
@@ -41,6 +46,8 @@ const LineItem = ({ item }) => {
     }
   }, [variant]);
 
+  const url = useProductURL(variant.product.handle)
+
   return (
     <Flex
       as="li"
@@ -48,10 +55,8 @@ const LineItem = ({ item }) => {
         flexFlow: "row nowrap",
         px: 4,
         py: 3,
-        "& + &": {
-          borderTop: "1px solid",
-          borderColor: "grays.800",
-        },
+        borderTop: "1px solid",
+        borderColor: "grays.800",
       }}
     >
       {/* image */}
@@ -81,7 +86,7 @@ const LineItem = ({ item }) => {
             }}
           />
         )}
-        <Link to={`/store/${variant.product.handle}`} variant="utils.span">
+        <Link to={url} variant="utils.span">
           <VisuallyHidden>{title}</VisuallyHidden>
         </Link>
       </Box>
@@ -127,8 +132,8 @@ const LineItem = ({ item }) => {
             mt: 2,
           }}
         >
-          <Quantity
-            type="quantity"
+          <Counter
+            type="counter"
             value={quantity}
             onChange={value => {
               updateItemsFromCart([{ id, quantity: value }]);
@@ -152,17 +157,20 @@ const LineItem = ({ item }) => {
         </Box>
       </Flex>
 
-      {/* price */}
+      {/* line price */}
       <Box
         sx={{
-          flexBasis: "5em",
+          flexBasis: "6em",
           flexGrow: 0,
           flexShrink: 0,
           textAlign: "right",
           fontWeight: "bold",
         }}
       >
-        {formatPrice(variant.priceV2)}
+        <Price
+          price={variant.priceV2}
+          compareAtPrice={variant.compareAtPriceV2}
+        />
       </Box>
     </Flex>
   );
@@ -170,11 +178,9 @@ const LineItem = ({ item }) => {
 
 const LineItemList = props => {
   const items = useCartItems();
+  const count = useCartCount();
   const { isInitialized } = useCheckoutStatus();
-
-  // if (isInitialized && items.length < 1) {
-  //   console.log(`isInitialized && items.length < 1`);
-  // }
+  const { subtotal } = useCartTotals();
 
   if (items.length < 1) {
     return (
@@ -195,18 +201,45 @@ const LineItemList = props => {
   }
 
   return (
-    <Box
-      as="ul"
-      sx={{
-        p: 0,
-        m: 0,
-        listStyle: "none",
-      }}
-      {...props}
-    >
-      {items.map(item => (
-        <LineItem key={item.id} item={item} />
-      ))}
+    <Box {...props}>
+      <Flex
+        sx={{
+          px: 4,
+          py: 3,
+        }}
+      >
+        <Text ml="auto" variant="strong">Price</Text> 
+      </Flex>
+      <Box
+        as="ul"
+        sx={{
+          p: 0,
+          m: 0,
+          listStyle: "none",
+        }}
+      >
+        {items.map(item => (
+          <LineItem key={item.id} item={item} />
+          ))}
+      </Box>
+      <Flex
+        sx={{
+          px: 4,
+          py: 3,
+          borderTop: "1px solid",
+          borderColor: "grays.800",
+        }}
+      >
+        <Text ml="auto">
+          {count < 1
+            ? `Subtotal: `
+            : `Subtotal (${count} item${count > 1 ? "s" : ""}): `
+          }
+          <strong sx={{ variant: "products.price" }} >
+            {subtotal}
+          </strong>
+        </Text>
+      </Flex>
     </Box>
   );
 };

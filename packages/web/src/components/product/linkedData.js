@@ -16,7 +16,7 @@ function blocksToPlainText(blocks = []) {
 }
 
 const LinkedData = ({ main, shopify }) => {
-  const data = useStaticQuery(graphql`
+  const { sanitySiteGlobal } = useStaticQuery(graphql`
     {
       sanitySiteGlobal {
         content {
@@ -34,20 +34,13 @@ const LinkedData = ({ main, shopify }) => {
     }
   `);
 
-  const siteTitle = get(data, "sanitySiteGlobal.content.siteTitle");
-
-  const hostname = get(data, "sanitySiteGlobal.content.siteHostname.current");
-
+  const siteTitle = get(sanitySiteGlobal, "content.siteTitle");
+  const hostname = get(sanitySiteGlobal, "content.siteHostname.current");
+  const productRoute = get(sanitySiteGlobal, "content.routes.productRouteRoot.current");
   const siteUrl = urlResolve(hostname);
-
-  const productRoute = get(
-    data,
-    "sanitySiteGlobal.content.routes.productRouteRoot.current"
-  );
-
   const productPath = urlResolve(hostname, productRoute, main.slug.current);
 
-  const doc = {
+  const data = {
     "@context": "https://schema.org/",
     "@type": "Product",
     name: main.title,
@@ -76,7 +69,7 @@ const LinkedData = ({ main, shopify }) => {
     },
   };
 
-  return <script type="application/ld+json">{JSON.stringify(doc)}</script>;
+  return <script type="application/ld+json">{JSON.stringify(data)}</script>;
 };
 
 export default LinkedData;

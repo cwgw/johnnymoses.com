@@ -13,7 +13,7 @@ const PageTemplate = ({ data, previewData }) => {
 
   return (
     <React.Fragment>
-      <SEO meta={meta} />
+      <SEO {...meta} />
       {renderPageModules(main.modules)}
     </React.Fragment>
   );

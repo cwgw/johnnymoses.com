@@ -6,7 +6,7 @@ import { useStaticQuery, graphql } from "gatsby";
 import { useSanityClient } from "../context/sanityClient";
 import { resolve as urlResolve } from "../utils/url";
 
-function SEO({ lang, meta: _meta }) {
+function SEO({ lang, ...props }) {
   const data = useStaticQuery(graphql`
     {
       sanitySiteGlobal {
@@ -18,7 +18,7 @@ function SEO({ lang, meta: _meta }) {
   const { imgUrl } = useSanityClient();
 
   const siteMeta = data.sanitySiteGlobal._rawContent.metaInformation || {};
-  const meta = { ...siteMeta, ..._meta };
+  const meta = { ...siteMeta, ...props };
   const social = data.sanitySiteGlobal._rawContent.social;
 
   const siteTitle = data.sanitySiteGlobal._rawContent.siteTitle;

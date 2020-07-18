@@ -7,16 +7,19 @@ import { useCartCount } from "../context/shopifyClient";
 import Flex from "./flex";
 import Link from "./link";
 
-const getHref = ({ _type, link }) => {
-  if (_type === "internalLink") {
+const getHref = ({ link, url }) => {
+  if (link) {
     return `/${link.content.main.slug.current}`;
   }
 
-  return link;
+  return url;
 };
+
+// const NavItem = ({ title, item})
 
 const Header = ({ navItems, siteTitle }) => {
   const cartCount = useCartCount();
+  console.log({navItems})
 
   return (
     <header role="banner">

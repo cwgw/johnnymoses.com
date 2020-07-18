@@ -12,7 +12,7 @@ const PageTemplate = ({ data, previewData }) => {
 
   return (
     <Box variant="container">
-      <SEO meta={content.meta} />
+      <SEO {...content.meta} />
       <Product content={content} />
     </Box>
   );
