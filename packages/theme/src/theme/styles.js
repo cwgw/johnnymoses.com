@@ -18,6 +18,7 @@ export const a = {
 
 export const h1 = {
   fontFamily: "serif",
+  lineHeight: "heading",
 };
 
 export const h2 = {
@@ -25,10 +26,17 @@ export const h2 = {
   fontSize: 3,
   fontFamily: "sans",
   fontWeight: "bold",
+  lineHeight: "heading",
 };
 
 export const h3 = {
   fontFamily: "sans",
   fontWeight: "bold",
   fontSize: 3,
+  lineHeight: "heading",
+};
+
+export const label = {
+  fontWeight: "bold",
+  mb: 2,
 };

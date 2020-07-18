@@ -26,12 +26,15 @@ export default {
       },
       validation: Rule => Rule.required(),
     },
-
     {
       name: "items",
       title: "Nav Items",
       type: "array",
-      of: [{ type: "internalLink" }, { type: "externalLink" }],
+      of: [
+        { type: "menuItem" },
+        { type: "internalLink" },
+        { type: "externalLink" },
+      ],
     },
   ],
 };

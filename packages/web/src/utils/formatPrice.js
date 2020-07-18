@@ -1,4 +1,4 @@
-const formatPrice = price => {
+const formatPrice = (price, quantity = 1) => {
   if (!price) {
     return null;
   }
@@ -8,7 +8,7 @@ const formatPrice = price => {
     currency: currencyCode,
     minimumFractionDigits: 2,
   });
-  return formatter.format(amount);
+  return formatter.format(amount * quantity);
 };
 
 export default formatPrice;

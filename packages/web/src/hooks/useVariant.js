@@ -86,6 +86,7 @@ const useVariant = ({ handle }) => {
     isAvailable: variant.available || false,
     variant,
     product: product.current,
+    quantity,
     handleOptionChange,
     handleQuantityChange,
     handleAddItemToCart,

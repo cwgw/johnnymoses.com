@@ -37,6 +37,7 @@ const Footer = ({ navItems }) => {
               ml: 0,
               pl: 0,
               listStyle: "none",
+              justifyContent: "center",
               "li + li": {
                 ml: 3,
               },

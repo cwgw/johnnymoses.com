@@ -30,8 +30,6 @@ const Layout = ({ children }) => {
       mainMenu: sanityMenu(slug: { current: { eq: "main" } }) {
         items {
           ... on SanityInternalLink {
-            _key
-            _type
             title
             link {
               content {
@@ -40,34 +38,44 @@ const Layout = ({ children }) => {
                     current
                   }
                 }
+              }
+            }
+          }
+          ... on SanityExternalLink {
+            title
+            url: link
+          }
+          ... on SanityMenuItem {
+            title
+            items {
+              ... on SanityInternalLink {
+                title
+                link {
+                  content {
+                    main {
+                      slug {
+                        current
+                      }
+                    }
+                  }
+                }
+              }
+              ... on SanityExternalLink {
+                title
+                url: link
               }
             }
           }
         }
       }
       footerMenu: sanityMenu(slug: { current: { eq: "footer" } }) {
-        items {
-          ... on SanityInternalLink {
-            _key
-            _type
-            title
-            link {
-              content {
-                main {
-                  slug {
-                    current
-                  }
-                }
-              }
-            }
-          }
-        }
+        _rawItems(resolveReferences: { maxDepth: 9 })
       }
     }
   `);
 
   const headerNavItems = data.mainMenu?.items || [];
-  const footerNavItems = data.footerMenu?.items || [];
+  const footerNavItems = data.footerMenu?._rawItems || [];
   const siteTitle = data.sanitySiteGlobal.content.metaInformation.title;
 
   return (

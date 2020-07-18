@@ -11,6 +11,7 @@ const baseStyles = {
   borderStyle: "solid",
   borderRadius: 4,
   borderColor: "currentColor",
+  borderWidth: 1,
   textDecoration: "none",
   backgroundColor: "transparent",
   color: "text",
@@ -42,6 +43,7 @@ const Button = React.forwardRef(({ to, ...props }, ref) => {
       variant="primary"
       __themeKey="buttons"
       __css={baseStyles}
+      type="button"
       {...props}
     />
   );

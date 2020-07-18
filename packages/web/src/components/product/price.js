@@ -1,66 +1,58 @@
 /** @jsx jsx */
+import React from "react";
 import { jsx } from "@theme-ui/core";
-import VisuallyHidden from "@reach/visually-hidden";
 
 import formatPrice from "../../utils/formatPrice";
+
 import Box from "../box";
 
-const Price = ({ compareAtPrice, price, ...props }) => {
+const Price = ({ compareAtPrice, price, showCurrency, quantity, ...props }) => {
   const isOnSale = !!compareAtPrice;
-  const regularPrice = isOnSale ? compareAtPrice : price;
-  const salePrice = isOnSale ? price : null;
+
   return (
     <Box
       as="dl"
       sx={{
         display: "inline-flex",
         flexFlow: "row wrap",
-        "& > div": {
+        mx: -1,
+        div: {
           display: "inline-block",
+          mx: 1,
         },
         "dt, dd": {
           m: 0,
           p: 0,
         },
-        dd: {
-          mr: 2,
-        },
       }}
       {...props}
     >
-      {isOnSale && (
+      {isOnSale ? (
+        <React.Fragement>
+          <div>
+            <dt sx={{ variant: "utils.visuallyHidden" }}>Price</dt>
+            <dd sx={{ variant: "products.salePrice" }}>
+              {formatPrice(price, quantity)}
+              {showCurrency && ` ${price?.currencyCode}`}
+            </dd>
+          </div>
+          <div>
+            <dt sx={{ variant: "utils.visuallyHidden" }}>List Price</dt>
+            <dd sx={{ variant: "products.compareAtPrice" }}>
+              {formatPrice(compareAtPrice, quantity)}
+              {showCurrency && ` ${compareAtPrice?.currencyCode}`}
+            </dd>
+          </div>
+        </React.Fragement>
+      ) : (
         <div>
-          <dt>
-            <VisuallyHidden>Sale Price</VisuallyHidden>
-          </dt>
-          <dd>
-            <span
-              sx={{
-                fontWeight: "bold",
-                color: "primary",
-              }}
-            >
-              {formatPrice(salePrice)}
-            </span>
+          <dt sx={{ variant: "utils.visuallyHidden" }}>Price</dt>
+          <dd sx={{ variant: "products.price" }}>
+            {formatPrice(price, quantity)}
+            {showCurrency && ` ${price?.currencyCode}`}
           </dd>
         </div>
       )}
-      <div>
-        <dt>
-          <VisuallyHidden>Regular Price</VisuallyHidden>
-        </dt>
-        <dd>
-          <span
-            sx={{
-              color: "grays.400",
-              fontWeight: isOnSale ? "regular" : "bold",
-              textDecoration: isOnSale ? "line-through" : null,
-            }}
-          >
-            {formatPrice(regularPrice)}
-          </span>
-        </dd>
-      </div>
     </Box>
   );
 };
