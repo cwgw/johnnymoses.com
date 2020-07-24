@@ -9,8 +9,9 @@ const blocks = {
   h1: props => <Heading as="h1" {...props} />,
   h2: props => <Heading as="h2" {...props} />,
   h3: props => <Heading as="h3" {...props} />,
-  display1: props => <Text variant="display1" {...props} />,
-  display2: props => <Text variant="display2" {...props} />,
+  normal: props => <Text as="p" {...props} />,
+  display1: props => <Text as="p" variant="display1" {...props} />,
+  display2: props => <Text as="p" variant="display2" {...props} />,
 };
 
 const BlockRenderer = props => {

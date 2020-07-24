@@ -79,7 +79,9 @@ const StoreContextProvider = ({ children }) => {
           try {
             const checkout = await fetchCheckout(store, existingCheckoutId);
             if (!checkout.completedAt) {
-              return setCheckoutInState(checkout, setStore);
+              await setCheckoutInState(checkout, setStore);
+              setInitialized(true);
+              return;
             }
           } catch (e) {
             localStorage.setItem(SHOPIFY_CHECKOUT_STORAGE_KEY, null);
@@ -87,14 +89,14 @@ const StoreContextProvider = ({ children }) => {
         }
 
         const newCheckout = await createNewCheckout(store);
-        return setCheckoutInState(newCheckout, setStore);
+        await setCheckoutInState(newCheckout, setStore);
+        setInitialized(true);
       };
-      initCustomer(setStore);
-      initializeCheckout().then(setInitialized(true));
-    }
-  }, [store, setStore, store.client.checkout, isInitialized]);
 
-  // console.log("StoreContextProvider render");
+      initCustomer(setStore);
+      initializeCheckout();
+    }
+  }, [store, setStore, isInitialized]);
 
   return (
     <StoreContext.Provider
@@ -150,12 +152,13 @@ function useCartTotals() {
     store: { checkout },
   } = React.useContext(StoreContext);
 
+  const na = "---";
   const { subtotalPriceV2, totalTaxV2, totalPriceV2 } = checkout;
 
   const totals = {
-    subtotal: subtotalPriceV2 ? formatPrice(subtotalPriceV2) : "-",
-    tax: totalTaxV2 ? formatPrice(totalTaxV2) : "-",
-    total: totalPriceV2 ? formatPrice(totalPriceV2) : "-",
+    subtotal: subtotalPriceV2 ? formatPrice(subtotalPriceV2) : na,
+    tax: totalTaxV2 ? formatPrice(totalTaxV2) : na,
+    total: totalPriceV2 ? formatPrice(totalPriceV2) : na,
   };
 
   return totals;

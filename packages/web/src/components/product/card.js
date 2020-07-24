@@ -1,17 +1,16 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
+import React from "react";
 
+import useProductURL from "../../hooks/useProductURL";
 import Box from "../box";
 import Button from "../button";
 import Flex from "../flex";
 import Heading from "../heading";
 import Image from "../image";
 import Link from "../link";
-
-import useProductURL from "../../hooks/useProductURL";
-
-import Form from "./form";
 import LinkedData from "./linkedData";
+import formatPrice from "../../utils/formatPrice";
 
 const ProductCard = ({ content, _type }) => {
   const { main, shopify } = content;
@@ -24,62 +23,33 @@ const ProductCard = ({ content, _type }) => {
   return (
     <Flex
       as="article"
-      sx={{
-        position: "relative",
-        border: "1px solid",
-        borderColor: "grays.700",
-        flexFlow: "column nowrap",
-        textAlign: "center",
-      }}
+      flexDirection="column"
+      position="relative"
+      // textAlign="center"
     >
       {shopify && <LinkedData {...content} />}
       {main.mainImage && (
-        <Box>
-          <Image width={400} {...main.mainImage} />
+        <Box position="relative">
+          <Image width={400} sx={{ boxShadow: 4 }} {...main.mainImage} />
+          <Link to={url} variant="utils.span" tabIndex={-1} />
         </Box>
       )}
-      <Flex
-        sx={{
-          flexFlow: "column nowrap",
-          flexBasis: "100%",
-          p: 3,
-        }}
-      >
-        <Heading as="h4" variant="body" mb={3}>
-          <Link
-            to={url}
-            variant="fill"
-            sx={{
-              color: "inherit",
-              textDecoration: "inherit",
-            }}
-          >
-            {main.title}
-          </Link>
-        </Heading>
+      <Flex p={3} justifyContent="space-between">
         {isThirdParty ? (
-          <Button to={main.url} variant="secondary" mt="auto">
+          <Button to={main.url} mt="auto">
             Buy from <strong>{main.vendorName}</strong>
           </Button>
         ) : (
-          <Form
-            {...shopify}
-            withPrice
-            sx={{
-              display: "flex",
-              flexFlow: "column nowrap",
-              alignItems: "stretch",
-              mt: "auto",
-              dl: {
-                alignSelf: "center",
-                mb: 3,
-              },
-              button: {
-                position: "relative",
-                zIndex: 1,
-              },
-            }}
-          />
+          <React.Fragment>
+            <Heading as="h3" variant="plain">
+              <Link to={url} variant="fill">
+                {main.title}
+              </Link>
+            </Heading>
+            <Box ml={3} sx={{ flexShrink: 0 }}>
+              {formatPrice({ amount: shopify.defaultPrice })}
+            </Box>
+          </React.Fragment>
         )}
       </Flex>
     </Flex>

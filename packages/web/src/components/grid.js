@@ -1,42 +1,65 @@
-/**
- * ThemeUI Grid source with minor changes
- *  - remove `width` prop (conflicts with `layout` style-prop
- *    which I've added to Box)
- */
-import React from "react";
-import Box from "./box";
+import styled from "@emotion/styled";
+import { css, get } from "@theme-ui/css";
+import { createShouldForwardProp } from "@styled-system/should-forward-prop";
+import { compose } from "styled-system";
+import border from "@styled-system/border";
+import color from "@styled-system/color";
+import layout from "@styled-system/layout";
+import position from "@styled-system/position";
+import space from "@styled-system/space";
+import typography from "@styled-system/typography";
+import grid from "@styled-system/grid";
 
-const defaultProps = {
-  gap: 3,
-  columns: 2,
-};
+const shouldForwardProp = createShouldForwardProp([
+  ...border.propNames,
+  ...color.propNames,
+  ...grid.propNames,
+  ...layout.propNames,
+  ...position.propNames,
+  ...space.propNames,
+  ...typography.propNames,
+]);
 
 const baseStyles = {
+  boxSizing: "border-box",
   display: "grid",
+  gridGap: 3,
+  margin: 0,
+  padding: 0,
+  minWidth: 0,
+  listStyle: "none",
 };
 
-const countToColumns = n =>
-  Array.isArray(n)
-    ? n.map(countToColumns)
-    : !!n && (typeof n === "number" ? `repeat(${n}, 1fr)` : n);
+const sx = props => css(props.sx)(props.theme);
+const base = props => css(props.__css || baseStyles)(props.theme);
+const variant = ({ theme, variant, __themeKey = "grids" }) => {
+  return css(get(theme, __themeKey + "." + variant, get(theme, variant)));
+};
 
-const Grid = React.forwardRef(({ columns, gap, ...props }, ref) => {
-  const gridTemplateColumns = countToColumns(columns);
+const countToColumns = n => {
+  if (Array.isArray(n)) {
+    return n.map(countToColumns);
+  }
+  return !!n && (typeof n === "number" ? `1fr `.repeat(n).trim() : n);
+};
 
+const columns = props => {
   return (
-    <Box
-      ref={ref}
-      __themeKey="grids"
-      {...props}
-      __css={{
-        ...baseStyles,
-        gridGap: gap,
-        gridTemplateColumns,
-      }}
-    />
+    !!props.columns && {
+      gridTemplateColumns: countToColumns(props.columns),
+    }
   );
-});
+};
 
-Grid.defaultProps = defaultProps;
+export const Grid = styled("div", {
+  shouldForwardProp,
+})(
+  base,
+  variant,
+  columns,
+  compose(border, color, grid, layout, position, space, typography),
+  sx,
+  props => props.css
+);
 
 export default Grid;

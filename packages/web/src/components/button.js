@@ -16,8 +16,9 @@ const baseStyles = {
   backgroundColor: "transparent",
   color: "text",
   fontSize: "inherit",
-  textAlign: "center",
+  fontFamily: "inherit",
   lineHeight: "inherit",
+  textAlign: "center",
   appearance: "none",
   cursor: "pointer",
 };

@@ -9,79 +9,10 @@ import {
   ListboxOption,
 } from "@reach/listbox";
 
-const inputStyle = {
-  "& [data-reach-listbox-button]": {
-    display: "inline-flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: "1px 10px 2px",
-    border: "1px solid",
-    borderColor: "rgb(216, 216, 216) rgb(209, 209, 209) rgb(186, 186, 186)",
-    cursor: "default",
-    userSelect: "none",
-  },
-  '& [data-reach-listbox-button][aria-disabled="true"]': {
-    opacity: 0.5,
-  },
-  "& [data-reach-listbox-arrow]": {
-    marginLeft: "0.5rem",
-    display: "block",
-    fontSize: "0.5em",
-  },
-  "& [data-reach-listbox-group-label]": {
-    display: "block",
-    margin: "0",
-    padding: "0.25rem 0.5rem",
-    whiteSpace: "nowrap",
-    userSelect: "none",
-    fontWeight: "bolder",
-  },
-};
+import Icon from "./icon";
+import Box from "./box";
 
-const popoverStyle = {
-  "&": {
-    display: "block",
-    position: "absolute",
-    minWidth: "min-content",
-    padding: "0.25rem 0",
-    background: "hsl(0, 0%, 100%)",
-    outline: "none",
-    border: "solid 1px hsla(0, 0%, 0%, 0.25)",
-  },
-  "&:focus-within": {
-    boxShadow: "0 0 4px Highlight",
-    outline: "-webkit-focus-ring-color auto 4px",
-  },
-  "&[hidden]": {
-    display: "none",
-  },
-  "& [data-reach-listbox-list]": {
-    margin: 0,
-    padding: 0,
-    listStyle: "none",
-  },
-  "& [data-reach-listbox-list]:focus": {
-    boxShadow: "none",
-    outline: "none",
-  },
-  "& [data-reach-listbox-option]": {
-    display: "block",
-    margin: "0",
-    padding: "0.25rem 0.5rem",
-    whiteSpace: "nowrap",
-    userSelect: "none",
-  },
-  '& [data-reach-listbox-option][aria-selected="true"]': {
-    background: "hsl(211, 81%, 46%)",
-    color: "hsl(0, 0%, 100%)",
-  },
-  "& [data-reach-listbox-option][data-current]": {
-    fontWeight: "bolder",
-  },
-  '& [data-reach-listbox-option][aria-disabled="true"]': {
-    opacity: 0.5,
-  },
-};
+import { includeSpaceProps, omitSpaceProps } from "../utils/filterProps";
 
 const Listbox = React.forwardRef(
   ({ options, value, onChange, ...props }, ref) => {
@@ -90,19 +21,68 @@ const Listbox = React.forwardRef(
         value={value}
         onChange={onChange}
         ref={ref}
-        sx={inputStyle}
-        {...props}
+        {...includeSpaceProps(props)}
       >
-        <ListboxButton arrow="▼" />
-        <ListboxPopover sx={popoverStyle}>
-          <ListboxList>
+        <Box
+          as={ListboxButton}
+          __css={{
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            cursor: "default",
+            userSelect: "none",
+          }}
+          variant="input"
+          {...omitSpaceProps(props)}
+          __themeKey="listbox"
+        >
+          {value}
+          <Icon ml={3} icon="chevron-down" />
+        </Box>
+        <Box
+          as={ListboxPopover}
+          __css={{
+            display: "block",
+            position: "absolute",
+            minWidth: "min-content",
+            outline: "none",
+            "&[hidden]": {
+              display: "none",
+            },
+          }}
+        >
+          <Box
+            as={ListboxList}
+            __css={{
+              margin: 0,
+              padding: 0,
+              listStyle: "none",
+              ":focus": {
+                outline: "none",
+              },
+            }}
+            variant="list"
+            __themeKey="listbox"
+          >
             {options.map(option => (
-              <ListboxOption key={option} value={option}>
+              <Box
+                as={ListboxOption}
+                __css={{
+                  display: "block",
+                  margin: "0",
+                  whiteSpace: "nowrap",
+                  userSelect: "none",
+                }}
+                key={option}
+                value={option}
+                variant="option"
+                __themeKey="listbox"
+              >
                 {option}
-              </ListboxOption>
+              </Box>
             ))}
-          </ListboxList>
-        </ListboxPopover>
+          </Box>
+        </Box>
       </ListboxInput>
     );
   }

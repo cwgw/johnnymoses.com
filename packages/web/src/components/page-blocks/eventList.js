@@ -17,17 +17,10 @@ const EventListModule = props => {
         maxWidth: "full",
       }}
     >
-      {title && (
-        <Heading
-          sx={{
-            px: 4,
-          }}
-        >
-          {title}
-        </Heading>
-      )}
+      {title && <Heading px={4}>{title}</Heading>}
       <Grid
         as="ul"
+        columns={[1, 1, 2]}
         sx={{
           p: 0,
         }}

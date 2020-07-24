@@ -1,42 +1,161 @@
+/** @jsx jsx */
+import { jsx } from "theme-ui";
 import React from "react";
+import PropTypes from "prop-types";
+import zipObject from "lodash/zipObject";
+import snakeCase from "lodash/snakeCase";
+import { navigate } from "gatsby";
 
+import { useAddNotification } from "../../context/notifications";
 import useVariant from "../../hooks/useVariant";
-import Button from "../button";
+import formatPrice from "../../utils/formatPrice";
+import { isNotDefaultOption } from "../../utils/isNotDefaultOption";
+
 import Box from "../box";
+import Button from "../button";
+import FormField from "../formField";
+
 import Price from "./price";
 
-const Form = ({ className, handle, withPrice }) => {
-  const {
-    isAdding,
-    isAvailable,
-    variant,
-    // handleOptionChange,
-    handleAddItemToCart,
-  } = useVariant({ handle });
+const propTypes = {
+  children: PropTypes.func,
+  fields: PropTypes.arrayOf(PropTypes.string),
+  handle: PropTypes.string.isRequired,
+};
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    e.stopPropagation();
-    handleAddItemToCart();
-  };
+const defaultProps = {
+  children: null,
+  fields: ["price", "options", "quantity"],
+};
+
+const Form = ({ handle, fields: _fields, children: _children, ...props }) => {
+  const variantProps = useVariant({ handle });
+  const { handleAddItemToCart, quantity, product } = variantProps;
+
+  const addNotification = useAddNotification();
+
+  const handleSubmit = React.useCallback(
+    e => {
+      e.preventDefault();
+      e.stopPropagation();
+      handleAddItemToCart().then(() => {
+        addNotification({
+          status: "success",
+          subtitle: `${quantity} × ${product.title}`,
+          title: "Added to cart",
+          actions: [["View cart", () => navigate("/cart")], ["Dismiss"]],
+        });
+      });
+    },
+    [handleAddItemToCart, addNotification, quantity, product]
+  );
+
+  const fieldNames = (_fields || []).concat(["submit"]);
+  const fields = renderFields(fieldNames, variantProps);
+
+  let children = fields;
+  if (_children) {
+    children = _children(zipObject(fieldNames, fields), variantProps);
+  }
 
   return (
-    <Box as="form" className={className} onSubmit={handleSubmit}>
-      {withPrice && (
-        <Price
-          compareAtPrice={variant.compareAtPriceV2}
-          price={variant.priceV2}
-        />
-      )}
-      <Button type="submit" disabled={!isAvailable || isAdding}>
-        {isAvailable ? (
-          <span>{isAdding ? "Adding…" : "Add to Cart"}</span>
-        ) : (
-          <span>Currently out of stock</span>
-        )}
-      </Button>
-    </Box>
+    <Box as="form" onSubmit={handleSubmit} children={children} {...props} />
   );
 };
+
+function renderFields(
+  fields,
+  {
+    variant,
+    product,
+    quantity,
+    isAvailable,
+    handleOptionChange,
+    handleQuantityChange,
+    status,
+  }
+) {
+  return fields.map(field => {
+    switch (field) {
+      case "price": {
+        return (
+          <Price
+            key="price"
+            price={variant.priceV2}
+            compareAtPrice={variant.compareAtPriceV2}
+            showCurrency
+          />
+        );
+      }
+      case "options": {
+        return (
+          product.options &&
+          product.options.map((option, i) => {
+            if (isNotDefaultOption(option)) {
+              return (
+                <FormField
+                  key={option.id}
+                  type={option.name === "Type" ? "tiles" : "listbox"}
+                  name={snakeCase(`option ${option.name}`)}
+                  label={option.name}
+                  options={option.values.map(({ value }) => value)}
+                  onChange={v => handleOptionChange(option.name, v)}
+                  value={variant.selectedOptions[i].value}
+                />
+              );
+            }
+
+            return null;
+          })
+        );
+      }
+      case "quantity": {
+        return (
+          <FormField
+            key="quantity"
+            type="counter"
+            label="Quantity"
+            name="quantity"
+            value={quantity}
+            onChange={handleQuantityChange}
+          />
+        );
+      }
+      case "submit": {
+        let value = `Add to cart - ${formatPrice(variant.priceV2, quantity)}`;
+
+        if (status.adding) {
+          value = "Adding…";
+        }
+
+        if (status.added) {
+          value = "Added!";
+        }
+
+        return (
+          <Button
+            key="submit"
+            type="submit"
+            disabled={!isAvailable || status.adding}
+            variant="submit"
+          >
+            {isAvailable ? (
+              <span>{value}</span>
+            ) : (
+              <span>Currently out of stock</span>
+            )}
+          </Button>
+        );
+      }
+      default: {
+        return null;
+      }
+    }
+  });
+}
+
+Form.propTypes = propTypes;
+
+Form.defaultProps = defaultProps;
 
 export default Form;

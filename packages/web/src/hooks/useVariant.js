@@ -9,9 +9,20 @@ const useVariant = ({ handle }) => {
   const product = React.useRef({});
   const [quantity, setQuantity] = React.useState(1);
   const [variant, setVariant] = React.useState({});
-  const [isAdding, setStatus] = React.useState(false);
+  const [status, setStatus] = React.useState({ adding: false, added: false });
+
+  const timeout = React.useRef();
 
   const { id: variantId, available: isAvailable } = variant;
+
+  React.useEffect(() => {
+    return () => {
+      if (timeout.current && timeout.current.clearTimeout) {
+        timeout.current.clearTimeout();
+        timeout.current = null;
+      }
+    };
+  }, []);
 
   React.useEffect(() => {
     fetchProduct(handle);
@@ -70,19 +81,23 @@ const useVariant = ({ handle }) => {
 
   const handleAddItemToCart = React.useCallback(() => {
     if (isAvailable) {
-      addItem();
+      return addItem();
+    } else {
+      return Promise.resolve();
     }
 
     async function addItem() {
-      setStatus(true);
-      // console.log({ variantId, quantity });
+      setStatus({ added: false, adding: true });
       await addItemToCart(variantId, quantity);
-      setStatus(false);
+      setStatus({ added: true, adding: false });
+      timeout.current = setTimeout(() => {
+        setStatus({ added: false, adding: false });
+      }, 1500);
     }
   }, [addItemToCart, setStatus, isAvailable, variantId, quantity]);
 
   return {
-    isAdding,
+    status,
     isAvailable: variant.available || false,
     variant,
     product: product.current,

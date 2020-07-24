@@ -1,26 +1,20 @@
 import React from "react";
-import styled from "@emotion/styled";
+import { Link as GatsbyLink } from "gatsby";
 import space from "@styled-system/space";
 import color from "@styled-system/color";
-import { css, get } from "@theme-ui/css";
-import { Link as GatsbyLink } from "gatsby";
 import isAbsoluteUrl from "is-absolute-url";
 
-import createShouldForwardProp from "../utils/shouldForwardProp";
+import { systemComponent } from "../utils/style";
 
-const shouldForwardProp = createShouldForwardProp({
-  nope: [...space.propNames, ...color.propNames],
-  yep: ["to", "state"],
+const StyledLink = systemComponent("a", {
+  systemProps: [space, color],
+  themeKey: "links",
+  shouldForwardProp: ["to", "state"],
 });
 
-const sx = props => css(props.sx)(props.theme);
-const base = props => css(props.__css)(props.theme);
-const variant = ({ theme, variant, __themeKey = "variants" }) =>
-  css(get(theme, __themeKey + "." + variant, get(theme, variant)));
-
-export const StyledLink = styled("a", {
-  shouldForwardProp,
-})(base, variant, space, color, sx, props => props.css);
+StyledLink.defaultProps = {
+  variant: "styles.a",
+};
 
 const Link = React.forwardRef(({ href, to, ...props }, ref) => {
   const url = to || href;
@@ -38,15 +32,7 @@ const Link = React.forwardRef(({ href, to, ...props }, ref) => {
     };
   }
 
-  return (
-    <StyledLink
-      ref={ref}
-      variant="styles.a"
-      __themeKey="links"
-      {..._props}
-      {...props}
-    />
-  );
+  return <StyledLink ref={ref} {..._props} {...props} />;
 });
 
 export default Link;

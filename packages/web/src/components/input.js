@@ -16,7 +16,14 @@ const baseStyles = {
 };
 
 const Input = React.forwardRef((props, ref) => (
-  <Box ref={ref} as="input" __css={baseStyles} __themeKey="forms" {...props} />
+  <Box
+    ref={ref}
+    as="input"
+    __css={baseStyles}
+    __themeKey="forms"
+    variant="input"
+    {...props}
+  />
 ));
 
 export default Input;
