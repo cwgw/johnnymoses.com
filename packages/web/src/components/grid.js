@@ -40,15 +40,14 @@ const countToColumns = n => {
   if (Array.isArray(n)) {
     return n.map(countToColumns);
   }
-  return !!n && (typeof n === "number" ? `1fr `.repeat(n).trim() : n);
+  const col = `1fr `;
+  return !!n && (typeof n === "number" ? col.repeat(n).trim() : n);
 };
 
 const columns = props => {
-  return (
-    !!props.columns && {
-      gridTemplateColumns: countToColumns(props.columns),
-    }
-  );
+  if (!!props.columns) {
+    return css({ gridTemplateColumns: countToColumns(props.columns) });
+  }
 };
 
 export const Grid = styled("div", {

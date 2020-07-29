@@ -31,6 +31,33 @@ export const buttons = {
     },
   },
 
+  cta: {
+    display: "block",
+    p: 3,
+    fontSize: 2,
+    backgroundColor: "white",
+    borderColor: "grays.800",
+    borderRadius: 8,
+    boxShadow: 5,
+    ":active": {
+      transform: "translateY(1px)",
+    },
+    ":hover": {
+      backgroundColor: "grays.900",
+    },
+    ":focus": {
+      variant: "utils.focus",
+    },
+    ":disabled": {
+      variant: "buttons.disabled",
+    },
+    svg: {
+      mr: 3,
+      fontSize: 4,
+      verticalAlign: "-0.25em",
+    },
+  },
+
   primary: {
     borderColor: "primary",
     backgroundColor: "primary",
@@ -118,13 +145,14 @@ export const buttonGroup = {
 
 export const links = {
   banner: {
-    display: "inline-block",
+    display: "block",
     p: 2,
-    fontSize: 3,
+    fontSize: 2,
     background: "transparent",
     color: "text",
     textDecoration: "none",
     whiteSpace: "nowrap",
+    userSelect: "none",
     ":hover, :focus": {
       color: "focus",
     },
@@ -363,10 +391,11 @@ export const icons = {
   },
 };
 
-export const dropdown = {
+export const menuButton = {
   list: {
     my: 2,
-    boxShadow: 4,
+    py: 2,
+    boxShadow: 5,
     backgroundColor: "white",
     zIndex: "popover",
   },
@@ -378,11 +407,28 @@ export const dropdown = {
     color: "inherit",
     font: "inherit",
     textDecoration: "initial",
+    fontSize: 1,
     cursor: "pointer",
     "&[data-selected]": {
       color: "link",
       variant: "utils.focus",
     },
+  },
+};
+
+export const flyoutMenu = {
+  list: {
+    p: 3,
+    // px: 4,
+    // py: 3,
+    backgroundColor: "background",
+    boxShadow: 5,
+    border: "1px solid",
+    borderColor: "grays.800",
+  },
+
+  link: {
+    variant: "links.banner",
   },
 };
 
@@ -407,7 +453,7 @@ export const listbox = {
     py: 1,
     borderRadius: 3,
     backgroundColor: "background",
-    boxShadow: 3,
+    boxShadow: 5,
   },
 
   option: {

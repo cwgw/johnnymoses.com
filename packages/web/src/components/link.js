@@ -12,10 +12,6 @@ const StyledLink = systemComponent("a", {
   shouldForwardProp: ["to", "state"],
 });
 
-StyledLink.defaultProps = {
-  variant: "styles.a",
-};
-
 const Link = React.forwardRef(({ href, to, ...props }, ref) => {
   const url = to || href;
 
@@ -32,7 +28,7 @@ const Link = React.forwardRef(({ href, to, ...props }, ref) => {
     };
   }
 
-  return <StyledLink ref={ref} {..._props} {...props} />;
+  return <StyledLink ref={ref} variant="styles.a" {..._props} {...props} />;
 });
 
 export default Link;

@@ -2,7 +2,7 @@
 
 export default {
   name: "siteGlobal",
-  _id: "siteGlobal",
+  // _id: "siteGlobal",
   title: "Global",
   type: "document",
   description: "Handles general global settings",
@@ -14,13 +14,8 @@ export default {
   ],
   preview: {
     select: {},
-    prepare() {
-      return Object.assign(
-        {},
-        {
-          title: "Global Settings",
-        }
-      );
-    },
+    prepare: () => ({
+      title: "Global Settings",
+    }),
   },
 };

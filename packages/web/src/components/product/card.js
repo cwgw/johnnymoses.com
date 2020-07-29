@@ -29,8 +29,8 @@ const ProductCard = ({ content, _type }) => {
     >
       {shopify && <LinkedData {...content} />}
       {main.mainImage && (
-        <Box position="relative">
-          <Image width={400} sx={{ boxShadow: 4 }} {...main.mainImage} />
+        <Box position="relative" border="1px solid" borderColor="grays.900">
+          <Image width={400} {...main.mainImage} />
           <Link to={url} variant="utils.span" tabIndex={-1} />
         </Box>
       )}

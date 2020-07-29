@@ -4,10 +4,11 @@ import S from "@sanity/desk-tool/structure-builder";
 import {
   ConfigMenu,
   ProductMenuItem,
-  // ProductVariantParent,
+  ProductVariantParent,
   CollectionMenuItem,
   PageMenuItem,
   EventMenuItem,
+  PostMenuItem,
 } from "./structure/index";
 
 //
@@ -15,12 +16,15 @@ import {
 //
 
 export default () => {
-  return S.list().title("Content").items([
-    ConfigMenu,
-    PageMenuItem,
-    CollectionMenuItem,
-    ProductMenuItem,
-    EventMenuItem,
-    // ProductVariantParent,
-  ]);
+  return S.list()
+    .title("Content")
+    .items([
+      ConfigMenu,
+      PageMenuItem,
+      PostMenuItem,
+      CollectionMenuItem,
+      ProductMenuItem,
+      EventMenuItem,
+      ProductVariantParent,
+    ]);
 };

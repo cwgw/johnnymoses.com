@@ -2,7 +2,7 @@ export default {
   title: "Shopify Variant Content",
   name: "shopifyVariantModule",
   type: "object",
-  hidden: true,
+  // hidden: true,
   fieldsets: [
     {
       name: "default",

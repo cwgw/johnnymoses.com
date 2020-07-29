@@ -12,7 +12,9 @@ export const root = {
 export const h1 = {
   mt: 0,
   mb: 3,
-  fontFamily: "serif",
+  fontFamily: "sans",
+  fontSize: 4,
+  fontWeight: "bold",
   lineHeight: "heading",
 };
 

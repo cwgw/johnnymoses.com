@@ -36,7 +36,7 @@ const LineItem = React.forwardRef(({ item, ...props }, ref) => {
       try {
         const src = await client.image.helpers.imageForSize(variant.image, {
           maxWidth: 200,
-          maxHeight: 400,
+          maxHeight: 200,
         });
         setImage(src);
       } catch (error) {
@@ -76,9 +76,9 @@ const LineItem = React.forwardRef(({ item, ...props }, ref) => {
     <Grid
       px={[0, 4]}
       mx={[4, 0]}
-      py={4}
+      py={3}
       borderTop="1px solid"
-      borderColor="grays.800"
+      borderColor="grays.900"
       sx={{
         gridTemplateColumns: ["1fr 1fr 1fr", "1fr 6em 6em"],
         gridTemplateRows: "min-content 1fr",
@@ -89,7 +89,7 @@ const LineItem = React.forwardRef(({ item, ...props }, ref) => {
       ref={ref}
       {...props}
     >
-      {/* meta */}
+      {/* item information */}
       <Flex
         alignItems="start"
         sx={{
@@ -106,30 +106,32 @@ const LineItem = React.forwardRef(({ item, ...props }, ref) => {
             width: [75, 100],
           }}
         >
-          {image ? (
+          <div
+            sx={{
+              width: "100%",
+              height: 0,
+              pb: "100%",
+              backgroundColor: "grays.900",
+            }}
+          />
+          {image && (
             <img
               sx={{
                 display: "block",
                 width: "100%",
+                height: "100%",
+                position: "absolute",
+                top: 0,
+                left: 0,
               }}
               src={image}
               alt={variant.image.altText}
-            />
-          ) : (
-            <div
-              sx={{
-                width: "100%",
-                height: 0,
-                pb: "100%",
-                backgroundColor: "grays.900",
-              }}
             />
           )}
           <Link to={url} tabIndex="-1" variant="utils.span">
             <span sx={{ variant: "utils.visuallyHidden" }}>{title}</span>
           </Link>
         </Box>
-
         <Text>
           <Link to={url} variant="plain">
             {title}
@@ -138,6 +140,7 @@ const LineItem = React.forwardRef(({ item, ...props }, ref) => {
         </Text>
       </Flex>
 
+      {/* quantity input */}
       <Box
         sx={{
           gridColumn: [null, 2],
@@ -154,6 +157,7 @@ const LineItem = React.forwardRef(({ item, ...props }, ref) => {
         />
       </Box>
 
+      {/* remove item button */}
       <Box
         sx={{
           gridColumn: [null, 3],
@@ -175,11 +179,9 @@ const LineItem = React.forwardRef(({ item, ...props }, ref) => {
       {/* line price */}
       <Box
         sx={{
-          // textAlign: "right",
           justifySelf: "end",
           fontWeight: "bold",
           gridRow: [null, 1],
-          // gridColumn: [2, 4],
         }}
       >
         <Price
@@ -205,12 +207,12 @@ const LineItems = props => {
         opacity: 1,
         height: refs.has(item) ? refs.get(item).offsetHeight : null,
       });
-      await next({ height: "auto", config: { immediate: true } });
+      await next({ height: "auto", immediate: true });
     },
     leave: item => async next => {
       await next({
         height: refs.has(item) ? refs.get(item).offsetHeight : null,
-        config: { immediate: true },
+        immediate: true,
       });
       await next({ height: 0, opacity: 0 });
     },

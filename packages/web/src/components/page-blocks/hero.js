@@ -22,22 +22,8 @@ const HeroModule = props => {
         },
       }}
     >
-      <Image
-        sx={
-          {
-            // maxHeight: [400, 500, "none"],
-            // flexBasis: "50%",
-          }
-        }
-        {...imageModule}
-      />
-      <Box
-        sx={
-          {
-            // flexBasis: "50%",
-          }
-        }
-      >
+      <Image {...imageModule} />
+      <Box>
         <BlockContent
           sx={{
             p: 4,

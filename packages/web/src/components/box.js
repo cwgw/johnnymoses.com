@@ -7,8 +7,10 @@ import typography from "@styled-system/typography";
 
 import { systemComponent } from "../utils/style";
 
-const Box = systemComponent("div", {
-  systemProps: [border, color, layout, position, space, typography],
+export const systemProps = [border, color, layout, position, space, typography];
+
+export const Box = systemComponent("div", {
+  systemProps,
   baseStyles: {
     boxSizing: "border-box",
     margin: 0,

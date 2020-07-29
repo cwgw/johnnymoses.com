@@ -1,5 +1,7 @@
 export const sizes = {
-  container: 1020,
-  full: 1020,
-  half: 510,
+  container: 1152,
+  full: 1152,
+  half: 576,
+  third: 384,
+  twoThirds: 768,
 };

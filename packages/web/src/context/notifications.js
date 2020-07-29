@@ -11,7 +11,13 @@ const reducer = (items, [type, payload]) => {
     }
     case "ITEM_REMOVED": {
       const { id } = payload;
+      if (Array.isArray(id)) {
+        return items.filter(o => !id.includes(o.id));
+      }
       return items.filter(o => o.id !== id);
+    }
+    case "ITEMS_CLEARED": {
+      return [];
     }
     default: {
       return items;
@@ -50,9 +56,17 @@ const useRemoveNotification = () => {
   };
 };
 
+const useClearNotifications = () => {
+  const { dispatch } = React.useContext(NotificationContext);
+  return () => {
+    dispatch(["ITEMS_CLEARED"]);
+  };
+};
+
 export {
   NotificationContextProvider,
+  useAddNotification,
+  useClearNotifications,
   useNotificationItems,
   useRemoveNotification,
-  useAddNotification,
 };

@@ -10,7 +10,7 @@ const ProductGridModule = ({ title, products }) => {
   return (
     <Box variant="container">
       {title && <Heading px={4}>{title}</Heading>}
-      <Grid px={4} gridTemplateColumns={["1fr", "1fr 1fr", "1fr 1fr 1fr"]}>
+      <Grid px={4} gridGap={5} columns={[1, 2, 3]}>
         {products.map(product => (
           <ProductCard key={product._id} {...product} />
         ))}

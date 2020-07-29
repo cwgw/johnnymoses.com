@@ -7,7 +7,7 @@ import snakeCase from "lodash/snakeCase";
 import { navigate } from "gatsby";
 
 import { useAddNotification } from "../../context/notifications";
-import useVariant from "../../hooks/useVariant";
+import useProductForm from "../../hooks/useProductForm";
 import formatPrice from "../../utils/formatPrice";
 import { isNotDefaultOption } from "../../utils/isNotDefaultOption";
 
@@ -20,7 +20,7 @@ import Price from "./price";
 const propTypes = {
   children: PropTypes.func,
   fields: PropTypes.arrayOf(PropTypes.string),
-  handle: PropTypes.string.isRequired,
+  form: PropTypes.object.isRequired,
 };
 
 const defaultProps = {
@@ -28,34 +28,33 @@ const defaultProps = {
   fields: ["price", "options", "quantity"],
 };
 
-const Form = ({ handle, fields: _fields, children: _children, ...props }) => {
-  const variantProps = useVariant({ handle });
-  const { handleAddItemToCart, quantity, product } = variantProps;
-
+const Form = ({ fields: _fields, children: _children, form, ...props }) => {
   const addNotification = useAddNotification();
+
+  const { handleAddItemToCart } = form;
+  // console.log({ variant: variantProps.variant })
 
   const handleSubmit = React.useCallback(
     e => {
       e.preventDefault();
       e.stopPropagation();
-      handleAddItemToCart().then(() => {
+      handleAddItemToCart().then(({ product, quantity }) => {
         addNotification({
           status: "success",
-          subtitle: `${quantity} × ${product.title}`,
-          title: "Added to cart",
-          actions: [["View cart", () => navigate("/cart")], ["Dismiss"]],
+          message: `Added to cart: ${quantity} × ${product.title}`,
+          actions: [["View cart", () => navigate("/cart")]],
         });
       });
     },
-    [handleAddItemToCart, addNotification, quantity, product]
+    [handleAddItemToCart, addNotification]
   );
 
   const fieldNames = (_fields || []).concat(["submit"]);
-  const fields = renderFields(fieldNames, variantProps);
+  const fields = renderFields(fieldNames, form);
 
   let children = fields;
   if (_children) {
-    children = _children(zipObject(fieldNames, fields), variantProps);
+    children = _children(zipObject(fieldNames, fields), form);
   }
 
   return (

@@ -35,7 +35,7 @@ const Dropdown = ({ value, children, ...props }) => {
               display: "block",
               whiteSpace: "nowrap",
               outline: "none",
-              variant: "dropdown.list",
+              variant: "menuButton.list",
             }}
           >
             {React.Children.map(children, child => {
@@ -50,7 +50,7 @@ const Dropdown = ({ value, children, ...props }) => {
                     display: "block",
                     userSelect: "none",
                   },
-                  variant: "dropdown.link",
+                  variant: "menuButton.link",
                   ...child.props,
                 });
               }

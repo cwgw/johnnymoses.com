@@ -1,9 +1,8 @@
 import React from "react";
 import { graphql } from "gatsby";
 
-import SEO from "../components/seo";
 import Product from "../components/product/product";
-import Box from "../components/box";
+import SEO from "../components/seo";
 
 const PageTemplate = ({ data, previewData }) => {
   const content = previewData
@@ -11,10 +10,10 @@ const PageTemplate = ({ data, previewData }) => {
     : data.sanityProduct._rawContent;
 
   return (
-    <Box variant="container">
+    <React.Fragment>
       <SEO {...content.meta} />
       <Product content={content} />
-    </Box>
+    </React.Fragment>
   );
 };
 
@@ -23,7 +22,7 @@ export default PageTemplate;
 export const query = graphql`
   query sanityProduct($id: String!) {
     sanityProduct(id: { eq: $id }) {
-      _rawContent(resolveReferences: { maxDepth: 9 })
+      _rawContent(resolveReferences: { maxDepth: 12 })
     }
   }
 `;

@@ -37,7 +37,7 @@ const TextAndForm = props => {
               position: "sticky",
               top: 0,
               bottom: 0,
-              p: 4,
+              px: 4,
               alignSelf: "start",
             }}
           />

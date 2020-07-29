@@ -17,6 +17,8 @@
   },
   "dependencies": {
     "@johnnymoses.com/theme": "^1.0.0",
+    "@popperjs/core": "^2.4.4",
+    "@reach/accordion": "^0.10.5",
     "@reach/listbox": "^0.10.5",
     "@reach/menu-button": "^0.10.5",
     "@reach/portal": "^0.10.5",
@@ -55,6 +57,7 @@
     "react-feather": "^2.0.8",
     "react-helmet": "^6.0.0",
     "react-hook-form": "^6.0.0",
+    "react-popper": "^2.2.3",
     "react-spring": "^9.0.0-rc.3",
     "shopify-buy": "^2.10.0",
     "slugify": "^1.4.4",

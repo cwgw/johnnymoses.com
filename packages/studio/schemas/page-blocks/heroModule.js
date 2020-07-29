@@ -1,3 +1,5 @@
+import { toPlainText } from "../../utils/helpers";
+
 export default {
   title: "Hero",
   name: "heroModule",
@@ -18,12 +20,15 @@ export default {
   ],
   preview: {
     select: {
-      title: "",
+      text: "blocks",
     },
-    prepare(selection) {
-      return Object.assign({}, selection, {
-        title: "Hero",
-      });
+    prepare: ({ text }) => {
+      const title = toPlainText(text);
+      // console.log({ text })
+      return {
+        title,
+        subtitle: "Hero Section",
+      };
     },
   },
 };

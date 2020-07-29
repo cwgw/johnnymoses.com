@@ -1,100 +1,94 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import React from "react";
 import Portal from "@reach/portal";
-
-import { animated, useTransition } from "react-spring";
 
 import {
   useNotificationItems,
   useRemoveNotification,
+  useClearNotifications,
 } from "../../context/notifications";
 
-import Toast from "./toast";
 import Flex from "../flex";
+import Box from "../box";
+import Text from "../text";
+import Button from "../button";
+import Icon from "../icon";
 
 const Notifications = () => {
   const items = useNotificationItems();
-  const [refMap] = React.useState(() => new WeakMap());
-  const [cancelMap] = React.useState(() => new WeakMap());
+  const clearNotifications = useClearNotifications();
   const removeNotification = useRemoveNotification();
 
-  const timeout = 5000;
-
-  const transition = useTransition(items, {
-    key: item => item.id,
-    from: {
-      height: 0,
-      opacity: 0,
-      transform: "translateX(100%)",
-      life: "100%",
-    },
-    enter: item => async next =>
-      await next({
-        height: refMap.get(item).offsetHeight + 8,
-        transform: "translateX(0%)",
-        opacity: 1,
-      }),
-    leave: item => async (next, stop) => {
-      cancelMap.set(item, () => {
-        next({
-          height: 0,
-          opacity: 0,
-          transform: "translateX(100%)",
-          config: { immediate: true },
-        });
-      });
-      await next({
-        height: 0,
-        opacity: 0,
-        transform: "translateX(100%)",
-        delay: timeout,
-      });
-    },
-    onRest: (spring, item) => {
-      removeNotification(item.key);
-    },
-    config: {
-      precision: 0.005,
-    },
-  });
-
-  if (!items || items.length < 0) {
+  if (!items || items.length < 1) {
     return null;
   }
 
+  const icons = {
+    success: "check-circle",
+    default: "alert-triangle",
+  };
+
   return (
     <Portal>
-      <Flex
-        flexDirection="column-reverse"
-        alignItems="end"
+      <Box
         sx={{
           position: "fixed",
-          top: 2,
-          right: 2,
+          bottom: 0,
+          left: 0,
+          width: "100%",
+          backgroundColor: "primary",
+          color: "white",
         }}
       >
-        {transition((style, item) => (
-          <animated.div
-            style={{
-              position: "relative",
-              ...style,
-            }}
-          >
-            <Toast
-              ref={ref => refMap.set(item, ref)}
-              onDismiss={async () => {
-                if (cancelMap.has(item)) {
-                  cancelMap.get(item)();
-                }
-                removeNotification(item.id);
-              }}
-              {...item}
-              timer={style.life}
-            />
-          </animated.div>
-        ))}
-      </Flex>
+        <Flex
+          variant="container"
+          justifyContent="space-between"
+          alignItems="start"
+          px={4}
+          py={2}
+        >
+          <Flex flexDirection="column" flexBasis="100%">
+            {items.map(({ id, message, status, actions }) => (
+              <Flex alignItems="center" key={id}>
+                <Icon
+                  icon={icons[status] || icons.default}
+                  animated
+                  delay={300}
+                  fontSize={4}
+                  sx={{ flexShrink: 0 }}
+                />
+                <Text
+                  as="span"
+                  px={3}
+                  variant="utils.truncate"
+                  sx={{ width: "100%" }}
+                >
+                  {message}
+                </Text>
+                {actions &&
+                  actions.map(([value, action]) => (
+                    <Button
+                      key={value}
+                      onClick={() => {
+                        removeNotification(id);
+                        if (typeof action === "function") {
+                          action();
+                        }
+                      }}
+                      sx={{ flexShrink: 0, mr: 2 }}
+                      variant="secondary"
+                      color="white"
+                      children={value}
+                    />
+                  ))}
+              </Flex>
+            ))}
+          </Flex>
+          <Button onClick={clearNotifications}>
+            <Icon icon="x" />
+          </Button>
+        </Flex>
+      </Box>
     </Portal>
   );
 };

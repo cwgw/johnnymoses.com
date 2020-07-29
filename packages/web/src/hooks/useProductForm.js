@@ -4,16 +4,16 @@ import get from "lodash/get";
 
 import { client, useAddItemToCart } from "../context/shopifyClient";
 
-const useVariant = ({ handle }) => {
+const useVariant = ({ handle, variants = [] }) => {
   const addItemToCart = useAddItemToCart();
   const product = React.useRef({});
   const [quantity, setQuantity] = React.useState(1);
   const [variant, setVariant] = React.useState({});
+  const [variantContent, setVariantContent] = React.useState(
+    variants[0]?.content
+  );
   const [status, setStatus] = React.useState({ adding: false, added: false });
-
-  const timeout = React.useRef();
-
-  const { id: variantId, available: isAvailable } = variant;
+  const timeout = React.useRef(null);
 
   React.useEffect(() => {
     return () => {
@@ -57,7 +57,14 @@ const useVariant = ({ handle }) => {
           })
       );
 
+      const variantContent = variants.find(o => {
+        return o.content.shopify.variantTitle === value;
+      });
+
       if (selectedVariant) {
+        if (variantContent) {
+          setVariantContent(variantContent.content);
+        }
         setVariant(selectedVariant);
       } else {
         console.warn(
@@ -65,7 +72,7 @@ const useVariant = ({ handle }) => {
         );
       }
     },
-    [variant]
+    [variant, variants]
   );
 
   const handleQuantityChange = React.useCallback(
@@ -80,7 +87,7 @@ const useVariant = ({ handle }) => {
   );
 
   const handleAddItemToCart = React.useCallback(() => {
-    if (isAvailable) {
+    if (variant.available) {
       return addItem();
     } else {
       return Promise.resolve();
@@ -88,18 +95,20 @@ const useVariant = ({ handle }) => {
 
     async function addItem() {
       setStatus({ added: false, adding: true });
-      await addItemToCart(variantId, quantity);
+      await addItemToCart(variant.id, quantity);
       setStatus({ added: true, adding: false });
       timeout.current = setTimeout(() => {
         setStatus({ added: false, adding: false });
       }, 1500);
+      return { quantity, variant, product: product.current };
     }
-  }, [addItemToCart, setStatus, isAvailable, variantId, quantity]);
+  }, [addItemToCart, setStatus, variant, product, quantity]);
 
   return {
     status,
     isAvailable: variant.available || false,
     variant,
+    variantContent,
     product: product.current,
     quantity,
     handleOptionChange,

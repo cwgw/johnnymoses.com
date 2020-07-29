@@ -1,14 +1,13 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import React from "react";
 import PropTypes from "prop-types";
 
 import { useCartCount } from "../context/shopifyClient";
 
 import Flex from "./flex";
 import Link from "./link";
-import MenuButton from "./menuButton";
 import Box from "./box";
+import useFlyoutMenuItem from "../hooks/useFlyoutMenu";
 // import Badge from "./badge";
 
 const propTypes = {
@@ -38,49 +37,74 @@ const Header = ({ navItems, siteTitle }) => {
             },
           }}
         >
-          {navItems.map(({ _key, ...item }) => (
-            <li key={_key}>
-              <NavItem
-                {...item}
-                badge={item.title.toLowerCase() === "store" ? cartCount : null}
-              />
-            </li>
-          ))}
+          {navItems.map(({ _key, ...item }) => {
+            if (item.items && item.items.length > 0) {
+              return (
+                <FlyOutMenu
+                  {...item}
+                  key={_key}
+                  as="li"
+                  badge={
+                    item.title.toLowerCase() === "store" ? cartCount : null
+                  }
+                />
+              );
+            }
+
+            const { title, link, url } = item;
+            const href = link ? "/" + link.content.main.slug.current : url;
+            return (
+              <li key={_key}>
+                <Link to={href} variant="banner" children={title} />
+              </li>
+            );
+          })}
         </Flex>
       </Flex>
     </Box>
   );
 };
 
-function NavItem({ title, link, url, badge, items }) {
-  if (items && items.length > 0) {
-    return (
-      <MenuButton
-        value={badge ? <React.Fragment>{title}</React.Fragment> : title}
-        variant="banner"
+function FlyOutMenu({ title, badge, items, ...props }) {
+  const {
+    getParentLinkProps,
+    getArrowProps,
+    getChildMenuProps,
+  } = useFlyoutMenuItem();
+
+  console.log("FlyOutMenu rendering");
+
+  return (
+    <Box {...props}>
+      <Link
+        variant="links.banner"
+        href="#"
+        children={title}
+        {...getParentLinkProps()}
+      />
+      <Box
+        as="ul"
+        variant="flyoutMenu.list"
+        sx={{ zIndex: "popover" }}
+        {...getChildMenuProps()}
       >
+        <Box as="span" {...getArrowProps()} />
         {items.map(item => {
           const itemHref = item.link
             ? "/" + item.link.content.main.slug.current
             : item.url;
 
           return (
-            <Link key={item._key} to={itemHref}>
-              {item.title}
-              {/^cart$/i.test(item.title) && ` (${badge})`}
-            </Link>
+            <Box as="li" key={item._key}>
+              <Link to={itemHref} variant="flyoutMenu.link">
+                {item.title}
+                {/^cart$/i.test(item.title) && ` (${badge})`}
+              </Link>
+            </Box>
           );
         })}
-      </MenuButton>
-    );
-  }
-
-  const href = link ? "/" + link.content.main.slug.current : url;
-
-  return (
-    <Link to={href} variant="banner">
-      {title}
-    </Link>
+      </Box>
+    </Box>
   );
 }
 

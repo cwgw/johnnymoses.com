@@ -10,12 +10,13 @@
   "plugins": [
     "@sanity/base",
     "@sanity/components",
+    "@sanity/desk-tool",
     "@sanity/dashboard",
     "@sanity/default-layout",
     "@sanity/default-login",
-    "@sanity/desk-tool",
     "@sanity/vision",
-    "google-calendar-list"
+    "google-calendar-list",
+    "@sanity/storybook"
   ],
   "env": {
     "development": {

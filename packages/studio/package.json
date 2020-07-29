@@ -23,6 +23,7 @@
     "@sanity/default-layout": "^1.149.15",
     "@sanity/default-login": "^1.149.11",
     "@sanity/desk-tool": "^1.149.15",
+    "@sanity/storybook": "^1.149.18",
     "@sanity/vision": "^1.149.16",
     "date-fns": "^2.14.0",
     "gatsby": "^2.23.11",
