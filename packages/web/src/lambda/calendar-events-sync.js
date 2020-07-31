@@ -3,7 +3,7 @@ const sanityClient = require("@sanity/client");
 const crypto = require("crypto");
 
 const { getSanitizedPortableText } = require("./utils/html-utils");
-const { createIcsDataUri } = rquire("./utils.icalendar");
+const { createIcsDataUri } = require("./utils/icalendar");
 const {
   decode,
   returnResponse,
