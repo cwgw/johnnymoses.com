@@ -1,5 +1,3 @@
-const get = require("lodash/get");
-
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions;
 
@@ -69,6 +67,10 @@ exports.createPages = async ({ graphql, actions }) => {
     throw errors;
   }
 
+  const routes = data.sanitySiteGlobal.content.routes || {};
+  const productPath = routes.productRouteRoot.current || "product";
+  const postPath = routes.postRouteRoot.current || "news";
+
   const pages = data.allSanityPage.edges || [];
   pages.forEach(({ node }) => {
     const slug = node.content.main.slug.current;
@@ -82,12 +84,6 @@ exports.createPages = async ({ graphql, actions }) => {
     });
   });
 
-  const productPath = get(
-    data,
-    "sanitySiteGlobal.content.routes.productRouteRoot.current",
-    "product"
-  );
-
   const products = data.allSanityProduct.edges || [];
   products.forEach(({ node }) => {
     const slug = node.content.main.slug.current;
@@ -100,12 +96,6 @@ exports.createPages = async ({ graphql, actions }) => {
       },
     });
   });
-
-  const postPath = get(
-    data,
-    "sanitySiteGlobal.content.routes.postRouteRoot.current",
-    "news"
-  );
 
   const posts = data.allSanityPost.edges || [];
   posts.forEach(({ node }) => {

@@ -4,7 +4,7 @@ import React from "react";
 import { useTransition, animated } from "react-spring";
 
 import {
-  client,
+  useClient,
   useCartItems,
   useCheckoutStatus,
   useUpdateItemsFromCart,
@@ -27,6 +27,7 @@ const LineItem = React.forwardRef(({ item, ...props }, ref) => {
   const { variant, id, title, quantity } = item;
   const updateItemsFromCart = useUpdateItemsFromCart();
   const removeItemFromCart = useRemoveItemFromCart();
+  const client = useClient();
   const [image, setImage] = React.useState();
 
   React.useEffect(() => {

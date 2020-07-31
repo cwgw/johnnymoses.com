@@ -22,7 +22,7 @@ const HeroModule = props => {
         },
       }}
     >
-      <Image {...imageModule} />
+      <Image {...imageModule} width={800} loading="eager" fadeIn={false} />
       <Box>
         <BlockContent
           sx={{

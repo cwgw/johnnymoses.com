@@ -1,10 +1,12 @@
 import React from "react";
 import { usePopper } from "react-popper";
+import { popper } from "@popperjs/core";
 
 /**
+ *
  * @see https://www.w3.org/WAI/tutorials/menus/flyout/
  */
-const useFlyoutMenuItem = (
+const useFlyOutMenu = (
   { placement, collapseDelay } = { placement: "bottom-end", collapseDelay: 500 }
 ) => {
   const [isExpanded, setExpanded] = React.useState(false);
@@ -16,13 +18,17 @@ const useFlyoutMenuItem = (
   const [popperElement, setPopperElement] = React.useState(null);
   const [arrowElement, setArrowElement] = React.useState(null);
 
+  const offset = React.useCallback(() => {
+    return isExpanded ? [0, 0] : [0, 16];
+  }, [isExpanded]);
+
   const { styles, attributes, update } = usePopper(
     referenceElement,
     popperElement,
     {
       modifiers: [
         { name: "arrow", options: { element: arrowElement } },
-        // { name: "offset", options: { offset } },
+        { name: "offset", options: { offset } },
       ],
       strategy: "absolute",
       placement,
@@ -30,10 +36,27 @@ const useFlyoutMenuItem = (
   );
 
   React.useLayoutEffect(() => {
-    if (isExpanded) {
-      update();
+    if (!popperElement) {
+      return;
     }
-  }, [isExpanded, update]);
+
+    if (isExpanded) {
+      if (popperElement.hasAttribute("hidden")) {
+        popperElement.removeAttribute("hidden");
+        update();
+      }
+    } else {
+      popperElement.addEventListener("transitionend", hide);
+      popperElement.addEventListener("transitioncancel", e => {
+        e.target.removeEventListener("transitionend", hide);
+      });
+    }
+
+    function hide(e) {
+      e.target.setAttribute("hidden", true);
+      e.target.removeEventListener("transitionend", hide);
+    }
+  }, [popperElement, update, isExpanded]);
 
   const onClick = React.useCallback(
     e => {
@@ -85,7 +108,8 @@ const useFlyoutMenuItem = (
       border: "inherit",
       background: "inherit",
       boxShadow: "inherit",
-      clipPath: "path('M0,0 12,0 0,12 Z')",
+      clipPath: "polygon(0% 0%, 100% 0%, 0% 100%)",
+      // clipPath: "path('M0,0 12,0 0,12 Z')",
     },
     ...attributes.arrow,
   });
@@ -109,15 +133,21 @@ const useFlyoutMenuItem = (
     onBlur,
     onFocus,
     ref: setPopperElement,
-    hidden: !isExpanded,
+    hidden: isExpanded ? false : null,
     style: {
-      opacity: isActive ? 1 : 0.75,
       ...styles.popper,
+      opacity: isExpanded ? (isActive ? 1 : 0.75) : 0,
     },
     ...attributes.popper,
   });
 
-  return { getParentLinkProps, getChildMenuProps, getArrowProps };
+  return {
+    isActive,
+    isExpanded,
+    getParentLinkProps,
+    getChildMenuProps,
+    getArrowProps,
+  };
 };
 
 function arrowStyles({ attributes, styles }) {
@@ -164,4 +194,4 @@ function arrowStyles({ attributes, styles }) {
   }
 }
 
-export default useFlyoutMenuItem;
+export default useFlyOutMenu;

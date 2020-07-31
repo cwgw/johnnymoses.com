@@ -7,7 +7,7 @@ import { useCartCount } from "../context/shopifyClient";
 import Flex from "./flex";
 import Link from "./link";
 import Box from "./box";
-import useFlyoutMenuItem from "../hooks/useFlyoutMenu";
+import FlyOut from "./flyOutMenu";
 // import Badge from "./badge";
 
 const propTypes = {
@@ -23,7 +23,7 @@ const Header = ({ navItems, siteTitle }) => {
 
   return (
     <Box as="header" role="banner" variant="container">
-      <Flex as="nav" aria-label="Main" py={2} px={4} mx={-2}>
+      <Flex as="nav" aria-label="Mai Navigation" py={2} px={4} mx={-2}>
         <Link to="/" children={siteTitle} variant="banner" mr="auto" />
         <Flex
           as="ul"
@@ -40,7 +40,7 @@ const Header = ({ navItems, siteTitle }) => {
           {navItems.map(({ _key, ...item }) => {
             if (item.items && item.items.length > 0) {
               return (
-                <FlyOutMenu
+                <FlyOut
                   {...item}
                   key={_key}
                   as="li"
@@ -64,49 +64,6 @@ const Header = ({ navItems, siteTitle }) => {
     </Box>
   );
 };
-
-function FlyOutMenu({ title, badge, items, ...props }) {
-  const {
-    getParentLinkProps,
-    getArrowProps,
-    getChildMenuProps,
-  } = useFlyoutMenuItem();
-
-  console.log("FlyOutMenu rendering");
-
-  return (
-    <Box {...props}>
-      <Link
-        variant="links.banner"
-        href="#"
-        children={title}
-        {...getParentLinkProps()}
-      />
-      <Box
-        as="ul"
-        variant="flyoutMenu.list"
-        sx={{ zIndex: "popover" }}
-        {...getChildMenuProps()}
-      >
-        <Box as="span" {...getArrowProps()} />
-        {items.map(item => {
-          const itemHref = item.link
-            ? "/" + item.link.content.main.slug.current
-            : item.url;
-
-          return (
-            <Box as="li" key={item._key}>
-              <Link to={itemHref} variant="flyoutMenu.link">
-                {item.title}
-                {/^cart$/i.test(item.title) && ` (${badge})`}
-              </Link>
-            </Box>
-          );
-        })}
-      </Box>
-    </Box>
-  );
-}
 
 Header.propTypes = propTypes;
 

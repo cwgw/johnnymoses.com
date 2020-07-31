@@ -37,7 +37,7 @@ export const buttons = {
     fontSize: 2,
     backgroundColor: "white",
     borderColor: "grays.800",
-    borderRadius: 8,
+    borderRadius: 4,
     boxShadow: 5,
     ":active": {
       transform: "translateY(1px)",

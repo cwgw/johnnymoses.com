@@ -1,8 +1,23 @@
 import React from "react";
 import PropTypes from "prop-types";
-import * as FeatherIcons from "react-feather";
 import camelCase from "lodash/camelCase";
 import { animated, useTransition } from "react-spring";
+
+import {
+  AlertTriangle,
+  Calendar,
+  CheckCircle,
+  ChevronDown,
+  Clock,
+  Disc,
+  Download,
+  ExternalLink,
+  MapPin,
+  Minus,
+  Plus,
+  X,
+  Youtube,
+} from "react-feather";
 
 import { upperFirst } from "../utils/helpers";
 import Text from "./text";
@@ -71,7 +86,20 @@ const Icons = {
   BrandSpotify,
   BrandAppleMusic,
   BrandYoutube,
-  ...FeatherIcons,
+  // Feather Icons
+  AlertTriangle,
+  Calendar,
+  CheckCircle,
+  ChevronDown,
+  Clock,
+  Disc,
+  Download,
+  ExternalLink,
+  MapPin,
+  Minus,
+  Plus,
+  X,
+  Youtube,
 };
 
 const baseStyles = {

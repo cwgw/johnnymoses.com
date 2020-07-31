@@ -1,18 +1,12 @@
 import React from "react";
-import ShopifyClient from "shopify-buy";
 import cookie from "js-cookie";
 
 import formatPrice from "../utils/formatPrice";
 
 const SHOPIFY_CHECKOUT_STORAGE_KEY = "shopify_checkout_id";
 
-const client = ShopifyClient.buildClient({
-  storefrontAccessToken: process.env.GATSBY_SHOPIFY_TOKEN,
-  domain: process.env.GATSBY_SHOPIFY_STORE,
-});
-
 const initialStoreState = {
-  client,
+  client: null,
   isAdding: false,
   cartIsOpen: false,
   page: undefined,
@@ -67,35 +61,48 @@ const StoreContextProvider = ({ children }) => {
   const [isInitialized, setInitialized] = React.useState(false);
 
   React.useEffect(() => {
-    if (isInitialized === false) {
-      const initializeCheckout = async () => {
-        // Check for an existing cart.
-        const isBrowser = typeof window !== "undefined";
-        const existingCheckoutId = isBrowser
-          ? localStorage.getItem(SHOPIFY_CHECKOUT_STORAGE_KEY)
-          : null;
-
-        if (existingCheckoutId) {
-          try {
-            const checkout = await fetchCheckout(store, existingCheckoutId);
-            if (!checkout.completedAt) {
-              await setCheckoutInState(checkout, setStore);
-              setInitialized(true);
-              return;
-            }
-          } catch (e) {
-            localStorage.setItem(SHOPIFY_CHECKOUT_STORAGE_KEY, null);
-          }
-        }
-
-        const newCheckout = await createNewCheckout(store);
-        await setCheckoutInState(newCheckout, setStore);
-        setInitialized(true);
-      };
-
-      initCustomer(setStore);
-      initializeCheckout();
+    if (!store.client) {
+      import("shopify-buy").then(({ default: Sanity }) => {
+        const client = Sanity.buildClient({
+          storefrontAccessToken: process.env.GATSBY_SHOPIFY_TOKEN,
+          domain: process.env.GATSBY_SHOPIFY_STORE,
+        });
+        setStore(o => ({ ...o, client }));
+      });
     }
+  }, [store.client, setStore]);
+
+  React.useEffect(() => {
+    if (isInitialized || !store.client) {
+      return;
+    }
+
+    async function initializeCheckout() {
+      const isBrowser = typeof window !== "undefined";
+      const existingCheckoutId = isBrowser
+        ? localStorage.getItem(SHOPIFY_CHECKOUT_STORAGE_KEY)
+        : null;
+
+      if (existingCheckoutId) {
+        try {
+          const checkout = await fetchCheckout(store, existingCheckoutId);
+          if (!checkout.completedAt) {
+            await setCheckoutInState(checkout, setStore);
+            setInitialized(true);
+            return;
+          }
+        } catch (e) {
+          localStorage.setItem(SHOPIFY_CHECKOUT_STORAGE_KEY, null);
+        }
+      }
+
+      const newCheckout = await createNewCheckout(store);
+      await setCheckoutInState(newCheckout, setStore);
+      setInitialized(true);
+    }
+
+    initCustomer(setStore);
+    initializeCheckout();
   }, [store, setStore, isInitialized]);
 
   return (
@@ -221,7 +228,7 @@ function useAddItemToCart() {
 
 function useRemoveItemFromCart() {
   const {
-    store: { checkout },
+    store: { checkout, client },
     setStore,
   } = React.useContext(StoreContext);
 
@@ -240,7 +247,7 @@ function useRemoveItemFromCart() {
 
 function useUpdateItemsFromCart() {
   const {
-    store: { checkout },
+    store: { checkout, client },
     setStore,
   } = React.useContext(StoreContext);
 
@@ -302,12 +309,20 @@ function useCheckoutStatus() {
   };
 }
 
+function useClient() {
+  const {
+    store: { client },
+  } = React.useContext(StoreContext);
+
+  return client;
+}
+
 export {
-  client,
   StoreContextProvider,
   useSetCustomerInState,
   useAddItemToCart,
   useStore,
+  useClient,
   useCustomer,
   useCartCount,
   useCartItems,

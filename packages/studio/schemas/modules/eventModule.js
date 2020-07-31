@@ -82,5 +82,12 @@ export default {
       description: "Set through your calendar",
       readOnly: true,
     },
+    {
+      name: "icsLink",
+      title: "iCal Link",
+      type: "string",
+      description: "Set through your calendar",
+      readOnly: true,
+    },
   ],
 };

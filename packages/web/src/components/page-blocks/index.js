@@ -22,6 +22,6 @@ export {
   newsAndEventsModule,
   textModule,
   postListModule,
-  youtubePlaylistModule,
+  // youtubePlaylistModule,
   documentListModule,
 };

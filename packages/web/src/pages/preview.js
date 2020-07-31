@@ -3,7 +3,7 @@ import { Router } from "@reach/router";
 import useSWR from "swr";
 
 import { useSanityClient } from "../context/sanityClient";
-import { pageQuery, productQuery } from "../utils/sanityQueries";
+// import { pageQuery, productQuery } from "../utils/sanityQueries";
 import Box from "../components/box";
 
 import Page from "../templates/page";
@@ -22,19 +22,20 @@ const PreviewPage = ({ documentId, revision }) => {
 
   const { client } = useSanityClient();
 
-  const fetcher = React.useCallback(
-    async (documentId, revision) => {
-      const query = `*[_id == $documentId && _rev == $revision][0] {
-        ...,
-        _type == "page" => ${pageQuery},
-        _type == "product" => ${productQuery}
-      }`;
-      return client.fetch(query, { documentId, revision });
-    },
-    [client]
-  );
+  // const fetcher = React.useCallback(
+  //   async (documentId, revision) => {
+  //     const query = `*[_id == $documentId && _rev == $revision][0] {
+  //       ...,
+  //       _type == "page" => ${pageQuery},
+  //       _type == "product" => ${productQuery}
+  //     }`;
+  //     return client.fetch(query, { documentId, revision });
+  //   },
+  //   [client]
+  // );
 
-  const { data, error } = useSWR([documentId, revision], fetcher);
+  // const { data, error } = useSWR([documentId, revision], fetcher);
+  let data, error;
 
   if (typeof data === "undefined" && !error) {
     return (

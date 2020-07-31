@@ -9,8 +9,14 @@ import Dialog from "part:@sanity/components/dialogs/default";
 import DialogContent from "part:@sanity/components/dialogs/content";
 import Button from "part:@sanity/components/buttons/default";
 import Text from "part:@sanity/components/textareas/default";
+import isPlainObject from "lodash/isPlainObject";
+
+import * as pathUtils from "@sanity/util/paths";
 
 import styles from "./pasteInput.css";
+import { randomKey } from "../../../utils/helpers";
+
+console.log({ pathUtils });
 
 const pasteInputType = {
   name: "pasteInput",
@@ -30,8 +36,23 @@ const pasteInputType = {
 const PasteInput = React.forwardRef((props, ref) => {
   const { focusPath, level, onBlur, onChange, onFocus, type, value } = props;
 
+  // console.log({ type})
+
   const [isDialogOpen, setDialog] = React.useState(false);
   const [pastedTextValue, setTextValue] = React.useState();
+
+  // const normalizedFields = React.useMemo(
+  //   () => {
+  //     return normalize(type.fields);
+
+  //     function normalize(fields) {
+  //       return fields.reduce((o, field) => {
+  //         o[field.name] =
+  //       }. {})
+  //     }
+  //   },
+  //   [type]
+  // )
 
   const handleFieldChange = React.useCallback(
     field => fieldPatchEvent => {
@@ -48,21 +69,18 @@ const PasteInput = React.forwardRef((props, ref) => {
     setDialog(b => !b);
   };
 
-  const closeDialog = () => {
+  const handleDialogClose = () => {
     setDialog(false);
     const parsedText = parsePastedText(pastedTextValue);
-    if (parsedText) {
-      patchInputData(parsedText);
+    const patches = createPatchesFromInput(parsedText);
+    console.log({ patches });
+    if (patches.length > 0) {
+      const patchEvent = new PatchEvent(patches).prepend(
+        setIfMissing({ _type: type.name, _key: randomKey(12) })
+      );
+      console.log({ patchEvent });
+      onChange(patchEvent);
     }
-  };
-
-  const patchInputData = data => {
-    // array items need a unique _key property
-    // @see https://github.com/sanity-io/sanity/blob/next/packages/%40sanity/form-builder/src/inputs/ArrayInput/randomKey.ts
-    // const values = Object.entries(data).map(([key, value]) => {})
-    const patches = [setIfMissing({ _type: type.name })];
-    console.log(PatchEvent(patches));
-    // onChange(PatchEvent(patches));
   };
 
   const handlePastedTextChange = e => {
@@ -70,7 +88,7 @@ const PasteInput = React.forwardRef((props, ref) => {
     setTextValue(value);
   };
 
-  console.log(type.fields);
+  // console.log(type.fields)
 
   return (
     <React.Fragment>
@@ -97,7 +115,7 @@ const PasteInput = React.forwardRef((props, ref) => {
         </Button>
       </div>
       {isDialogOpen && (
-        <Dialog isOpen onClose={closeDialog} title="Paste value">
+        <Dialog isOpen onClose={handleDialogClose} title="Paste value">
           <DialogContent>
             <Text
               onChange={handlePastedTextChange}
@@ -113,11 +131,60 @@ const PasteInput = React.forwardRef((props, ref) => {
 });
 
 function parsePastedText(text) {
+  console.log({ text });
   let json;
   try {
     json = JSON.parse(text);
+    console.log({ json });
     return json;
-  } catch (error) {}
+  } catch (error) {
+    console.warn(`Couldn't parse json`, error);
+  }
+}
+
+function createPatchesFromInput(value, parentPath = []) {
+  if (!value) {
+    return [];
+  }
+
+  if (isPlainObject(value)) {
+    return Object.entries(value).reduce((arr, [key, val]) => {
+      const path = parentPath.concat([key]);
+      return arr.concat([
+        { type: "setIfMissing", path },
+        ...createPatchesFromInput(val, path),
+      ]);
+    }, []);
+  }
+
+  if (Array.isArray(value)) {
+    return [
+      {
+        type: "insert",
+        path: parentPath,
+        items: value.map(o => ({
+          ...o,
+          _key: randomKey(12),
+        })),
+      },
+    ];
+
+    // return value.map((o, i) => ({
+    //   type: "insert",
+    //   path: parentPath,
+    //   value: {
+    //     ...o,
+    //     _key: randomKey(12),
+    //   },
+    // }));
+  }
+
+  return [
+    {
+      type: "set",
+      value,
+    },
+  ];
 }
 
 export default PasteInput;

@@ -21,6 +21,8 @@ module.exports = {
     "gatsby-plugin-react-helmet",
     "gatsby-plugin-theme-ui",
     "gatsby-plugin-preload-fonts",
+    "gatsby-plugin-webpack-bundle-analyser-v2",
+    "gatsby-plugin-lodash",
     {
       resolve: "gatsby-plugin-create-client-paths",
       options: {

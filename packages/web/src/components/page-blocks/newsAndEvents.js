@@ -8,7 +8,7 @@ import Form from "./form";
 import Box from "../box";
 
 const NewsEvents = props => {
-  console.log("NewsEvents", { props });
+  // console.log("NewsEvents", { props });
 
   return <Box></Box>;
 

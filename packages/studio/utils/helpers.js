@@ -1,4 +1,5 @@
-const crypto = window.crypto || window.msCrypto;
+const crypto =
+  typeof window !== "undefined" ? window.crypto || window.msCrypto : {};
 
 export const toPlainText = blocks => {
   if (!blocks) {

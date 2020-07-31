@@ -2,7 +2,7 @@ import React from "react";
 import isEqualWith from "lodash/isEqualWith";
 import get from "lodash/get";
 
-import { client, useAddItemToCart } from "../context/shopifyClient";
+import { useClient, useAddItemToCart } from "../context/shopifyClient";
 
 const useVariant = ({ handle, variants = [] }) => {
   const addItemToCart = useAddItemToCart();
@@ -14,6 +14,7 @@ const useVariant = ({ handle, variants = [] }) => {
   );
   const [status, setStatus] = React.useState({ adding: false, added: false });
   const timeout = React.useRef(null);
+  const client = useClient();
 
   React.useEffect(() => {
     return () => {
