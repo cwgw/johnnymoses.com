@@ -12,6 +12,7 @@ export default {
   preview: {
     select: {
       title: "content.main.title",
+      subtitle: "content.main.productType",
       media: "content.main.mainImage",
     },
   },

@@ -16,18 +16,20 @@ const baseStyles = {
   backgroundColor: "transparent",
   color: "text",
   fontSize: "inherit",
-  textAlign: "center",
+  fontFamily: "inherit",
   lineHeight: "inherit",
+  textAlign: "center",
   appearance: "none",
   cursor: "pointer",
 };
 
-const Button = React.forwardRef(({ to, ...props }, ref) => {
-  if (to) {
+const Button = React.forwardRef(({ to, href, ...props }, ref) => {
+  const url = to || href;
+  if (url) {
     return (
       <Link
         ref={ref}
-        to={to}
+        to={url}
         variant="primary"
         __themeKey="buttons"
         __css={baseStyles}

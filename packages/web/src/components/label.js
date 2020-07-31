@@ -11,7 +11,7 @@ const Label = React.forwardRef(({ children, ...props }, ref) => (
   <Box
     ref={ref}
     as="label"
-    variant="styles.label"
+    variant="label"
     {...props}
     __css={baseStyles}
     __themeKey="forms"

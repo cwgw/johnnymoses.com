@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
 
-import isNotDefaultOption from "../../utils/isNotDefaultOption";
+import { isNotDefaultOption } from "../../utils/isNotDefaultOption";
 import Listbox from "../listbox";
 import Tiles from "../tiles";
 

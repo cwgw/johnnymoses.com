@@ -1,19 +1,21 @@
-import imageModule from "./imageModule";
-import textModule from "./textModule";
-import basicTextImageModule from "./basicTextImageModule";
 import basicTextFormModule from "./basicTextFormModule";
-import productGridModule from "./productGridModule";
-import eventListModule from "./eventListModule";
-import heroModule from "./heroModule";
+import basicTextImageModule from "./basicTextImageModule";
 import formModule from "./formModule";
+import heroModule from "./heroModule";
+import imageModule from "./imageModule";
+import productGridModule from "./productGridModule";
+import textModule from "./textModule";
+import youtubePlaylistModule from "./youtubePlaylistModule";
+import documentListModule from "./documentListModule";
 
 export {
-  imageModule,
-  textModule,
-  basicTextImageModule,
   basicTextFormModule,
-  productGridModule,
-  eventListModule,
-  heroModule,
+  basicTextImageModule,
   formModule,
+  heroModule,
+  imageModule,
+  productGridModule,
+  textModule,
+  youtubePlaylistModule,
+  documentListModule,
 };

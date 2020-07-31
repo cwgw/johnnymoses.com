@@ -10,7 +10,7 @@ const renderPageModules = (modules = []) => {
       return <h3 key={_key}>{_type}</h3>;
     }
 
-    return <Element sx={{ my: 5 }} key={_key} {...module} />;
+    return <Element sx={{ my: 3 }} key={_key} {...module} />;
   });
 };
 

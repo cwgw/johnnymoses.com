@@ -14,47 +14,48 @@ const getHref = ({ _type, link }) => {
   return link;
 };
 
-const Footer = ({ navItems }) => {
+const Footer = ({ navItems, ...props }) => {
   return (
-    <footer>
-      <Box
+    <Box
+      as="footer"
+      sx={{
+        width: "full",
+        maxWidth: "100%",
+        mx: "auto",
+        px: 4,
+        textAlign: "center",
+      }}
+      {...props}
+    >
+      <nav
         sx={{
-          width: "full",
-          maxWidth: "100%",
-          mx: "auto",
-          px: 4,
-          textAlign: "center",
+          mx: -2,
+          my: 3,
         }}
       >
-        <nav
+        <Flex
+          as="ul"
           sx={{
-            mx: -2,
+            ml: 0,
+            pl: 0,
+            listStyle: "none",
+            justifyContent: "center",
+            "li + li": {
+              ml: 3,
+            },
           }}
         >
-          <Flex
-            as="ul"
-            sx={{
-              ml: 0,
-              pl: 0,
-              listStyle: "none",
-              justifyContent: "center",
-              "li + li": {
-                ml: 3,
-              },
-            }}
-          >
-            {navItems.map(({ _key, title, ...item }) => (
-              <li key={_key}>
-                <Link to={getHref(item)} variant="nav">
-                  {title}
-                </Link>
-              </li>
-            ))}
-          </Flex>
-        </nav>
-        <p sx={{ px: 4 }}>© {new Date().getFullYear()}</p>
-      </Box>
-    </footer>
+          {navItems.map(({ _key, title, ...item }) => (
+            <li key={_key}>
+              <Link to={getHref(item)} variant="nav">
+                {title}
+              </Link>
+            </li>
+          ))}
+        </Flex>
+      </nav>
+      <span sx={{ display: "block", my: 3 }}>© {new Date().getFullYear()}</span>
+    </Box>
   );
 };
 

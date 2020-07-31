@@ -14,6 +14,7 @@ import product from "./types/product";
 import collection from "./types/collection";
 import event from "./types/event";
 import calendar from "./types/calendar";
+import post from "./types/post";
 
 // Page Blocks
 // import formModule from "./pageModules/formModule";
@@ -25,20 +26,27 @@ import calendar from "./types/calendar";
 // import productGridModule from "./pageModules/productGridModule";
 // import eventListModule from "./pageModules/eventListModule";
 // import * as pageBlocks from './pageModules'
-import * as PageBlockSchemas from "./page-blocks";
+import * as pageBlockSchemas from "./page-blocks";
 
-// misc
+import * as productMetaFields from "./product-meta";
+
+// fields
 import blockContent from "./fields/blockContent";
 import externalLink from "./fields/externalLink";
 import formField from "./fields/formField";
 import internalLink from "./fields/internalLink";
 import menuItem from "./fields/menuItem";
+import youtubeVideo from "./fields/youtubeVideo";
+import button from "./fields/button";
+import track from "./fields/track";
+import documentList from "./fields/documentList";
 
 // modules
 import metaCard from "./modules/metaCard";
 import moduleContent from "./modules/moduleContent";
 import pageItem from "./modules/pageItem";
 import pageModule from "./modules/pageModule";
+import postModule from "./modules/postModule";
 import social from "./modules/social";
 import routes from "./modules/routes";
 import eventModule from "./modules/eventModule";
@@ -56,6 +64,7 @@ import pageContent from "./tabs/pageContent";
 import productContent from "./tabs/productContent";
 import variantContent from "./tabs/variantContent";
 import eventContent from "./tabs/eventContent";
+import postContent from "./tabs/postContent";
 
 import productThirdParty from "./types/productThirdParty";
 import productThirdPartyContent from "./tabs/productThirdPartyContent";
@@ -76,14 +85,21 @@ export default createSchema({
     product,
     collection,
     calendar,
+    post,
 
-    ...Object.values(PageBlockSchemas),
+    ...Object.values(pageBlockSchemas),
+
+    ...Object.values(productMetaFields),
 
     blockContent,
     externalLink,
     formField,
     internalLink,
     menuItem,
+    youtubeVideo,
+    button,
+    track,
+    documentList,
 
     metaCard,
     moduleContent,
@@ -97,11 +113,13 @@ export default createSchema({
     variantModule,
     shopifyVariantModule,
     defaultVariant,
+    postModule,
 
     globalContent,
     pageContent,
     productContent,
     variantContent,
+    postContent,
 
     event,
     eventModule,

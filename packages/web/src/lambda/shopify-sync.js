@@ -26,8 +26,6 @@ module.exports.handler = async event => {
   const hmac = event.headers["x-shopify-hmac-sha256"];
 
   try {
-    console.log("hmac", hmac);
-    console.log("SHOPIFY_SHARED_SECRET", SHOPIFY_SHARED_SECRET);
     const generatedHash = crypto
       .createHmac("sha256", SHOPIFY_SHARED_SECRET)
       .update(event.body)

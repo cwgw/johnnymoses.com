@@ -2,112 +2,93 @@
 import { jsx } from "theme-ui";
 import React from "react";
 
-import useVariant from "../../hooks/useVariant";
-import formatPrice from "../../utils/formatPrice";
+import useProductForm from "../../hooks/useProductForm";
 
 import BlockContent from "../page-blocks/blockContent";
 import Box from "../box";
-import Flex from "../flex";
 import Heading from "../heading";
 import Image from "../image";
-import FormField from "../formField";
+import Text from "../text";
+import Grid from "../grid";
 
-import Options from "./options";
-import Price from "./price";
-import Button from "../button";
+import Form from "./form";
 import LinkedData from "./linkedData";
+import * as metaFields from "./metaFields";
 
 const Product = ({ content }) => {
   const { main, shopify } = content;
-  const {
-    variant,
-    product,
-    isAdding,
-    isAvailable,
-    quantity,
-    handleOptionChange,
-    handleAddItemToCart,
-    handleQuantityChange,
-  } = useVariant({
-    handle: shopify.handle,
-  });
-
-  const handleSubmit = React.useCallback(
-    e => {
-      e.preventDefault();
-      e.stopPropagation();
-      handleAddItemToCart();
-    },
-    [handleAddItemToCart]
-  );
-
-  console.log({ variant });
+  const form = useProductForm(shopify);
+  // console.log({ shopify })
+  // console.log({ variantContent: form.variantContent })
+  const productMetaFields = form.variantContent?.main?.productMetaFields || [];
 
   return (
-    <Flex as="article">
-      <LinkedData {...content} />
-      {main.mainImage && (
-        <Box sx={{ flex: `0 0`, flexBasis: "half" }}>
-          <Image width={400} {...main.mainImage} />
-        </Box>
-      )}
-      <Flex
+    <Box as="article" variant="container" px={4} my={5}>
+      <Grid
+        columns={[1, null, 2]}
         sx={{
-          flexFlow: "column nowrap",
-          flexBasis: "half",
-          p: 4,
-          pl: 5,
+          maxWidth: "100%",
+          alignItems: "start",
+          "& > *": {
+            position: ["relative", null, "sticky"],
+            top: 3,
+            maxWidth: "100%",
+            width: "100%",
+          },
         }}
       >
-        <span sx={{ variant: "text.eyebrow" }}>{main.productType}</span>
-        <form onSubmit={handleSubmit}>
-          <Heading as="h1">{main.title}</Heading>
-          <Box sx={{ mb: 4 }}>
-            <Price
-              price={variant.priceV2}
-              compareAtPrice={variant.compareAtPriceV2}
-              showCurrency
-            />
-          </Box>
-          <BlockContent blocks={main.productDescription} />
-          {product.options && (
-            <Options
-              options={product.options}
-              selectedOptions={variant.selectedOptions}
-              onChange={handleOptionChange}
-              mb={3}
-            />
+        <LinkedData {...content} />
+        <Box>
+          {main.mainImage && (
+            <Box mb={5} border="1px solid" borderColor="grays.900">
+              <Image width={400} {...main.mainImage} />
+            </Box>
           )}
-          <FormField
-            type="counter"
-            label="Quantity"
-            name="quantity"
-            value={quantity}
-            onChange={handleQuantityChange}
-            mx={3}
-          />
-          <Button
-            type="submit"
-            disabled={!isAvailable || isAdding}
-            variant="submit"
-          >
-            {isAvailable ? (
-              isAdding ? (
-                <span>Adding…</span>
-              ) : (
-                <span>
-                  {"Add to cart - "}
-                  {formatPrice(variant.priceV2, quantity)}
-                </span>
-              )
-            ) : (
-              <span>Currently out of stock</span>
-            )}
-          </Button>
-        </form>
-      </Flex>
-    </Flex>
+          {productMetaFields && renderProductMetaFields(productMetaFields)}
+        </Box>
+        <Form
+          form={form}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "start",
+            justifySelf: "center",
+            width: "third",
+            maxWidth: "third",
+          }}
+        >
+          {({ price, quantity, options, submit }) => (
+            <React.Fragment>
+              <header>
+                <Text as="span" variant="eyebrow">
+                  {main.productType}
+                </Text>
+                <Heading as="h1">{main.title}</Heading>
+              </header>
+              <Box mb={3}>{price}</Box>
+              {main.productDescription && (
+                <BlockContent mb={3} blocks={main.productDescription} />
+              )}
+              <Box mb={3}>{options}</Box>
+              <Box mb={3}>{quantity}</Box>
+              {submit}
+            </React.Fragment>
+          )}
+        </Form>
+      </Grid>
+    </Box>
   );
 };
+
+function renderProductMetaFields(fields) {
+  return fields.map(({ _key, _type, ...field }, i) => {
+    const Component = metaFields[_type];
+    if (Component) {
+      return <Component key={_key} {...field} mb={5} open={!i} />;
+    }
+
+    return null;
+  });
+}
 
 export default Product;

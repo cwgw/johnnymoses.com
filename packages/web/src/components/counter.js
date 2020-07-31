@@ -4,6 +4,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import debounce from "lodash/debounce";
 
+import Box from "./box";
 import Icon from "./icon";
 
 const propTypes = {
@@ -29,15 +30,27 @@ const Button = ({ children, ...props }) => (
       height: "1.5em",
       p: 0,
       m: 0,
-      borderWidth: 1,
-      borderStyle: "solid",
-      borderColor: "lightGray",
-      borderRadius: "100%",
-      backgroundColor: "white",
+      border: "none",
+      backgroundColor: "transparent",
+      // borderWidth: 1,
+      // borderStyle: "solid",
+      // borderColor: "grays.800",
+      // borderRadius: "100%",
+      // backgroundColor: "white",
       fontSize: 1,
       textAlign: "center",
       cursor: "pointer",
       outline: "none",
+      ":not(:disabled):hover": {
+        backgroundColor: "grays.900",
+      },
+      ":disabled": {
+        color: "grays.800",
+        cursor: "default",
+      },
+      svg: {
+        color: "inherit",
+      },
     }}
     {...props}
     type="button"
@@ -51,8 +64,9 @@ const Input = props => (
     sx={{
       display: "inline-block",
       width: "100%",
-      maxWidth: "3em",
-      p: 2,
+      maxWidth: "2em",
+      py: 0,
+      px: 0,
       m: 0,
       appearance: "none",
       fontSize: "inherit",
@@ -61,9 +75,9 @@ const Input = props => (
       color: "inherit",
       background: "transparent",
       textAlign: "center",
-      "-moz-appearance": "textfield",
+      MozAppearance: "textfield",
       "::-webkit-inner-spin-button, ::-webkit-outer-spin-button": {
-        "-webkit-appearance": "none",
+        WebkitAppearance: "none",
       },
       "&:active, &:focus": {
         outline: "none",
@@ -122,7 +136,7 @@ const Quantity = ({
         onChange(val);
       },
       500,
-      { leading: true, trailing: true }
+      { trailing: true }
     ),
     [onChange]
   );
@@ -136,21 +150,15 @@ const Quantity = ({
   };
 
   return (
-    <div
+    <Box
       sx={{
         display: "inline-flex",
         flexFlow: "row nowrap",
-        mx: -1,
+        alignSelf: "start",
         alignItems: "center",
         textAlign: "center",
         ":focus-within": {
-          outline: "2px solid blue",
-        },
-        "& button": {
-          mx: 1,
-        },
-        "& input": {
-          mx: -1,
+          variant: "utils.focus",
         },
       }}
       {...props}
@@ -182,7 +190,7 @@ const Quantity = ({
       >
         <Icon icon="Plus" />
       </Button>
-    </div>
+    </Box>
   );
 };
 

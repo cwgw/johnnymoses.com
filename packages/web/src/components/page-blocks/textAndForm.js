@@ -30,15 +30,18 @@ const TextAndForm = props => {
       )}
       {text && <BlockContent px={4} blocks={text} />}
       {formModule && (
-        <Form
-          {...formModule}
-          sx={{
-            position: "sticky",
-            top: 0,
-            p: 4,
-            alignSelf: "start",
-          }}
-        />
+        <aside>
+          <Form
+            {...formModule}
+            sx={{
+              position: "sticky",
+              top: 0,
+              bottom: 0,
+              px: 4,
+              alignSelf: "start",
+            }}
+          />
+        </aside>
       )}
     </Grid>
   );

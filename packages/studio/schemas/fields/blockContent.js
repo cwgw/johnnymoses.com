@@ -14,6 +14,10 @@ export default {
   type: "array",
   of: [
     {
+      title: "Button",
+      type: "button",
+    },
+    {
       title: "Block",
       type: "block",
       styles: [
@@ -27,7 +31,6 @@ export default {
       ],
       // Marks let you mark up inline text in the block editor.
       marks: {
-        // Annotations can be any object structure – e.g. a link or a footnote.
         decorators: [
           { value: "strong", title: "Strong" },
           { value: "italic", title: "Italic" },
@@ -36,20 +39,8 @@ export default {
             value: "lushootseed",
             title: "Lushootseed",
           },
-          // { value: "code", title: "Code" },
-          // {
-          //   title: "Inline Snippet",
-          //   value: "tick",
-          //   blockEditor: {
-          //     icon: () => "T",
-          //     render: props => (
-          //       <span style={{ backgroundColor: "#ccc", fontWeight: "300" }}>
-          //         {props.children}
-          //       </span>
-          //     ),
-          //   },
-          // },
         ],
+        // Annotations can be any object structure – e.g. a link or a footnote.
         annotations: [
           {
             title: "URL",

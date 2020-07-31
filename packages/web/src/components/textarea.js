@@ -3,7 +3,7 @@ import React from "react";
 import Box from "./box";
 
 const defaultProps = {
-  rows: 8,
+  rows: 6,
 };
 
 const baseStyles = {
@@ -24,8 +24,9 @@ const Textarea = React.forwardRef((props, ref) => (
   <Box
     ref={ref}
     as="textarea"
-    __themeKey="forms"
     __css={baseStyles}
+    __themeKey="forms"
+    variant="textarea"
     {...props}
   />
 ));

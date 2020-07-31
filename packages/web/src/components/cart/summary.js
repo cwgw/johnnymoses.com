@@ -1,14 +1,17 @@
-/** @jsx jsx */
-import { jsx } from "@theme-ui/core";
+import React from "react";
 
 import {
-  useCheckout,
   useCartTotals,
   useCartCount,
+  useCheckout,
+  useCheckoutStatus,
 } from "../../context/shopifyClient";
+
 import Button from "../button";
 import Heading from "../heading";
-import Box from "../box";
+import Flex from "../flex";
+import Text from "../text";
+import Grid from "../grid";
 
 const defaultProps = {
   title: "Order Summary",
@@ -16,77 +19,40 @@ const defaultProps = {
 
 const OrderSummary = ({ title, ...props }) => {
   const checkout = useCheckout();
-  const cartCount = useCartCount();
-  const isEmpty = cartCount < 1;
-  const { subtotal, total, tax } = useCartTotals();
-  const rows = [
-    ["Subtotal", subtotal],
-    ["Taxes", tax],
-    ["Estimated total", total],
-  ];
+  const count = useCartCount();
+  const { isInitialized } = useCheckoutStatus();
+  const { subtotal } = useCartTotals();
+
+  if (isInitialized && count < 1) {
+    return (
+      <Grid columns={1} py={3} px={4} {...props}>
+        <Text variant="display2" textAlign="center">
+          Your cart is empty.
+        </Text>
+        <Button variant="secondary" to="/">
+          Continue Shopping →
+        </Button>
+      </Grid>
+    );
+  }
 
   return (
-    <Box
-      sx={{
-        borderRadius: 3,
-        display: "flex",
-        flexFlow: "column nowrap",
-        alignItems: "stretch",
-        textAlign: "center",
-        py: 3,
-        px: 4,
-      }}
-      {...props}
-    >
-      {title && (
-        <Heading
-          sx={{
-            py: 3,
-            px: 4,
-            m: 0,
-          }}
-        >
-          {title}
-        </Heading>
-      )}
-      {rows.map(([name, value]) => (
-        <div
-          key={name + value}
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            py: 3,
-            border: 0,
-            "&:nth-last-of-type(n + 2)": {
-              borderBottom: 1,
-              borderStyle: "solid",
-              borderColor: "lightGray",
-            },
-            "&:last-of-type": {
-              fontSize: 3,
-              fontWeight: "bold",
-            },
-          }}
-        >
-          <span>{name}</span>
-          <span>{value}</span>
-        </div>
-      ))}
-      <p>
-        <small>Taxes and shipping cost will be finalized at checkout.</small>
-      </p>
-      <Button
-        onClick={checkout}
-        mb={3}
-        disabled={isEmpty}
-        title={isEmpty ? "Your cart is empty" : "Checkout"}
-      >
+    <Grid columns={1} py={3} px={4} {...props}>
+      {title && <Heading>{title}</Heading>}
+      <Flex justifyContent="space-between" fontWeight="bold">
+        <span>{`Subtotal (${count} item${count === 1 ? "" : "s"}):`}</span>
+        <span>{subtotal || "---"}</span>
+      </Flex>
+      <Text as="small" textAlign="center">
+        Taxes and shipping cost will be finalized at checkout.
+      </Text>
+      <Button onClick={checkout} disabled={count < 1}>
         Checkout
       </Button>
-      <Button variant="secondary" to="/" mb={3}>
+      <Button variant="secondary" to="/">
         Continue Shopping →
       </Button>
-    </Box>
+    </Grid>
   );
 };
 

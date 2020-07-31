@@ -6,6 +6,7 @@ import differenceInMonths from "date-fns/differenceInMonths";
 import slugify from "slugify";
 
 import { createIcsDataUri } from "../../utils/iCalendar";
+import { upperFirst } from "../../utils/helpers";
 
 import BlockContent from "../page-blocks/blockContent";
 import Heading from "../heading";
@@ -15,6 +16,7 @@ import Flex from "../flex";
 import Link from "../link";
 import Icon from "../icon";
 import LinkedData from "./linkedData";
+import MenuButton from "../menuButton";
 
 const EventCard = ({ content, className }) => {
   const {
@@ -36,70 +38,72 @@ const EventCard = ({ content, className }) => {
       ? `${formatDistanceToNow(startDate)} ago`
       : differenceInMonths(startDate, today) > 1
       ? `${formatDistanceToNow(startDate)} from now`
-      : `In ${formatDistanceToNow(startDate)}`;
+      : `in ${formatDistanceToNow(startDate)}`;
+
+  const icsURL = createIcsDataUri({
+    ...content.main,
+    summary: title,
+    description: descriptionText,
+    endDate: end,
+    startDate: start,
+  });
+  const icsFileName = `${slugify(title, { lower: true })}.ics`;
 
   return (
-    <Flex
+    <Box
       as="article"
       className={className}
       sx={{
-        flexFlow: "column nowrap",
         px: 4,
         py: 3,
         borderWidth: 1,
-        borderStyle: "solid",
-        borderColor: "grays.700",
-        borderRadius: 3,
+        // borderStyle: "solid",
+        // borderColor: "grays.700",
+        borderRadius: 4,
       }}
     >
       <LinkedData {...content} />
       <header>
         <Text as="p" color="grays.500" variant="small">
-          {dateFromNow}
+          <Icon icon="calendar" />
+          &ensp;
+          {upperFirst(dateFromNow)}
         </Text>
         <Heading as="h3" mb={3}>
           {title}
         </Heading>
       </header>
-      <BlockContent
-        blocks={description}
-        sx={{
-          mb: 4,
-          color: "grays.400",
-        }}
-      />
-      <Flex
-        sx={{
-          mt: "auto",
-          alignItems: "flex-end",
-        }}
-      >
+      <BlockContent blocks={description} mb={4} color="grays.400" />
+      <Flex mt="auto" alignItems="end">
         <Box>
           <Text as="p" variant="small" itemProp="startDate" content={start}>
-            <Icon icon="Calendar" />
+            <Icon icon="clock" />
+            &ensp;
             {format(startDate, "MMMM do, yyyy")}
           </Text>
           {location && (
             <Text as="p" variant="small">
-              <Icon icon="MapPin" />
+              <Icon icon="map-pin" />
+              &ensp;
               {location}
             </Text>
           )}
         </Box>
-        <Link to={htmlLink} ml="auto" mr={2} children="Google Calendar" />
-        <Link
-          to={createIcsDataUri({
-            ...content.main,
-            summary: title,
-            description: descriptionText,
-            endDate: end,
-            startDate: start,
-          })}
-          download={`${slugify(title, { lower: true })}.ics`}
-          children=".ics"
-        />
+        <MenuButton
+          ml="auto"
+          variant="plain"
+          fontSize={1}
+          value="Add to your calendar"
+        >
+          <Link to={htmlLink}>
+            <Icon icon="external-link" /> Google Calendar
+          </Link>
+          <Link to={icsURL} download={icsFileName}>
+            <Icon icon="download" /> Other (.ics)
+          </Link>
+        </MenuButton>
       </Flex>
-    </Flex>
+    </Box>
   );
 };
 

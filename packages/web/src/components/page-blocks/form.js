@@ -9,13 +9,12 @@ import BlockContent from "./blockContent";
 import Box from "../box";
 import Button from "../button";
 import FormField from "../formField";
-import Grid from "../grid";
 import Text from "../text";
 
 const FormModule = ({
   text,
-  className,
   form: { formFields, slug, submitValue },
+  ...props
 }) => {
   const fieldStyles = {
     text: {},
@@ -27,7 +26,7 @@ const FormModule = ({
   const name = slugify(slug.current);
   const [status, setStatus] = React.useState();
 
-  const { register, handleSubmit } = useForm();
+  const { register, errors, formState, handleSubmit } = useForm();
   const onSubmit = async data => {
     setStatus("sending");
 
@@ -48,34 +47,38 @@ const FormModule = ({
     }
   };
 
-  let content = (
-    <Grid
-      as="form"
-      gap={0}
-      columns={[1, 2]}
-      sx={{ gridColumnGap: 3 }}
-      data-netlify={true}
-      method="POST"
-      action="#"
-      onSubmit={handleSubmit(onSubmit)}
-      name={name}
-    >
-      {formFields &&
-        formFields.map(({ _key, _type, required, ...field }) => (
-          <FormField
-            key={_key}
-            ref={register({ required })}
-            required={required}
-            sx={fieldStyles[field.type]}
-            {...field}
-          />
-        ))}
-      <input ref={register} type="hidden" name="form-name" value={name} />
-      <Button type="submit" sx={{ gridColumn: "-2/-1" }}>
-        {submitValue}
-      </Button>
-    </Grid>
-  );
+  if (!status) {
+    return (
+      <Box
+        as="form"
+        data-netlify={true}
+        method="POST"
+        action="#"
+        onSubmit={handleSubmit(onSubmit)}
+        name={name}
+        {...props}
+      >
+        <BlockContent as="header" blocks={text} mb={4} />
+        {formFields &&
+          formFields.map(({ _key, _type, required, ...field }, i, arr) => (
+            <FormField
+              key={_key}
+              ref={register({ required })}
+              required={required}
+              sx={{
+                ...fieldStyles[field.type],
+                // mb: i === arr.length - 1 ? 4 : 3,
+              }}
+              {...field}
+            />
+          ))}
+        <input ref={register} type="hidden" name="form-name" value={name} />
+        <Button type="submit">{submitValue}</Button>
+      </Box>
+    );
+  }
+
+  let content;
 
   if (status === "sending") {
     content = <Text>Sending…</Text>;
@@ -100,7 +103,7 @@ const FormModule = ({
   }
 
   return (
-    <Box className={className}>
+    <Box {...props}>
       <BlockContent blocks={text} mb={4} />
       {content}
     </Box>

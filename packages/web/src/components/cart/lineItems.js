@@ -1,19 +1,17 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
 import React from "react";
-import VisuallyHidden from "@reach/visually-hidden";
+import { useTransition, animated } from "react-spring";
 
 import {
-  client,
+  useClient,
   useCartItems,
-  useCartCount,
   useCheckoutStatus,
   useUpdateItemsFromCart,
   useRemoveItemFromCart,
-  useCartTotals,
 } from "../../context/shopifyClient";
 
-import isNotDefaultOption from "../../utils/isNotDefaultOption";
+import { isDefaultOption } from "../../utils/isNotDefaultOption";
 import useProductURL from "../../hooks/useProductURL";
 
 import Button from "../button";
@@ -23,11 +21,13 @@ import Text from "../text";
 import Flex from "../flex";
 import Box from "../box";
 import Price from "../product/price";
+import Grid from "../grid";
 
-const LineItem = ({ item }) => {
+const LineItem = React.forwardRef(({ item, ...props }, ref) => {
   const { variant, id, title, quantity } = item;
   const updateItemsFromCart = useUpdateItemsFromCart();
   const removeItemFromCart = useRemoveItemFromCart();
+  const client = useClient();
   const [image, setImage] = React.useState();
 
   React.useEffect(() => {
@@ -37,7 +37,7 @@ const LineItem = ({ item }) => {
       try {
         const src = await client.image.helpers.imageForSize(variant.image, {
           maxWidth: 200,
-          maxHeight: 400,
+          maxHeight: 200,
         });
         setImage(src);
       } catch (error) {
@@ -48,123 +48,141 @@ const LineItem = ({ item }) => {
 
   const url = useProductURL(variant.product.handle);
 
-  return (
-    <Flex
-      as="li"
-      sx={{
-        flexFlow: "row nowrap",
-        px: 4,
-        py: 3,
-        borderTop: "1px solid",
-        borderColor: "grays.800",
-      }}
-    >
-      {/* image */}
-      <Box
+  const selectedOptions = variant.selectedOptions.map(option =>
+    isDefaultOption(option) ? null : (
+      <div
+        key={option.name}
         sx={{
-          position: "relative",
-          maxWidth: "100px",
-          alignSelf: "center",
+          fontSize: 1,
+          color: "grays.500",
+          "dt, dd": {
+            display: "inline",
+          },
+          "dt::after": {
+            content: "': '",
+            display: "inherit",
+          },
+          dd: {
+            m: 0,
+          },
         }}
       >
-        {image ? (
-          <img
-            sx={{
-              display: "block",
-              maxWidth: "100%",
-            }}
-            src={image}
-            alt={variant.image.altText}
-          />
-        ) : (
-          <div
-            sx={{
-              width: "100px",
-              maxWidth: "100%",
-              height: "100px",
-              backgroundColor: "grays.800",
-            }}
-          />
-        )}
-        <Link to={url} variant="utils.span">
-          <VisuallyHidden>{title}</VisuallyHidden>
-        </Link>
-      </Box>
+        <dt>{option.name}</dt>
+        <dd>{option.value}</dd>
+      </div>
+    )
+  );
 
-      {/* meta */}
+  return (
+    <Grid
+      px={[0, 4]}
+      mx={[4, 0]}
+      py={3}
+      borderTop="1px solid"
+      borderColor="grays.900"
+      sx={{
+        gridTemplateColumns: ["1fr 1fr 1fr", "1fr 6em 6em"],
+        gridTemplateRows: "min-content 1fr",
+        backgroundColor: "background",
+        gridRowGap: [4, 1],
+        gridColumnGap: [3, 4],
+      }}
+      ref={ref}
+      {...props}
+    >
+      {/* item information */}
       <Flex
+        alignItems="start"
         sx={{
-          display: "flex",
-          flexFlow: "column nowrap",
-          alignItems: "start",
-          flexBasis: "100%",
-          px: 3,
+          gridColumn: ["1/-1", 1],
+          gridRow: [null, "1 / span 2"],
         }}
       >
-        <Text as="p">{title}</Text>
-        {isNotDefaultOption(variant.selectedOptions[0]) && (
-          <dl>
-            {variant.selectedOptions.map(({ name, value }) => (
-              <div
-                key={name + value}
-                sx={{
-                  color: "grays.500",
-                  "dt, dd": {
-                    display: "inline",
-                  },
-                  "dt::after": {
-                    content: "': '",
-                    display: "inherit",
-                  },
-                  dd: {
-                    m: 0,
-                  },
-                }}
-              >
-                <dt>{name}</dt>
-                <dd>{value}</dd>
-              </div>
-            ))}
-          </dl>
-        )}
         <Box
           sx={{
-            mt: 2,
+            position: "relative",
+            alignSelf: "center",
+            flexShrink: 0,
+            mr: 3,
+            width: [75, 100],
           }}
         >
-          <Counter
-            type="counter"
-            value={quantity}
-            onChange={value => {
-              updateItemsFromCart([{ id, quantity: value }]);
-            }}
-          />
-          <hr
+          <div
             sx={{
-              display: "inline-block",
-              width: 1,
-              height: "1em",
-              my: 0,
-              mx: 3,
-              backgroundColor: "grays.700",
-              verticalAlign: "middle",
-              border: 0,
+              width: "100%",
+              height: 0,
+              pb: "100%",
+              backgroundColor: "grays.900",
             }}
           />
-          <Button variant="link" onClick={() => removeItemFromCart(id)}>
-            Remove
-          </Button>
+          {image && (
+            <img
+              sx={{
+                display: "block",
+                width: "100%",
+                height: "100%",
+                position: "absolute",
+                top: 0,
+                left: 0,
+              }}
+              src={image}
+              alt={variant.image.altText}
+            />
+          )}
+          <Link to={url} tabIndex="-1" variant="utils.span">
+            <span sx={{ variant: "utils.visuallyHidden" }}>{title}</span>
+          </Link>
         </Box>
+        <Text>
+          <Link to={url} variant="plain">
+            {title}
+          </Link>
+          {selectedOptions && <dl>{selectedOptions}</dl>}
+        </Text>
       </Flex>
+
+      {/* quantity input */}
+      <Box
+        sx={{
+          gridColumn: [null, 2],
+          gridRow: [null, "1 / span 2"],
+          justifySelf: ["start", "center"],
+        }}
+      >
+        <Counter
+          type="counter"
+          value={quantity}
+          onChange={value => {
+            updateItemsFromCart([{ id, quantity: value }]);
+          }}
+        />
+      </Box>
+
+      {/* remove item button */}
+      <Box
+        sx={{
+          gridColumn: [null, 3],
+          gridRow: [null, 2],
+          justifySelf: ["center", "end"],
+        }}
+      >
+        <Button
+          variant="plain"
+          mt="auto"
+          color={[null, "textMuted"]}
+          fontSize={[null, 1]}
+          onClick={() => removeItemFromCart(id)}
+        >
+          Remove
+        </Button>
+      </Box>
 
       {/* line price */}
       <Box
         sx={{
-          flexBasis: "6em",
-          flexGrow: 0,
-          flexShrink: 0,
-          textAlign: "right",
+          justifySelf: "end",
           fontWeight: "bold",
+          gridRow: [null, 1],
         }}
       >
         <Price
@@ -172,75 +190,90 @@ const LineItem = ({ item }) => {
           compareAtPrice={variant.compareAtPriceV2}
         />
       </Box>
-    </Flex>
+    </Grid>
   );
-};
+});
 
-const LineItemList = props => {
+const LineItems = props => {
   const items = useCartItems();
-  const count = useCartCount();
   const { isInitialized } = useCheckoutStatus();
-  const { subtotal } = useCartTotals();
+
+  const [refs] = React.useState(() => new WeakMap([]));
+
+  const transitions = useTransition(items, {
+    keys: item => item.id,
+    from: isInitialized ? null : { opacity: 0, height: 0 },
+    enter: item => async next => {
+      await next({
+        opacity: 1,
+        height: refs.has(item) ? refs.get(item).offsetHeight : null,
+      });
+      await next({ height: "auto", immediate: true });
+    },
+    leave: item => async next => {
+      await next({
+        height: refs.has(item) ? refs.get(item).offsetHeight : null,
+        immediate: true,
+      });
+      await next({ height: 0, opacity: 0 });
+    },
+    config: {
+      tension: 300,
+      friction: 30,
+    },
+  });
+
+  if (!isInitialized) {
+    return (
+      <Flex alignItems="center" justifyContent="center" p={4} {...props}>
+        {"Loading…"}
+      </Flex>
+    );
+  }
 
   if (items.length < 1) {
     return (
       <Flex
-        sx={{
-          p: 4,
-          border: "1px solid",
-          borderColor: "grays.700",
-          borderRadius: 3,
-          alignItems: "center",
-          justifyContent: "center",
-        }}
+        alignItems="center"
+        justifyContent="center"
+        height="100%"
+        p={4}
         {...props}
       >
-        {isInitialized ? "Your cart is empty!" : "Loading…"}
+        {"Your cart is empty!"}
       </Flex>
     );
   }
 
   return (
     <Box {...props}>
-      <Flex
+      <Grid
+        columns="6em 6em"
+        mb={3}
+        px={4}
         sx={{
-          px: 4,
-          py: 3,
+          justifyContent: "end",
+          gridColumnGap: [3, 4],
+          display: ["none", "grid"],
         }}
       >
-        <Text ml="auto" variant="strong">
-          Price
-        </Text>
-      </Flex>
-      <Box
-        as="ul"
-        sx={{
-          p: 0,
-          m: 0,
-          listStyle: "none",
-        }}
-      >
-        {items.map(item => (
-          <LineItem key={item.id} item={item} />
+        <Text textAlign="center">Quantity</Text>
+        <Text textAlign="right">Price</Text>
+      </Grid>
+      <Box as="ul">
+        {transitions((style, item) => (
+          <animated.li
+            style={{
+              ...style,
+              overflow: "hidden",
+            }}
+          >
+            <LineItem ref={ref => refs.set(item, ref)} item={item} />
+          </animated.li>
         ))}
       </Box>
-      <Flex
-        sx={{
-          px: 4,
-          py: 3,
-          borderTop: "1px solid",
-          borderColor: "grays.800",
-        }}
-      >
-        <Text ml="auto">
-          {count < 1
-            ? `Subtotal: `
-            : `Subtotal (${count} item${count > 1 ? "s" : ""}): `}
-          <strong sx={{ variant: "products.price" }}>{subtotal}</strong>
-        </Text>
-      </Flex>
     </Box>
   );
 };
 
-export default LineItemList;
+export default LineItems;

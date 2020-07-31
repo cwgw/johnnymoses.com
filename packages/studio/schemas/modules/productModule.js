@@ -1,3 +1,9 @@
+import * as productMetaFields from "../product-meta";
+
+const metaFieldTypes = Object.values(productMetaFields).map(({ name }) => ({
+  type: name,
+}));
+
 export default {
   title: "Product Content",
   name: "productModule",
@@ -6,7 +12,7 @@ export default {
   fieldsets: [
     {
       name: "modules",
-      title: "Product Modules",
+      title: "Page Sections",
       options: {
         collapsible: true,
         collapsed: true,
@@ -59,6 +65,12 @@ export default {
       title: "Product Description",
       type: "blockContent",
       fieldset: "main",
+    },
+    {
+      name: "productMetaFields",
+      title: "Additional Info",
+      type: "array",
+      of: metaFieldTypes,
     },
     {
       name: "modules",

@@ -6,76 +6,67 @@ import { useCartCount } from "../context/shopifyClient";
 
 import Flex from "./flex";
 import Link from "./link";
+import Box from "./box";
+import FlyOut from "./flyOutMenu";
+// import Badge from "./badge";
 
-const getHref = ({ link, url }) => {
-  if (link) {
-    return `/${link.content.main.slug.current}`;
-  }
-
-  return url;
-};
-
-// const NavItem = ({ title, item})
-
-const Header = ({ navItems, siteTitle }) => {
-  const cartCount = useCartCount();
-  // console.log({ navItems });
-
-  return (
-    <header role="banner">
-      <div
-        sx={{
-          px: 4,
-          mx: "auto",
-          flexWrap: "wrap",
-          maxWidth: "full",
-        }}
-      >
-        <Flex
-          as="nav"
-          mx="auto"
-          sx={{
-            mx: -2,
-          }}
-        >
-          <Link to="/" children={siteTitle} variant="banner" mr="auto" />
-          <Flex
-            as="ul"
-            sx={{
-              ml: 0,
-              pl: 0,
-              maxWidth: "100%",
-              listStyle: "none",
-              overflowX: "scroll",
-              scrollbarWidth: "none",
-              "::-webkit-scrollbar": {
-                display: "none",
-              },
-            }}
-          >
-            {navItems.map(({ _key, title, ...item }) => (
-              <li key={_key} sx={{ p: 0 }}>
-                <Link to={getHref(item)} variant="banner">
-                  {title}
-                </Link>
-              </li>
-            ))}
-          </Flex>
-          <Link to="/cart" variant="banner">
-            Cart ({cartCount})
-          </Link>
-        </Flex>
-      </div>
-    </header>
-  );
-};
-
-Header.propTypes = {
+const propTypes = {
   siteTitle: PropTypes.string,
 };
 
-Header.defaultProps = {
+const defaultProps = {
   siteTitle: ``,
 };
+
+const Header = ({ navItems, siteTitle }) => {
+  const cartCount = useCartCount();
+
+  return (
+    <Box as="header" role="banner" variant="container">
+      <Flex as="nav" aria-label="Mai Navigation" py={2} px={4} mx={-2}>
+        <Link to="/" children={siteTitle} variant="banner" mr="auto" />
+        <Flex
+          as="ul"
+          ml={0}
+          pl={0}
+          maxWidth="100%"
+          sx={{
+            scrollbarWidth: "none",
+            "::-webkit-scrollbar": {
+              display: "none",
+            },
+          }}
+        >
+          {navItems.map(({ _key, ...item }) => {
+            if (item.items && item.items.length > 0) {
+              return (
+                <FlyOut
+                  {...item}
+                  key={_key}
+                  as="li"
+                  badge={
+                    item.title.toLowerCase() === "store" ? cartCount : null
+                  }
+                />
+              );
+            }
+
+            const { title, link, url } = item;
+            const href = link ? "/" + link.content.main.slug.current : url;
+            return (
+              <li key={_key}>
+                <Link to={href} variant="banner" children={title} />
+              </li>
+            );
+          })}
+        </Flex>
+      </Flex>
+    </Box>
+  );
+};
+
+Header.propTypes = propTypes;
+
+Header.defaultProps = defaultProps;
 
 export default Header;

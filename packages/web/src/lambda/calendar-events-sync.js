@@ -3,6 +3,7 @@ const sanityClient = require("@sanity/client");
 const crypto = require("crypto");
 
 const { getSanitizedPortableText } = require("./utils/html-utils");
+const { createIcsDataUri } = rquire("./utils.icalendar");
 const {
   decode,
   returnResponse,
@@ -144,7 +145,8 @@ module.exports.handler = async event => {
         _id: item.id,
       };
 
-      let description;
+      let description = {},
+        icsLink = "";
       if (item.description) {
         const [error, portableText] = getSanitizedPortableText(
           item.description
@@ -154,6 +156,16 @@ module.exports.handler = async event => {
         }
 
         description = portableText;
+        icsLink = createIcsDataUri({
+          created: item.updated,
+          description: description.textContent,
+          endDate: item.end.dateTime,
+          location: item.location,
+          startDate: item.start.dateTime,
+          summary: item.summary,
+          uid: item.iCalUID,
+          updated: item.created,
+        });
       }
 
       const eventDocumentData =
@@ -169,6 +181,7 @@ module.exports.handler = async event => {
               "content.main.description": description.blocks,
               "content.main.descriptionText": description.textContent,
               "content.main.uid": item.iCalUID,
+              "content.main.icsLink": icsLink,
               "content.main.created": item.created,
               "content.main.updated": item.updated,
               "content.main.htmlLink": item.htmlLink,

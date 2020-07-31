@@ -33,6 +33,16 @@ export default {
       name: "required",
       type: "boolean",
     },
+    {
+      title: "Hint",
+      name: "hint",
+      type: "string",
+    },
+    {
+      title: "Placeholder",
+      name: "placeholder",
+      type: "string",
+    },
   ],
   preview: {
     select: {

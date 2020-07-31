@@ -11,7 +11,8 @@ export default {
   ],
   preview: {
     select: {
-      title: "content.main.title",
+      subtitle: "content.main.title",
+      title: "content.shopify.variantTitle",
       media: "mainImage",
     },
   },

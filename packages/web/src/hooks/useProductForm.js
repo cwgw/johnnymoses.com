@@ -2,16 +2,28 @@ import React from "react";
 import isEqualWith from "lodash/isEqualWith";
 import get from "lodash/get";
 
-import { client, useAddItemToCart } from "../context/shopifyClient";
+import { useClient, useAddItemToCart } from "../context/shopifyClient";
 
-const useVariant = ({ handle }) => {
+const useVariant = ({ handle, variants = [] }) => {
   const addItemToCart = useAddItemToCart();
   const product = React.useRef({});
   const [quantity, setQuantity] = React.useState(1);
   const [variant, setVariant] = React.useState({});
-  const [isAdding, setStatus] = React.useState(false);
+  const [variantContent, setVariantContent] = React.useState(
+    variants[0]?.content
+  );
+  const [status, setStatus] = React.useState({ adding: false, added: false });
+  const timeout = React.useRef(null);
+  const client = useClient();
 
-  const { id: variantId, available: isAvailable } = variant;
+  React.useEffect(() => {
+    return () => {
+      if (timeout.current && timeout.current.clearTimeout) {
+        timeout.current.clearTimeout();
+        timeout.current = null;
+      }
+    };
+  }, []);
 
   React.useEffect(() => {
     fetchProduct(handle);
@@ -46,7 +58,14 @@ const useVariant = ({ handle }) => {
           })
       );
 
+      const variantContent = variants.find(o => {
+        return o.content.shopify.variantTitle === value;
+      });
+
       if (selectedVariant) {
+        if (variantContent) {
+          setVariantContent(variantContent.content);
+        }
         setVariant(selectedVariant);
       } else {
         console.warn(
@@ -54,7 +73,7 @@ const useVariant = ({ handle }) => {
         );
       }
     },
-    [variant]
+    [variant, variants]
   );
 
   const handleQuantityChange = React.useCallback(
@@ -69,22 +88,28 @@ const useVariant = ({ handle }) => {
   );
 
   const handleAddItemToCart = React.useCallback(() => {
-    if (isAvailable) {
-      addItem();
+    if (variant.available) {
+      return addItem();
+    } else {
+      return Promise.resolve();
     }
 
     async function addItem() {
-      setStatus(true);
-      // console.log({ variantId, quantity });
-      await addItemToCart(variantId, quantity);
-      setStatus(false);
+      setStatus({ added: false, adding: true });
+      await addItemToCart(variant.id, quantity);
+      setStatus({ added: true, adding: false });
+      timeout.current = setTimeout(() => {
+        setStatus({ added: false, adding: false });
+      }, 1500);
+      return { quantity, variant, product: product.current };
     }
-  }, [addItemToCart, setStatus, isAvailable, variantId, quantity]);
+  }, [addItemToCart, setStatus, variant, product, quantity]);
 
   return {
-    isAdding,
+    status,
     isAvailable: variant.available || false,
     variant,
+    variantContent,
     product: product.current,
     quantity,
     handleOptionChange,

@@ -1,31 +1,12 @@
+import * as pageBlocks from "../page-blocks";
+
+const pageBlockTypes = Object.values(pageBlocks).map(({ name }) => ({
+  type: name,
+}));
+
 export default {
-  title: "Module Content",
+  // title: "Module Content",
   name: "moduleContent",
   type: "array",
-  of: [
-    {
-      type: "imageModule",
-    },
-    {
-      type: "textModule",
-    },
-    {
-      type: "basicTextImageModule",
-    },
-    {
-      type: "basicTextFormModule",
-    },
-    {
-      type: "productGridModule",
-    },
-    {
-      type: "eventListModule",
-    },
-    {
-      type: "heroModule",
-    },
-    {
-      type: "formModule",
-    },
-  ],
+  of: pageBlockTypes,
 };
