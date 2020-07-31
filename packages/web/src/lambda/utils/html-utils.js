@@ -4,9 +4,14 @@ import { blockContent } from "@johnnymoses.com/studio";
 import createDOMPurify from "dompurify";
 const { JSDOM } = require("jsdom");
 
+const modifiedBlockContent = {
+  ...blockContent,
+  of: blockContent.of.filter(o => o.type === "block"),
+};
+
 const blockContentSchema = Schema.compile({
   name: "schema",
-  types: [blockContent],
+  types: [modifiedBlockContent],
 });
 
 const blockContentType = blockContentSchema.get("blockContent");
