@@ -16,10 +16,11 @@ export default {
       createdAt: "_createdAt",
     },
     prepare: ({ title, createdAt }) => {
-      return {
-        title,
-        subtitle: `Created on: ${format(new Date(createdAt), "MMM. d, y")}`,
-      };
+      const subtitle = createdAt
+        ? `Created on: ${format(new Date(createdAt), "MMM. d, y")}`
+        : null;
+
+      return { title, subtitle };
     },
   },
 };

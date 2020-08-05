@@ -3,7 +3,7 @@ import { jsx } from "theme-ui";
 
 import Grid from "../grid";
 import Heading from "../heading";
-import BlockContent from "./blockContent";
+import PortableText from "../portableText";
 import Form from "./form";
 
 const TextAndForm = props => {
@@ -28,7 +28,7 @@ const TextAndForm = props => {
           {title}
         </Heading>
       )}
-      {text && <BlockContent px={4} blocks={text} />}
+      {text && <PortableText px={4} blocks={text} />}
       {formModule && (
         <aside>
           <Form

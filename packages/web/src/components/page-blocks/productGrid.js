@@ -4,7 +4,7 @@ import { jsx } from "theme-ui";
 import Box from "../box";
 import Grid from "../grid";
 import Heading from "../heading";
-import ProductCard from "../product/card";
+import ProductCard from "../products/card";
 
 const ProductGridModule = ({ title, products }) => {
   return (

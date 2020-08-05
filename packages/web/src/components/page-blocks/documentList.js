@@ -9,10 +9,11 @@ import Box from "../box";
 import Heading from "../heading";
 import EventCard from "../events/card";
 import PostCard from "../posts/card";
+import ProductCard from "../products/card";
 import Grid from "../grid";
-import Icon from "../icon";
+// import Icon from "../icon";
 
-const DocumentList = ({ title, items: { query }, ...props }) => {
+const DynamicList = ({ query, children }) => {
   const { client } = useSanityClient();
   const fetcher = React.useCallback(
     async query => {
@@ -23,17 +24,37 @@ const DocumentList = ({ title, items: { query }, ...props }) => {
 
   const { data, error } = useSWR(query, fetcher);
 
+  // to-do: better error and empty state handling
+  if (error || !data || data.length < 1) {
+    return null;
+  }
+
+  return <React.Fragment>{children(data)}</React.Fragment>;
+};
+
+const DocumentList = ({ title, items: { query, items }, ...props }) => {
   return (
     <Box mx={4} py={5} {...props}>
       <Box variant="container">
         {title && <Heading px={4}>{title}</Heading>}
         <Grid as="ul" columns={[1]} maxWidth="half">
-          {data &&
-            data.map(item => (
+          {query ? (
+            <DynamicList query={query}>
+              {items =>
+                items.map(item => (
+                  <Box key={item._id} as="li">
+                    {renderItem(item)}
+                  </Box>
+                ))
+              }
+            </DynamicList>
+          ) : (
+            items.map(item => (
               <Box key={item._id} as="li">
                 {renderItem(item)}
               </Box>
-            ))}
+            ))
+          )}
         </Grid>
       </Box>
     </Box>
@@ -47,6 +68,9 @@ function renderItem({ _type, ...item }) {
     }
     case "post": {
       return <PostCard {...item} />;
+    }
+    case "product": {
+      return <ProductCard {...item} />;
     }
     default: {
       return <Heading>{`No card component for "${_type}" type`}</Heading>;

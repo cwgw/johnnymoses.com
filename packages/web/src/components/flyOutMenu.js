@@ -1,6 +1,5 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-// import { animated, useSpring } from 'react-spring'
 
 import useFlyOutMenu from "../hooks/useFlyOutMenu";
 
@@ -9,14 +8,10 @@ import Box from "./box";
 
 const FlyOutMenuItem = ({ title, badge, items, ...props }) => {
   const {
-    isActive,
-    isExpanded,
     getParentLinkProps,
     getArrowProps,
     getChildMenuProps,
   } = useFlyOutMenu();
-
-  // console.log("FlyOutMenu rendering");
 
   return (
     <Box

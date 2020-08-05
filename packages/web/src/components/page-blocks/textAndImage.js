@@ -3,21 +3,12 @@ import { jsx } from "theme-ui";
 
 import Grid from "../grid";
 import Heading from "../heading";
-import BlockContent from "./blockContent";
+import PortableText from "../portableText";
 import Image from "./image";
 
-const TextAndImage = props => {
-  const { text, title, image: imageModule, className } = props;
-
+const TextAndImage = ({ text, title, image: imageModule, ...props }) => {
   return (
-    <Grid
-      className={className}
-      columns={[1, null, 2]}
-      sx={{
-        mx: "auto",
-        maxWidth: "full",
-      }}
-    >
+    <Grid variant="container" columns={[1, null, 2]} py={5} {...props}>
       {title && (
         <Heading
           sx={{
@@ -28,7 +19,7 @@ const TextAndImage = props => {
           {title}
         </Heading>
       )}
-      {text && <BlockContent px={4} blocks={text} />}
+      {text && <PortableText px={4} blocks={text} />}
       {imageModule && (
         <div
           sx={{

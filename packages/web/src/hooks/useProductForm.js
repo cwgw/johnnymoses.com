@@ -26,6 +26,10 @@ const useVariant = ({ handle, variants = [] }) => {
   }, []);
 
   React.useEffect(() => {
+    if (!client) {
+      return;
+    }
+
     fetchProduct(handle);
     async function fetchProduct(handle) {
       try {
@@ -35,7 +39,7 @@ const useVariant = ({ handle, variants = [] }) => {
         console.error(error);
       }
     }
-  }, [handle]);
+  }, [client, handle]);
 
   const handleOptionChange = React.useCallback(
     (name, value) => {
