@@ -7,7 +7,7 @@ import snakeCase from "lodash/snakeCase";
 import { navigate } from "gatsby";
 
 import { useAddNotification } from "../../context/notifications";
-import useProductForm from "../../hooks/useProductForm";
+// import useProductForm from "../../hooks/useProductForm";
 import formatPrice from "../../utils/formatPrice";
 import { isNotDefaultOption } from "../../utils/isNotDefaultOption";
 
@@ -32,7 +32,6 @@ const Form = ({ fields: _fields, children: _children, form, ...props }) => {
   const addNotification = useAddNotification();
 
   const { handleAddItemToCart } = form;
-  // console.log({ variant: variantProps.variant })
 
   const handleSubmit = React.useCallback(
     e => {

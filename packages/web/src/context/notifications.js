@@ -41,6 +41,11 @@ const useNotificationItems = () => {
   return items;
 };
 
+const useCurrentNotification = () => {
+  const { items } = React.useContext(NotificationContext);
+  return items.length > 0 ? items[items.length - 1] : undefined;
+};
+
 const useAddNotification = () => {
   const { dispatch } = React.useContext(NotificationContext);
   return _item => {
@@ -49,24 +54,21 @@ const useAddNotification = () => {
   };
 };
 
-const useRemoveNotification = () => {
+const useRemoveNotifications = () => {
   const { dispatch } = React.useContext(NotificationContext);
   return id => {
-    dispatch(["ITEM_REMOVED", { id }]);
-  };
-};
-
-const useClearNotifications = () => {
-  const { dispatch } = React.useContext(NotificationContext);
-  return () => {
-    dispatch(["ITEMS_CLEARED"]);
+    if (id) {
+      dispatch(["ITEM_REMOVED", { id }]);
+    } else {
+      dispatch(["ITEMS_CLEARED"]);
+    }
   };
 };
 
 export {
   NotificationContextProvider,
   useAddNotification,
-  useClearNotifications,
+  useCurrentNotification,
   useNotificationItems,
-  useRemoveNotification,
+  useRemoveNotifications,
 };

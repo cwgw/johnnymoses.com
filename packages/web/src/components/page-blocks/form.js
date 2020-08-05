@@ -5,10 +5,10 @@ import { useForm } from "react-hook-form";
 import slugify from "slugify";
 import queryString from "query-string";
 
-import BlockContent from "./blockContent";
 import Box from "../box";
 import Button from "../button";
 import FormField from "../formField";
+import PortableText from "../portableText";
 import Text from "../text";
 
 const FormModule = ({
@@ -26,7 +26,13 @@ const FormModule = ({
   const name = slugify(slug.current);
   const [status, setStatus] = React.useState();
 
-  const { register, errors, formState, handleSubmit } = useForm();
+  const {
+    register,
+    // errors,
+    // formState,
+    handleSubmit,
+  } = useForm();
+
   const onSubmit = async data => {
     setStatus("sending");
 
@@ -58,7 +64,7 @@ const FormModule = ({
         name={name}
         {...props}
       >
-        <BlockContent as="header" blocks={text} mb={4} />
+        <PortableText as="header" blocks={text} mb={4} />
         {formFields &&
           formFields.map(({ _key, _type, required, ...field }, i, arr) => (
             <FormField
@@ -104,7 +110,7 @@ const FormModule = ({
 
   return (
     <Box {...props}>
-      <BlockContent blocks={text} mb={4} />
+      <PortableText blocks={text} mb={4} />
       {content}
     </Box>
   );

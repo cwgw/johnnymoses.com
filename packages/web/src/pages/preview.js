@@ -1,8 +1,8 @@
 import React from "react";
 import { Router } from "@reach/router";
-import useSWR from "swr";
+// import useSWR from "swr";
 
-import { useSanityClient } from "../context/sanityClient";
+// import { useSanityClient } from "../context/sanityClient";
 // import { pageQuery, productQuery } from "../utils/sanityQueries";
 import Box from "../components/box";
 
@@ -20,7 +20,7 @@ const PreviewPage = ({ documentId, revision }) => {
     };
   }, []);
 
-  const { client } = useSanityClient();
+  // const { client } = useSanityClient();
 
   // const fetcher = React.useCallback(
   //   async (documentId, revision) => {

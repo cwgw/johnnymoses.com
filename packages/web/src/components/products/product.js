@@ -4,7 +4,7 @@ import React from "react";
 
 import useProductForm from "../../hooks/useProductForm";
 
-import BlockContent from "../page-blocks/blockContent";
+import PortableText from "../portableText";
 import Box from "../box";
 import Heading from "../heading";
 import Image from "../image";
@@ -18,8 +18,6 @@ import * as metaFields from "./metaFields";
 const Product = ({ content }) => {
   const { main, shopify } = content;
   const form = useProductForm(shopify);
-  // console.log({ shopify })
-  // console.log({ variantContent: form.variantContent })
   const productMetaFields = form.variantContent?.main?.productMetaFields || [];
 
   return (
@@ -67,7 +65,7 @@ const Product = ({ content }) => {
               </header>
               <Box mb={3}>{price}</Box>
               {main.productDescription && (
-                <BlockContent mb={3} blocks={main.productDescription} />
+                <PortableText mb={3} blocks={main.productDescription} />
               )}
               <Box mb={3}>{options}</Box>
               <Box mb={3}>{quantity}</Box>

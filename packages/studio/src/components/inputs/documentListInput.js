@@ -22,22 +22,35 @@ const propTypes = {
     name: PropTypes.string,
   }).isRequired,
   level: PropTypes.number,
-  value: PropTypes.shape({
-    _type: PropTypes.string,
-  }),
+  value: PropTypes.object,
   onFocus: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired,
+};
+
+const defaultProps = {
+  value: {},
 };
 
 const DocumentListInput = React.forwardRef(
   ({ focusPath, level, onBlur, onChange, onFocus, type, value }, ref) => {
     const [items, setItems] = React.useState([]);
 
+    const selection = (value && value.selection) || "default";
+
     const [listField, fields] = React.useMemo(() => {
-      let listField,
-        fields = [];
+      let listField;
+      let fields = [];
+      const selectedFields = {
+        default: ["selection"],
+        dynamic: ["selection", "type", "filter", "limit", "query"],
+        manual: ["selection", "items"],
+      };
+
       for (let field of type.fields) {
+        if (!selectedFields[selection].includes(field.name)) {
+          continue;
+        }
         if (field.name === "query") {
           listField = field;
           continue;
@@ -45,7 +58,7 @@ const DocumentListInput = React.forwardRef(
         fields.push(field);
       }
       return [listField, fields];
-    }, [type]);
+    }, [type, selection]);
 
     React.useEffect(() => {
       if (value.query) {
@@ -62,6 +75,15 @@ const DocumentListInput = React.forwardRef(
 
     const handleFieldChange = React.useCallback(
       field => fieldPatchEvent => {
+        if (value && value.selection !== "dynamic") {
+          onChange(
+            fieldPatchEvent
+              .prefixAll(field.name)
+              .prepend(setIfMissing({ _type: type.name }))
+          );
+          return;
+        }
+
         const next = fieldPatchEvent.patches.reduce((obj, { type, value }) => {
           return type === "set" ? { [field.name]: value } : obj;
         }, {});
@@ -101,13 +123,13 @@ const DocumentListInput = React.forwardRef(
               onBlur={onBlur}
             />
           ))}
-          {items && (
+          {items && listField && (
             <div>
               <Label>{listField.type.title}</Label>
               <List>
                 {items.map(item => (
                   <Item key={item._id} level={level + 1}>
-                    <SanityPreview value={item} type={types[value.type]} />
+                    <SanityPreview value={item} type={types[item._type]} />
                   </Item>
                 ))}
               </List>
@@ -121,18 +143,30 @@ const DocumentListInput = React.forwardRef(
 
 DocumentListInput.propTypes = propTypes;
 
+DocumentListInput.defaultProps = defaultProps;
+
 export default DocumentListInput;
 
-function getQuery({ filter, type, limit = 5 }) {
+function getQuery({ filter, type, limit = 12 }) {
+  let query;
   switch (filter) {
     case "upcoming": {
-      return `*[_type=="${type}" && content.main.start > now()] | order(content.main.start asc) [0...${limit}]`;
+      query = `*[_type=="${type}" && content.main.start > now()] | order(content.main.start asc)`;
+      break;
     }
     case "recent": {
-      return `*[_type=="${type}"] | order(_createdAt desc) [0...${limit}]`;
+      query = `*[_type=="${type}"] | order(_createdAt desc)`;
+      break;
     }
     default: {
-      return `*[_type=="${type}"][0...${limit}]`;
+      query = `*[_type=="${type}"]`;
+      break;
     }
   }
+
+  if (limit > 0) {
+    query += ` [0...${limit}]`;
+  }
+
+  return query;
 }

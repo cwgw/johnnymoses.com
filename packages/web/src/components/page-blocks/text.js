@@ -1,9 +1,9 @@
 import React from "react";
 
-import BlockContent from "./blockContent";
+import PortableText from "../portableText";
 
 const TextModule = ({ text, ...props }) => (
-  <BlockContent blocks={text} px={4} {...props} />
+  <PortableText blocks={text} px={4} {...props} />
 );
 
 export default TextModule;

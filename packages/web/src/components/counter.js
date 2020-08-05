@@ -156,6 +156,8 @@ const Quantity = ({
         flexFlow: "row nowrap",
         alignSelf: "start",
         alignItems: "center",
+        border: "1px solid",
+        borderColor: "grays.800",
         textAlign: "center",
         ":focus-within": {
           variant: "utils.focus",

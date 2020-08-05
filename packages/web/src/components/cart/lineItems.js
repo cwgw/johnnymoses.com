@@ -1,7 +1,6 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
 import React from "react";
-import { useTransition, animated } from "react-spring";
 
 import {
   useClient,
@@ -20,7 +19,7 @@ import Link from "../link";
 import Text from "../text";
 import Flex from "../flex";
 import Box from "../box";
-import Price from "../product/price";
+import Price from "../products/price";
 import Grid from "../grid";
 
 const LineItem = React.forwardRef(({ item, ...props }, ref) => {
@@ -44,7 +43,7 @@ const LineItem = React.forwardRef(({ item, ...props }, ref) => {
         console.warn(error);
       }
     }
-  }, [variant]);
+  }, [variant, client]);
 
   const url = useProductURL(variant.product.handle);
 
@@ -200,29 +199,6 @@ const LineItems = props => {
 
   const [refs] = React.useState(() => new WeakMap([]));
 
-  const transitions = useTransition(items, {
-    keys: item => item.id,
-    from: isInitialized ? null : { opacity: 0, height: 0 },
-    enter: item => async next => {
-      await next({
-        opacity: 1,
-        height: refs.has(item) ? refs.get(item).offsetHeight : null,
-      });
-      await next({ height: "auto", immediate: true });
-    },
-    leave: item => async next => {
-      await next({
-        height: refs.has(item) ? refs.get(item).offsetHeight : null,
-        immediate: true,
-      });
-      await next({ height: 0, opacity: 0 });
-    },
-    config: {
-      tension: 300,
-      friction: 30,
-    },
-  });
-
   if (!isInitialized) {
     return (
       <Flex alignItems="center" justifyContent="center" p={4} {...props}>
@@ -245,6 +221,8 @@ const LineItems = props => {
     );
   }
 
+  console.log({ items });
+
   return (
     <Box {...props}>
       <Grid
@@ -261,15 +239,10 @@ const LineItems = props => {
         <Text textAlign="right">Price</Text>
       </Grid>
       <Box as="ul">
-        {transitions((style, item) => (
-          <animated.li
-            style={{
-              ...style,
-              overflow: "hidden",
-            }}
-          >
+        {items.map(item => (
+          <li key={item.id}>
             <LineItem ref={ref => refs.set(item, ref)} item={item} />
-          </animated.li>
+          </li>
         ))}
       </Box>
     </Box>

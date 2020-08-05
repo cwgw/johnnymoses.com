@@ -1,7 +1,7 @@
 import React from "react";
 import { graphql } from "gatsby";
 
-import Product from "../components/product/product";
+import Product from "../components/products/product";
 import SEO from "../components/seo";
 
 const PageTemplate = ({ data, previewData }) => {

@@ -1,7 +1,7 @@
 import React from "react";
 
 import Grid from "../grid";
-import BlockContent from "./blockContent";
+import PortableText from "../portableText";
 import YoutubeEmbed from "../youtubeEmbed";
 import Accordion from "../accordion";
 
@@ -20,7 +20,7 @@ const YoutubePlaylist = ({ text, videos, ...props }) => {
         }}
       >
         {text && (
-          <BlockContent
+          <PortableText
             textAlign="center"
             maxWidth="third"
             sx={{ justifySelf: "center" }}
